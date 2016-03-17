@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSumbit(){
+                                     
+   var transformcategoryname=document.getElementById("transformCategory.transformcategoryname").value;
+   
+   if(transformcategoryname==null||transformcategoryname==""){
+     alert("费用方案名称不能为空");
+     return false;
+   }
+   
+     
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!setTransformCategory.jspa";
+   hellll.submit();
+   
+   }
+</script>
+</head>
+
+<body>
+#set($page = 'unread32')
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+	<div class="lay_cont">
+        <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#"><span>中转费设置</span></a>
+						</div>
+					</div>
+		    </div>
+				
+			</div> 
+	 		
+		 
+			 <form id="weightform">
+		      <div class="gg_mod_inner">
+		       #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+				  #end
+				    <div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >费用方案名称:&nbsp;&nbsp;</label> 
+                    <input class="text_input"  id="transformCategory.transformcategoryname" name="transformCategory.transformcategoryname" type="text" style= "WIDTH: 224px"/> 
+               
+				    </div>
+				   
+				   
+				   
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#"  onclick="doSumbit()"><span>保&nbsp;存</span></a> 
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>
+			
+		    </div>
+		   </form>
+            
+			<!--应用列表--> 
+	   
+	          <div class="imp_mod_inner">
+		<div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  
+		  <th width="20%">序号</th>
+		  <th width="20%">费用方案编号</th>
+		  <th width="20%">费用方案名称</th>
+		   <th width="20%">操作</th>
+		 
+		  </tr>
+		  #set($i=1)
+		  #foreach($transformCategory in $!transformCategoryList)
+				<tr> 
+				        <td class="row">$i</td> 
+						<td class="row">$!transformCategory.transformcategoryid</td> 
+						<td class="row"><a href='./stat!showTransformPriceList.jspa?transformcategoryid=$!transformCategory.transformcategoryid&transformcategoryname=$!transformCategory.transformcategoryname'>$!transformCategory.transformcategoryname</td> 
+					    <td class="row"><a class="btn_com_edit_normal" href='./stat!copyTransformCategory.jspa?transformCategoryid=$!transformCategory.transformcategoryid'><span>复制</span> </a>#if($!transformCategory.transformcategoryname!='默认价格')<a href='./stat!showUpdateTransformCategory.jspa?transformcategoryid=$!transformCategory.transformcategoryid' class="btn_com_edit_down"> <span>修改 </span></a><a class="btn_com_edit_shan" href='./stat!deleteTransformCategory.jspa?transformcategoryid=$!transformCategory.transformcategoryid'><span> 删除</span> </a> #end</td> 
+
+				</tr> 
+ 
+        #set($i=$i+1)
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	   </div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+</body></html>

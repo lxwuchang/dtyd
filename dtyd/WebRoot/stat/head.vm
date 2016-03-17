@@ -1,0 +1,16 @@
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div  style="float:right;font-size:15px"> 
+		    <span id="loginInfo"><a href="http://218.244.129.116/MTERP/static/aboutus.htm" target='_blank'><font color=red>韵达快递软件技术联系人：吴昌   手机 ：13958188649 QQ:1747886083</font></a> &nbsp;&nbsp; 
+		  </div> 
+
+		<div class="link"> 
+			
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp; | &nbsp;&nbsp;<a href="../stat/stat!showUpdateWord.jspa?user.userid=$user.userid">密码修改</a>&nbsp;&nbsp;| &nbsp;&nbsp;<a href="../user/user!userLogout.jspa?user.userid=$user.userid">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+

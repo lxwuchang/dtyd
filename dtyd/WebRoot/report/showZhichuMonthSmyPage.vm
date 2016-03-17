@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body>
+#set($page = 'unread22')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>月收支汇总</span></a>
+						</div>
+					</div>
+		    </div>
+		 			
+			</div> 
+				<div class="cb_mod_inner">
+				<div class="cc_para cb_intro_para">
+					
+					<div class="link_sign_box7">
+					 <form  id="weightform">
+				   年份 <select id="manager" name="yearSmy.year" class="text_input">
+                      <option value ="2014"#if($yearSmy.year==2014)selected#end>2014年</option>
+                     <option value ="2015"#if($yearSmy.year==2015)selected#end>2015年</option>
+                     <option value ="2016"#if($yearSmy.year==2016)selected#end>2016年</option>
+                     <option value ="2017"#if($yearSmy.year==2017)selected#end>2017年</option>
+                     <option value ="2018"#if($yearSmy.year==2018)selected#end>2017年</option>
+                   </select>
+                                       月份
+                    <select id="manager" name="yearSmy.month" class="text_input">
+                     
+                    <option value ="1"#if($yearSmy.month==1)selected#end>1月</option>
+                    <option value ="2"#if($yearSmy.month==2)selected#end>2月</option>
+                    <option value ="3"#if($yearSmy.month==3)selected#end>3月</option>
+                     <option value ="4"#if($yearSmy.month==4)selected#end>4月</option>
+                  	<option value ="5"#if($yearSmy.month==5)selected#end>5月</option>
+                  	<option value ="6"#if($yearSmy.month==6)selected#end>6月</option>
+                  	<option value ="7"#if($yearSmy.month==7)selected#end>7月</option>
+                  	<option value ="8"#if($yearSmy.month==8)selected#end>8月</option>
+                    <option value ="9"#if($yearSmy.month==9)selected#end>9月</option>
+                    <option value ="10"#if($yearSmy.month==10)selected#end>10月</option>
+                    <option value ="11"#if($yearSmy.month==11)selected#end>11月</option>
+                    <option value ="12"#if($yearSmy.month==12)selected#end>12月</option>
+                   </select>	  
+  
+                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="btn_com_edit_normal" href="#"   onclick="doSmit();"><span>查&nbsp;&nbsp;询</span></a>
+               
+					</form>  
+					</div>
+					
+			  </div>
+				
+			</div>
+			
+	  
+	   <div class="clear">
+			</div>
+	
+		<div class="nav-not-fixedz"  >
+    		 
+			<a href="../report/report!showMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month" id="zhongzhuan" class="showmessages"><span>中转费收入$!yearSmy.zprice</span></a>
+            <a href="../report/report!showCompanyIncomeMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month" class="showmessages"><span>业务员利润$!yearSmy.yprice</span></a>     
+            <a href="../report/report!showMailPriceMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"  class="showmessages"><span>面单收入$!yearSmy.wprice</span></a> 
+    	     <a href="../report/report!showIncomeMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"  class="showmessagesk" ><span>收款$!yearSmy.skprice</span></a>
+	   </div>
+			  
+      <div class="clear">
+			</div>
+		
+		<div class="nav-not-fixedz" style="display:block">
+    		 
+			<a href="../report/report!showYufukuanMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"   class="showmessagez"><span>预付款$!yearSmy.yfkprice</span></a>
+            <a href="../report/report!showZhipaoMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"   class="showmessagez"><span>直跑支出$!yearSmy.zpprice</span></a>     
+            <a href="../report/report!showZhichuMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"   class="selected"><span>公司支出$!yearSmy.gsprice</span></a> 
+            <a href="../report/report!showGongziMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"  class="showmessagez"><span>工资$!yearSmy.gzprice</span></a> 
+    	    <a href="../report/report!showFankuanMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"   class="showmessagez"><span>中转费返款$!yearSmy.fkprice</span></a> 
+    	    <a href="../report/report!showPeikuanMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"  class="showmessagez"><span>客服赔款$!yearSmy.pkprice</span></a> 
+	   </div>
+	    <div class="clear">
+			</div>
+			
+	<div class="nav-not-fixedz">
+    		 
+			<a href="../report/report!showGongziMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"  class="tabcssselect"><span>按揽件人汇总</span></a>
+		      <a class="btn_com_edit_normal" id="export" href="#"  onclick="doExport();"><span>导出支出明细</span></a> 
+	   </div>
+	    <form id="weightform2">
+		 <div class="cd_mod_inner">
+		 <div class="cc_para cd_intro_para">
+					
+		<div class="cc_link_sign_box2">
+		   <table id="mytable">
+		  <tr>
+		   <th width="5%">序号</th>
+		  <th width="10%">支出日期</th>
+		  <th width="10%">结算用户</th>
+		  <th width="8%">费用类型</th>
+		  <th width="8%">支出金额</th>		  
+		  <th width="8%">备注</th>
+ 
+		 
+		  </tr>
+		 #set($i=1)
+		  #foreach($zhichuOutcome in $!zhichuOutcomeList)
+				<tr>                
+						<td class="row">$!i</td> 
+						<td class="row">$dateUtil.formatYYYYMMDD($!zhichuOutcome.bsndate)</td> 
+				     	<td class="row">$!zhichuOutcome.managername</td> 
+				        <td class="row">$!zhichuOutcome.pricetype</td>
+				      	<td class="row">$!zhichuOutcome.price</td> 
+				     	  
+				     	<td class="row">$!zhichuOutcome.memo</td>
+				    
+
+				</tr> 
+
+    #set($i=$i+1)
+
+		#end
+		
+			<tr>                
+						<td class="row">合计</td> 
+						<td class="row"></td> 
+				     	<td class="row"></td> 
+				        <td class="row"></td>
+				      	<td class="row">$!zhichuOutcome.price</td> 
+				     	  
+				     	<td class="row"></td>
+				    
+
+				</tr> 
+ 		</table>
+      
+			 </div>
+			  </div>
+	</div>
+	 </form>
+			  	
+			
+</div>
+#include("/stat/footer.vm")
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+
+function doExport(){
+   var dd=document.getElementById("weightform");   
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!exportZhichuOutcome.jspa";
+   dd.submit();
+  
+ 
+}
+
+ 
+ 
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSmit(){
+ 
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="../report/report!showMonthSmyPage.jspa";
+   hellll.submit();
+   
+   }
+   
+   function doDelete(managerid,managername){
+  
+   var bb= window.confirm("你是否要删除"+managername+"。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	  	 
+       document.getElementById(managerid).href="./stat!deleteManager.jspa?managerid="+managerid;
+       return true;
+       }
+   }
+</script>
+</body></html>

@@ -1,0 +1,22 @@
+<div class="lay_aside">
+		 
+<div class="navbox"> 
+<ul class="nav"> 
+<li><a href="#">XHTML</a></li> 
+<li><a href="#">C++</a></li> 
+<li><a href="#">Mootools</a></li> 
+<li><a href="#">HTML5</a></li> 
+ 
+</ul> 
+</div> 
+ 
+	
+	<div class="navbox"> 
+<ul class="nav"> 
+<li><a href="#">XHTML</a></li> 
+<li><a href="#">C++</a></li> 
+<li><a href="#">Mootools</a></li> 
+ 
+</ul> 
+</div> 
+</div>

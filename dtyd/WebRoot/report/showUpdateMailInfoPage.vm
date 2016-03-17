@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—面单录入</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread11')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+   <form id="weightform">
+                 <input type="hidden" id="pageNo"  name="pageNo" value="$!yearSmy.pageNo">
+		 	     <input type="hidden" name="yearSmy.year" value="$!yearSmy.year">
+		 	     <input type="hidden" name="yearSmy.month" value="$!yearSmy.month">
+		 	     <input type="hidden" name="yearSmy.manager" value="$!yearSmy.manager">
+		 	     <input type="hidden" name="yearSmy.type" value="$!yearSmy.type">
+		    
+		 	      <input type="hidden" id="mailinfoid"  name="mailFenpei.mailinfoid" value="$!mailFenpei.mailinfoid">
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+			  <a href="../stat/stat!showImportDataPage.jspa"class="tabcssleft" ><span>揽件数据导入</span></a>
+			 <a href="../stat/stat!showImportPricePage.jspa"class="tabcssleft" ><span>其他费用导入</span></a>
+			  <a href="../report/report!showImportCompanyIncomePage.jspa"class="tabcssleft" ><span>公司收入录入</span></a>
+			  <a href="../report/report!showImportMailInfoPage.jspa"class="tabcssselect" ><span>面单收入录入</span></a>
+			 
+        </div>
+        <div class="clear">
+			</div>
+		       <div class="cc_para cc_intro_para">
+		   #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+		      </div>  
+		      <div class="cc_para cc_intro_para">
+					   结算日期：  &nbsp;&nbsp; <input class="Wdate d_text_input" type="text" id="bsndatestr" name="mailFenpei.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$!dateUtil.formatYYYYMMDD($!mailFenpei.bsndate)'/>             
+					&nbsp;&nbsp;&nbsp;揽件人: 
+                       <select id="manager" name="mailFenpei.managerid" class="text_input">
+                        #foreach($manager in $!managerInfoList)                
+                    <option value ="$!manager.managerid"  #if($!manager.managerid==$!mailFenpei.managerid)selected#end>$!manager.managername</option>
+                      #end
+                    
+                   </select>
+                                        类型  <select id="manager" name="mailFenpei.type" class="text_input">
+                                         
+                    <option value ="普通面单"#if("普通面单"==$!mailFenpei.type)selected#end>普通面单</option>
+                    <option value ="电子面单" #if("电子面单"==$!mailFenpei.type)selected#end>电子面单</option>
+                    <option value ="菜鸟面单"#if("菜鸟面单"==$!mailFenpei.type)selected#end>菜鸟面单</option>
+                    <option value ="热敏纸"#if("热敏纸"==$!mailFenpei.type)selected#end>热敏纸</option>
+                    <option value ="防水袋"#if("防水袋"==$!mailFenpei.type)selected#end>防水袋</option>
+                    
+                   </select>
+				    </div>  
+				 <div class="cc_para cc_intro_para">
+				   
+					数量 &nbsp;&nbsp;
+                    <input class="ui-input" id="num" tabindex=1 name="mailFenpei.num" type="text" style= "WIDTH: 120px" onblur="changeNum();" value='$!mailFenpei.num'/> &nbsp;&nbsp; 
+               	单价 &nbsp;&nbsp;
+                    <input class="ui-input" id="perprice"  tabindex=2  name="mailFenpei.perprice" type="text" style= "WIDTH:120px" onblur="changePrice();" value='$!mailFenpei.perprice'/> &nbsp;&nbsp;元/票
+                                          总额 &nbsp;&nbsp;
+                    <input class="ui-input" id="price" name="mailFenpei.price" type="text" style= "WIDTH: 120px" value='$!mailFenpei.price' readonly/> &nbsp;&nbsp;元
+               
+				    </div>
+				 <div class="cc_para cc_intro_para">
+				   备注 &nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="memo" name="mailFenpei.memo" type="text" style= "WIDTH: 530px" value='$!mailFenpei.memo'/> &nbsp;&nbsp;
+					 
+				    
+				 
+			</div>
+		  
+			
+			
+			
+			  <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" title="义乌韵达" onclick="doSumbit();"><span>保存修改</span></a>
+							 	 <a class="tabcssleft" href="#" title="义乌韵达" onclick="fanhui();"><span>返&nbsp;回</span></a> 
+						</div>
+					</div>
+				</div>
+			
+		 
+ 
+
+</form>
+#include("/stat/footer.vm")
+ <script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+} 
+
+
+function changeNum(){
+
+  var num=document.getElementById("num").value;
+  var perprice=document.getElementById("perprice").value;
+  
+  if(!isNum(num)||!isNum(perprice)){
+  document.getElementById("num").value='';
+  document.getElementById("price").value='';
+  }else{
+    
+   document.getElementById("price").value=parseInt(num)*parseFloat(perprice);
+  }
+
+}
+
+
+function changePrice(){
+
+  var num=document.getElementById("num").value;
+  var perprice=document.getElementById("perprice").value;
+  
+  if(!isNum(num)||!isNum(perprice)){
+  document.getElementById("perprice").value='';
+  document.getElementById("price").value='';
+  }else{
+    
+   document.getElementById("price").value=parseInt(num)*parseFloat(perprice);
+  }
+
+}
+  
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var bsndatestr=document.getElementById("bsndatestr").value;
+   var num=document.getElementById("num").value;
+   var perprice=document.getElementById("perprice").value;
+    var mailinfoid=document.getElementById("mailinfoid").value;
+    
+   if(num==null||num==""){
+     alert("数量不能为空");
+     return false;
+   
+   }
+   
+    if(!isNum(num))
+    return false;
+  
+   if(perprice==null||perprice==""){
+     alert("单价不能为空");
+     return false;
+   
+   }
+    if(!isNum(perprice))
+    return false;
+ 
+    
+  dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!updateMailFenpei.jspa?mailinfoid="+mailinfoid;
+   dd.submit();
+  
+ 
+}
+ 
+ function fanhui(){
+   var dd=document.getElementById("weightform");
+   
+    var pg=document.getElementById("pageNo").value;
+   dd.method="POST";
+   dd.action="../report/report!searchMailInfoPage.jspa?pageNo="+pg;                                                                                     
+   dd.submit();
+
+
+}
+
+
+</script> 
+
+</body></html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<title>低田韵达系统—费用导入</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+
+</head>
+
+<body>
+#set($page = 'unread11')
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+<div style="display: none;" class="NewsPop" id="zz_show_div">
+  
+</div>
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+			  <a href="../stat/stat!showImportDataPage.jspa"class="tabcssleft" ><span>揽件数据导入</span></a>
+			 <a href="../stat/stat!showImportPricePage.jspa"class="tabcssselect" ><span>其他费用导入</span></a>
+			  <a href="../report/report!showImportCompanyIncomePage.jspa"class="tabcssleft" ><span>公司收入录入</span></a>
+			  <a href="../report/report!showImportMailInfoPage.jspa"class="tabcssleft" ><span>面单收入录入</span></a>
+			 
+        </div>
+        <div class="clear">
+			</div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">					
+					<div class="link_sign_box2" >
+					 <form name="dd" id="weightform" method="POST" enctype="multipart/form-data"> 
+					     
+                                                                                                                                               
+						结算日期 ：  <input class="Wdate d_text_input" type="text" id="priceDetailQuery.statdate" name="priceDetailQuery.statdate"  value="$!stringUtil.substring($!priceDetailQuery.statdate,0,10)" onFocus="WdatePicker({lang:'zh-cn'})"/>
+                  &nbsp;&nbsp;      
+                   <label for="user_password" id="login_password_label"费用类型：</label>
+              <select id="priceDetailQuery.pricetype" name="priceDetailQuery.pricetype" class="text_input">
+			   <option value="" selected="selected">请选择费用</option> 
+			   <option value="d" >大笔罚款</option>  
+			   <option value="y" >有偿派费</option>  
+			   <option value="z" >转件费</option> 
+			   <option value="l" >丢件费</option> 
+			      </select>	 
+                  &nbsp;&nbsp;<input id="upexcel" class="text_input" type="file" name="upexcel" height="30px" style= "WIDTH: 224px">   <a  class="btn_com_edit_normal" href="#" id="search1"  onclick="submitCheck()"><span>导入费用</span>	</a>  
+                      
+						</form> 	 
+						
+					</div>
+				</div>            
+			</div>
+				
+		  <div id="showMessage">
+		          #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+					  #end</div>	 
+       			
+       
+		 <form id="weightform2">
+		  <input type="hidden" name="pageno" id="pageNo" value="$!pageBean.currentPage">
+		 <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+		<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		 
+		   <th width="15%">结算时间</th>
+		   <th width="15%">费用类型</th>
+		   <th width="10%">快件总数</th>
+           <th width="10%">金额</th>
+           <th width="10%">导入员</th>
+           <th width="15%">导入时间</th>
+           <th width="10%">下载</th>
+           <th width="8%">操作</th>
+          
+		  </tr>
+		 
+		  #foreach($priceDetailSmy in $!priceDetailSmyList) 
+<tr> 
+<td class="row">$!dateUtil.formatYYYYMMDD($!priceDetailSmy.bsndate)</td> 
+<td class="row">$!priceDetailSmy.pricetype</td> 
+<td class="row">$!priceDetailSmy.num</td> 
+<td class="row">$!priceDetailSmy.price</td> 
+<td class="row">$!priceDetailSmy.creator</td> 
+<td class="row">$!dateUtil.formatDateTime($!priceDetailSmy.createtime,"yyyy-MM-dd HH:mm:ss")</td> 
+<td class="row"> <a class="btn_com_edit_normal" href="#"  onclick="exportFile('$dateUtil.formatYYYYMMDD($!priceDetailSmy.bsndate)','$!priceDetailSmy.pricetype');"><span>导出明细</span></a></td>
+<td class="row"> <a class="btn_com_edit_shan" href="#"  onclick="deleteFile('$dateUtil.formatYYYYMMDD($!priceDetailSmy.bsndate)','$!priceDetailSmy.pricetype');"><span>删&nbsp;&nbsp;除</span></a></td>
+ 
+</tr> 
+ 
+        #end 
+
+         </table>
+			 </div>
+			  </div>
+	</div>
+	 </form>
+ <form id="searchForm">
+	
+ <div class="pages-wrap">
+   <div class="Pages">
+#if($pageBean)
+	#set($pageNo = $pageBean.currentPage)
+	
+	#set($tPage = $pageBean.totalPages)
+ 
+	#set($prePage = $pageNo - 1)
+	 
+	#set($nextPage = $pageNo + 1)
+ 
+	#if ($pageNo > 1)
+		<a href="#" class="PrevPage" onclick="doSearchPage('$prePage')" title="上一页">上一页</a>
+	#end
+	#set($leftStart = 1)
+    #set($leftEnd = 2)
+    #set($mStart = $pageNo - 5)
+    #set($mEnd = $pageNo + 5)
+    #set($rStart = $tPage - 1)
+    #set($rEnd = $tPage)
+    #if ($mStart <= $leftEnd)
+    	#set($leftStart = 0)
+    	#set($leftEnd = 0)
+    	#set($mStart = 1)
+    #end
+    #if ($mEnd >= $rStart)
+    	#set($rStart = 0)
+    	#set($rEnd = 0)
+    	#set($mEnd = $tPage)
+    #end
+    #if ($leftEnd > $leftStart)
+    	#foreach($p in [${leftStart}..${leftEnd}])
+			#if($p != 0)
+					<a href=#"  class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+			#end
+    	#end
+    	#if($mStart > ($leftEnd +1))
+			<span class="PageMore">...</span>
+		#end
+    #end
+    #foreach($p in [${mStart}..${mEnd}])
+        #if($p == $pageNo)
+			<span class="PageSel">$p</span>
+        #else
+    		#if($p != 0)
+				<a href="#" class="PageLink"   onclick="doSearchPage('$p')" title="$p">$p</a>
+    		#end
+    	#end
+    #end
+       
+    #if ($rEnd > $rStart )
+		#if($rStart > ($mEnd+1))
+			<span class="PageMore">...</span>
+    	#end
+    	#foreach($p in [${rStart}..${rEnd}])
+			<a href="#" class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+ 
+    	#end
+	#end
+	#if ($pageNo < $tPage)
+		<a href="#" class="NextPage"  onclick="doSearchPage('$nextPage')" title="下一页">下一页</a>	
+	#end
+ 
+  #end
+  
+  </div>
+  </div>
+ 
+	 </form>
+          
+    </div>	 
+	 
+		</div>
+	</div>
+	 
+</div>
+
+
+		</div>
+	</div>
+	</div>
+</div>
+
+
+#include("/stat/footer.vm")
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+ 
+ 
+<script type="text/javascript"> 
+var rows=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+ 
+   a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function submitCheck(){
+  var d=document.getElementById("upexcel").value;
+  var s=document.getElementById("priceDetailQuery.statdate").value;
+  var p=document.getElementById("priceDetailQuery.pricetype").value;
+
+     if(s==null||s==""){
+     alert("请选择正确的日期！");
+     return false;
+     }
+      if(p==null||p==""){
+     alert("请选择费用类型！");
+     return false;
+     }    
+      if(d==null||d==""){
+        alert("请选择Excel文件！");
+        
+         return false;
+
+       }else {  
+       if(d.indexOf(".xlsx")!=-1){
+          str="xlsx";
+       }else{
+          alert("请选择正确的Excel文件！");
+          return false;
+        }
+       document.getElementById("showMessage").innerHTML="	<font size='4' color=red>正在上传，请稍等......</font>"; 
+       var dd= document.getElementById("weightform");
+       dd.action="./fileproc!uploadPriceFile.jspa?str="+str+"&importDate="+s+"&type="+p;
+       dd.submit();   
+       return true;
+       }
+   
+ return false;
+}
+ 
+ 
+ function doSearchPage(pageno){
+
+   var dd=document.getElementById("searchForm");
+ 
+   
+   dd.method="POST";
+   dd.action="../stat/stat!showImportPricePage.jspa?pageNo="+pageno;
+   dd.submit();
+
+
+}
+  function deleteFile(date,type){
+
+  var dd=document.getElementById("weightform");
+  var pageNo=document.getElementById("pageNo").value;
+   
+   dd.method="POST";
+   dd.action="./stat!deletePriceDetail.jspa?bsndate="+date+"&pricetype="+type+"&pageNo="+pageNo;
+   dd.submit();
+
+
+} 
+
+  function exportFile(date,type){
+
+   var dd=document.getElementById("weightform2");
+ 
+   
+   dd.method="POST";
+   dd.action="../stat/stat!exportPriceDetail.jspa?bsndate="+date+"&pricetype="+type;
+   dd.submit();
+
+
+} 
+</script>
+</body></html>

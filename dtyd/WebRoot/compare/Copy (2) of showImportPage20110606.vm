@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/gobox.js"></script>
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+ 
+  //a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function showSource(){
+
+	//var zzDiv = document.getElementById(id);
+
+	var showDiv = document.getElementById("zz_show_div");
+
+	showDiv.innerHTML = "<h2> <font color='red'>正在上传文件，请耐心等待！</font></h2>";
+
+	gosoBox.showBox("zz_show_div");
+
+}
+
+
+function submitCheck(){
+   
+  var c=document.getElementById("d15").value;
+  var d=document.getElementById("fileinput").value;
+
+
+    if(c==null||c==""){
+    alert("日期不能为空");
+    return false;
+    
+    }else  if(d==null||d==""){
+      alert("请选择Excel文件！");
+       return false;
+
+       }else {
+      // showSource();
+      document.getElementById("showMessage").innerHTML="	<font size='4' color=red>正在上传，请稍等......</font>";
+       dd.action="./fileproc!uploadFile.jspa?importDate="+c;
+       dd.submit();
+     
+       return true;
+    }
+
+
+ return false;
+}
+
+
+</script>
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a id="hello"  onclick="exit();return true">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	<div class="lay_aside">
+	<ul id="ulMenu" class="menu">
+		<li><a style="color:red;" href="./stat!showImportDataPage.jspa">导入EXCEL数据</a></li>
+		<li><a href="./stat!showStatReport.jspa">查看结算报表</a></li>
+		<li><a href="./stat!showSetWeight.jspa">重量规则设置</a></li>
+		<li><a href="./stat!showSetWeightPrice.jspa">计重规则费用设置</a></li>
+		<li><a href="./stat!showSetPrice.jspa">中转费设置</a></li>
+		<li><a href="http://wiki.opensns.qq.com/wiki/%E3%80%90QQ%E7%99%BB%E5%BD%95%E3%80%91SDK%E4%B8%8B%E8%BD%BD">数据比对</a></li>
+		<li><a href="http://connect.opensns.qq.com/wiki/">查看比对结果</a></li>
+		<li><a href="http://connect.opensns.qq.com/case/">比对规则设置</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">个人信息</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">退出</a></li>
+	</ul>
+	
+</div>
+<div style="display: none;" class="NewsPop" id="zz_show_div">
+  
+</div>
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>EXCEL数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">
+					
+					<div class="link_sign_box2" >
+					 <form name="dd" onsubmit="submitCheck()" method="POST" enctype="multipart/form-data"> 
+					  <input type="hidden" name="user.username" value="$!user.username">
+					 <input type="hidden" name="user.loginid" value="$!user.loginid">      
+                     	导入日期：  &nbsp;&nbsp; <input class="Wdate" type="text" id="d15" onFocus="WdatePicker({lang:'zh-cn'})"/>
+                  &nbsp;&nbsp;  上传文件：&nbsp;&nbsp;<input id="fileinput" class="chuan_text_input" type="file" name="excel" height="30px" >    <input type="submit" value="上传"/>   
+                      
+						</form> 	 
+						
+					</div>
+					
+							 #if($!numList.size()!=0)
+							   
+							   #set($d=$!numList.size()+1)
+							<font size="5px" color=red>     成功上传了,保存为${importDate}.xls文件，导入数据$d条</font>
+							   #end
+					  <div id="showMessage">
+					  </div>
+				    </div>
+				
+            
+			</div>
+		#if($!mailList)
+ <div class="imp_mod_inner">
+				<div class="cc_para imp_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="8%">行号</th>
+		  <th width="15%">快件号</th>
+		  <th width="15%">发件时间</th>
+		  <th width="5%">发出组</th>
+		  <th width="7%">业务员</th>
+		  <th width="5%">目的组</th>
+		  <th width="8%">下级公司</th>
+          <th width="5%">类别</th>
+          <th width="5%">运输方式</th>
+          <th width="8%">重量</th>
+           <th width="5%">揽件费</th>
+           <th width="5%">派送费</th>
+           <th width="8%">小计</th>
+		  </tr>
+		  #foreach($mail in $!mailList)
+<tr> 
+<td class="row">$!mail.linenum</td> 
+<td class="row">$!mail.mailid</td> 
+<td class="row">$!dateUtil.formatDateTime($!mail.sendtime,"yyyy-MM-dd HH:mm:ss")</td> 
+<td class="row">$!mail.sendgroup</td> 
+<td class="row">$!mail.manager</td>
+<td class="row">$!mail.destinationgroup</td>
+<td class="row">$!mail.subcompany</td>
+<td class="row">$!mail.classification</td>
+<td class="row">$!mail.transformationtype</td>
+<td class="row">$!mail.weight</td>
+<td class="row">$!mail.lanjianfei</td>
+<td class="row">$!mail.paisongfei</td>
+<td class="row">$!mail.wholeprice</td>
+</tr> 
+
+    
+
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	 <div class="gg_mod_inner">
+				<div class="para intro_para">
+				
+						<div class="link_sign_box2">
+					 <form action="./fileProc!uploadFile.jspa" method="POST"> 
+					   <a >1</a>&nbsp; &nbsp;<a >2</a>&nbsp; &nbsp;<a >3</a>
+						</form> 	 
+					</div>
+				    </div>
+	
+			</div>
+	
+	#end		
+ 
+        <div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>中转站数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">
+				
+						<div class="link_sign_box2">
+					 <form action="./fileProc!uploadFile.jspa" method="POST" enctype="multipart/form-data"> 
+					  <input type="hidden" name="user.username" value="$!user.username">
+					 <input type="hidden" name="user.loginid" value="$!user.loginid">  
+					导入日期：  &nbsp;&nbsp; <input class="Wdate" type="text" id="d15" onFocus="WdatePicker({lang:'zh-cn'})"/>
+					    
+                  &nbsp;&nbsp;   上传文件：&nbsp;&nbsp;<input  class="chuan_text_input" type="file" name="excel" height="20px" value=""> <input type="button" value="上传"/>    
+        
+						</form> 	 
+					</div>
+				    </div>
+				
+				
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<div class="lay_foot">
+	<p class="copyright_en">Copyright © 1998 - 2011 Tencent. All Rights Reserved.</p>
+	<p class="copyright">腾讯公司 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+
+
+
+
+</body></html>

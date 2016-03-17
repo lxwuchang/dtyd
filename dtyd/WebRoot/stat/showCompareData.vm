@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+
+<div class="lay_main  page_modSwap">
+	#parse("/stat/side.vm")
+</div>
+  <form id="weightform">
+	<div class="lay_cont">
+   
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>数据报表生成</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="cb_mod_inner">
+				<div class="cc_para cb_intro_para">
+					
+					<div class="link_sign_box2">
+				
+</select>	 &nbsp; 报表日期 <input class="Wdate" type="text" id="startdate" onFocus="WdatePicker({lang:'zh-cn'})"/>
+  
+   
+
+      </select>    <a class="cc_btn_com" href="#" title="非论坛类网站" onclick="doSmit();"><span>生成报表</span></a>
+     
+						</form> 	 
+					</div>
+					
+				    </div>
+				
+			</div>
+		
+ 		
+		</div>
+		</form>
+		 
+		#if($!reportMap.size()!=0)
+		
+		 
+		#set($todayList=$reportMap.get("today"))
+		 	<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>当天完成</span></a>
+						</div>
+					</div>
+		    </div>
+      <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="15%">本地扫描时间</th>
+		  <th width="15%">中转站扫描时间</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">本地重量</th>
+		  <th width="10%">中转站重量</th>
+		  <th width="10%">中转费</th>
+		  </tr>
+		  #foreach($report in $todayList)
+<tr> 
+<td class="row">$!report.mailid</td> 
+<td class="row">$!report.manager</td> 
+<td class="row">$dateUtil.format($!report.sendtime)</td> 
+<td class="row">$dateUtil.format($!report.scandate)</td> 
+<td class="row">$!report.destinationcity</td> 
+<td class="row" style="background:red">$!report.sourceweight</td> 
+<td class="row">$!report.transformweight</td>
+<td class="row">$!report.finalprice</td>
+</tr> 
+    #end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	<div class="para">
+	      <div class="para_cont">
+	<ul class="paginator">
+	#if($pageBean)
+	
+	
+	#set($pageNo = $pageBean.currentPage)
+	#set($tPage = $pageBean.totalPages)	
+	#set($prePage = $pageNo - 1)
+	#set($nextPage = $pageNo + 1)
+	 #set($leftStart=1)
+	 #set($leftEnd=1)
+	 
+	 
+	#if($pageNo > 1 )
+	<li><a href="/deals">首页</a></li>
+	<li><a href="/deals/page17">上一页</a></li>
+	#end 
+ 
+	#if( $pageNo - 2 < 0) 
+	  #if($pageNo+2<$tPage )
+	    #set($leftStart=1)
+	    #set($leftEnd=$pageNo+2)
+ 
+	  #else 
+	 
+	    #set($leftStart=1)
+	    #set($leftEnd=$tPage)
+	   
+     #end
+   #end
+   
+   
+	#if($pageNo - 2 >= 0&&($pageNo + 2 <= $tPage))
+	 #set($leftStart=$pageNo-2)
+	 #set($leftEnd=$pageNo+2)
+	#end
+	
+	#if($pageNo + 2 > $tPage)
+	 #set($leftStart=$tPage-5)
+	 #set($leftEnd=$tPage)
+    #end
+	
+	
+	#foreach($p in [${leftStart}..${leftEnd}])
+        #if($p == $pageNo)
+			<li class="current"><a href="/deals"><font color=red>$p</font></a></li>
+        #else
+    		#if($p != 0)
+				<li><a href="#" onclick="return PageChanage('$securityUtil.jsEncode($!{p})')">$p</a></li>
+    		#end
+    	#end
+    #end
+
+	
+	    #if ($pageNo < $tPage)
+             <li><a href="/deals/page19">下一页</a></li>
+             <li><a href="/deals/page19">最后一页</a></li>
+       #end
+   
+   
+ #end
+
+</ul>    
+	
+		  </div>
+	</div>
+	#set($todayList=$reportMap.get("delay"))
+		 	<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>延迟发送</span></a>
+						</div>
+					</div>
+		    </div>
+      <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="15%">本地扫描时间</th>
+		  <th width="15%">中转站扫描时间</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">本地重量</th>
+		  <th width="10%">中转站重量</th>
+		  <th width="10%">中转费</th>
+		  </tr>
+		  #foreach($report in $todayList)
+<tr> 
+<td class="row">$!report.mailid</td> 
+<td class="row">$!report.manager</td> 
+<td class="row">$dateUtil.format($!report.sendtime)</td> 
+<td class="row">$dateUtil.format($!report.scandate)</td> 
+<td class="row">$!report.destinationcity</td> 
+<td class="row">$!report.sourceweight</td> 
+<td class="row">$!report.transformweight</td>
+<td class="row">$!report.finalprice</td>
+</tr> 
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	
+	
+	
+	
+	#set($todayList=$reportMap.get("waiting"))
+		 	<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>未来发送</span></a>
+						</div>
+					</div>
+		    </div>
+      <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="15%">本地扫描时间</th>
+		  <th width="15%">中转站扫描时间</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">本地重量</th>
+		  <th width="10%">中转站重量</th>
+		  <th width="10%">中转费</th>
+		  </tr>
+		  #foreach($report in $todayList)
+<tr> 
+<td class="row">$!report.mailid</td> 
+<td class="row">$!report.manager</td>
+<td class="row">$dateUtil.format($!report.sendtime)</td> 
+<td class="row">$dateUtil.format($!report.scandate)</td>  
+<td class="row">$!report.destinationcity</td> 
+<td class="row">$!report.sourceweight</td> 
+<td class="row">$!report.transformweight</td>
+<td class="row">$!report.finalprice</td>
+</tr> 
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	
+			
+			
+			
+			
+	#set($todayList=$reportMap.get("miss"))
+		 	<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>漏扫描</span></a>
+						</div>
+					</div>
+		    </div>
+      <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="15%">本地扫描时间</th>
+		  <th width="15%">中转站扫描时间</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">本地重量</th>
+		  <th width="10%">中转站重量</th>
+		  <th width="10%">中转费</th>
+		  </tr>
+		  #foreach($report in $todayList)
+<tr> 
+<td class="row">$!report.mailid</td> 
+<td class="row">$!report.manager</td> 
+<td class="row">$dateUtil.format($!report.sendtime)</td> 
+<td class="row">$dateUtil.format($!report.scandate)</td> 
+<td class="row">$!report.destinationcity</td> 
+<td class="row">$!report.sourceweight</td> 
+<td class="row">$!report.transformweight</td>
+<td class="row">$!report.finalprice</td>
+</tr> 
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	
+	#set($todayList=$reportMap.get("error"))
+		 	<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>误判</span></a>
+						</div>
+					</div>
+		    </div>
+      <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">单件号</th>
+		  <th width="10%">拦件人</th>
+		   <th width="15%">本地扫描时间</th>
+		  <th width="15%">中转站扫描时间</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">本地重量</th>
+		  <th width="10%">中转站重量</th>
+		  <th width="10%">中转费</th>
+		  </tr>
+		  #foreach($report in $todayList)
+<tr> 
+<td class="row">$!report.mailid</td> 
+<td class="row">$!report.manager</td>
+ <td class="row">$dateUtil.format($!report.sendtime)</td> 
+<td class="row">$dateUtil.format($!report.scandate)</td> 
+<td class="row">$!report.destinationcity</td> 
+<td class="row">$!report.sourceweight</td> 
+<td class="row">$!report.transformweight</td>
+<td class="row">$!report.finalprice</td>
+</tr> 
+
+
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	
+	
+	
+	
+	
+#end
+	</div>
+
+</div>
+
+#include("/stat/footer.vm")
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript"> 
+
+
+
+window.onload=function(){
+
+  var ss='$!searchInfo';
+
+  if(ss!=null&&ss!=""){
+  var strArray=ss.split('@');
+  
+  var mangername=strArray[0];
+  var startdate=strArray[1];
+  var enddate=strArray[2];
+  var starthour=strArray[3];
+  var endhour=strArray[4];
+  
+  document.getElementById("manager").value=mangername;
+  document.getElementById("startdate").value=startdate;
+  document.getElementById("enddate").value=enddate;
+  document.getElementById("starthour").value=starthour;
+  document.getElementById("endhour").value=endhour;
+      
+   } 
+  
+  
+   
+}
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+
+function doSmit(){
+  
+   var startdate=document.getElementById("startdate").value;
+   
+   if(startdate==null||startdate==""){
+     alert("开始日期不能为空");
+     return false;
+   }
+ 
+   
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!compareData.jspa?searchDate="+startdate;
+ 
+   hellll.submit();
+ 
+   
+}
+function downFile(){
+   var managername=document.getElementById("manager").value;
+   var startdate=document.getElementById("startdate").value;
+   
+   
+   var  str=managername+"@"+startdate;
+
+   if(startdate==null||startdate==""){
+     alert("开始日期不能为空");
+     return false;
+   }
+   
+   
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./fileproc!downFile.jspa?filename="+str;
+ 
+   hellll.submit();
+ 
+   
+}
+
+</script>
+
+</body></html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body>
+#set($page = 'unread23')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>日收支汇总</span></a>
+						</div>
+					</div>
+		    </div>
+		 			
+			</div> 
+				<div class="cb_mod_inner">
+				<div class="cc_para cb_intro_para">
+					
+					<div class="link_sign_box6">
+				 <form  id="weightform">
+				   结算日期：  &nbsp;&nbsp; <input class="Wdate d_text_input" type="text" name="yearSmy.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$dateUtil.formatYYYYMMDD($yearSmy.reportdate)'/>
+                  &nbsp;&nbsp;   
+  
+                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="btn_com_edit_normal" href="#"   onclick="doSmit();"><span>查&nbsp;&nbsp;询</span></a>
+       
+				</form>	  
+					</div>
+					
+			  </div>
+				
+			</div>
+			
+	  
+	   <div class="clear">
+			</div>
+	
+		<div class="nav-not-fixedz">
+    		 
+			<a href="../report/report!showDaySmyPage.jspa?yearSmy.bsndatestr=$dateUtil.formatYYYYMMDD($yearSmy.reportdate)" id="zhongzhuan" class="showmessages"><span>中转费收入$!yearSmy.zprice</span></a>
+            <a href="../report/report!showCompanyIncomeDaySmyPage.jspa?yearSmy.bsndatestr=$dateUtil.formatYYYYMMDD($yearSmy.reportdate)"  class="showmessages"><span>业务员利润$!yearSmy.yprice</span></a>     
+            <a href="../report/report!showMailPriceDaySmyPage.jspa?yearSmy.bsndatestr=$dateUtil.formatYYYYMMDD($yearSmy.reportdate)"  class="selected"><span>面单收入$!yearSmy.wprice</span></a> 
+    	 <a href="../report/report!showIncomeDaySmyPage.jspa?yearSmy.bsndatestr=$dateUtil.formatYYYYMMDD($yearSmy.reportdate)"  class="showmessages"><span>收款&nbsp;$!yearSmy.skprice</span></a>
+	   </div>
+			  
+      <div class="clear">
+			</div>
+		
+		<div class="nav-not-fixedz"  style="display:none">
+    		 
+			<a href="#windows"  class="showmessagez"><span>预付款$!yearSmy.yfkprice</span></a>
+            <a href="#windows"  class="showmessagez"><span>直跑支出$!yearSmy.zpprice</span></a>     
+             <a href="#windows"  class="showmessagez"><span>公司支出$!yearSmy.gsprice</span></a> 
+               <a href="#windows" class="showmessagez"><span>工资$!yearSmy.gzprice</span></a> 
+    	    <a href="#windows"  class="showmessagez"><span>其他$!yearSmy.qtprice</span></a> 
+	   </div>
+	    <div class="clear">
+			</div>
+			<div class="nav-not-fixedz">
+    		 
+			<a href="../report/report!showMailPriceDaySmyPage.jspa"  class="tabcssselect"><span>按揽件人汇总</span></a>
+			  <a class="btn_com_edit_normal" id="export" href="#"  onclick="exportFile('$dateUtil.formatYYYYMMDD($yearSmy.reportdate)');"><span>导出面单日汇总</span></a>
+			 
+             
+	   </div>
+			
+	    <form id="weightform2">
+		 <div class="cd_mod_inner">
+		 <div class="cc_para cd_intro_para">
+					
+		<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  
+		  <th width="10%">日期</th>
+		  <th width="10%">面单分配人</th>
+		  <th width="8%">面单类型</th>
+		  <th width="8%">数量</th>
+		  <th width="8%">单价</th>
+		  <th width="8%">总额</th>		 
+		  <th width="12%">备注</th>
+		  <th width="15%">创建时间</th>
+		    
+		 
+		  </tr>
+		 #set($i=1)
+		  #foreach($mailFenpei in $!mailFenpeiList)
+				<tr>                
+					 
+						<td class="row">$dateUtil.formatYYYYMMDD($!mailFenpei.bsndate)</td> 
+				     	<td class="row">$!mailFenpei.managername</td> 
+				     	<td class="row">$!mailFenpei.type</td> 
+				     	<td class="row">$!mailFenpei.num</td> 
+				     	<td class="row">$!mailFenpei.perprice</td>
+				     	<td class="row">$!mailFenpei.price</td>  
+				     	<td class="row">$!mailFenpei.memo</td>
+				     	<td class="row">$!dateUtil.formatDateTime($!mailFenpei.createtime,'yyyy-mm-dd HH:mm:ss')</td>    
+				        
+
+				</tr> 
+
+    #set($i=$i+1)
+
+		#end
+ 		</table>
+      
+			 </div>
+			  </div>
+	</div>
+	 </form>
+			  	
+			
+</div>
+#include("/stat/footer.vm")
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+
+function exportFile(date){
+
+
+  var a=document.getElementById("export");
+  a.href="../report/report!exportMailPriceDaySmy.jspa?start="+date;
+}
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+function doSmit(){
+ 
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="../report/report!showDaySmyPage.jspa";
+   hellll.submit();
+   
+   }
+   
+   function doDelete(managerid,managername){
+  
+   var bb= window.confirm("你是否要删除"+managername+"。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	  	 
+       document.getElementById(managerid).href="./stat!deleteManager.jspa?managerid="+managerid;
+       return true;
+       }
+   }
+</script>
+</body></html>

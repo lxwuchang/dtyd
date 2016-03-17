@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—中转费返款</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread16')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+  
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 
+		     <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+		
+			  <a href="./report!showImportZhipaoOutcomePage.jspa"class="tabcssleft" ><span>直跑录入</span></a>
+			  <a href="./report!showImportZhichuOutcomePage.jspa"class="tabcssleft" ><span>公司支出录入</span></a>
+			  <a href="./report!showImportGongziOutcomePage.jspa"class="tabcssleft" ><span>工资录入</span></a>
+			  <a href="./report!showImportFankuanOutcomePage.jspa"class="tabcssselect" ><span>中转费返款</span></a>
+			  <a href="./report!showImportPeikuanOutcomePage.jspa"class="tabcssleft" ><span>客服赔款</span></a>
+        </div>
+        <div class="clear">
+			</div>
+		 <form name="dd" id="weightform" method="POST" enctype="multipart/form-data"> 
+		 	   <input type="hidden" name="pageNo" value="$!pageBean.currentPage">
+				 	   年份 <select id="yearstr" name="yearSmy.year" class="text_input">
+                      <option value ="2014"#if($yearSmy.year==2014)selected#end>2014年</option>
+                     <option value ="2015"#if($yearSmy.year==2015)selected#end>2015年</option>
+                     <option value ="2016"#if($yearSmy.year==2016)selected#end>2016年</option>
+                     <option value ="2017"#if($yearSmy.year==2017)selected#end>2017年</option>
+                     <option value ="2018"#if($yearSmy.year==2018)selected#end>2018年</option>
+                   </select>
+                                       月份
+                    <select id="monthstr" name="yearSmy.month" class="text_input">
+                     
+                    <option value ="1"#if($yearSmy.month==1)selected#end>1月</option>
+                    <option value ="2"#if($yearSmy.month==2)selected#end>2月</option>
+                    <option value ="3"#if($yearSmy.month==3)selected#end>3月</option>
+                    <option value ="4"#if($yearSmy.month==4)selected#end>4月</option>
+                  	<option value ="5"#if($yearSmy.month==5)selected#end>5月</option>
+                  	<option value ="6"#if($yearSmy.month==6)selected#end>6月</option>
+                  	<option value ="7"#if($yearSmy.month==7)selected#end>7月</option>
+                  	<option value ="8"#if($yearSmy.month==8)selected#end>8月</option>
+                    <option value ="9"#if($yearSmy.month==9)selected#end>9月</option>
+                    <option value ="10"#if($yearSmy.month==10)selected#end>10月</option>
+                    <option value ="11"#if($yearSmy.month==11)selected#end>11月</option>
+                    <option value ="12"#if($yearSmy.month==12)selected#end>12月</option>
+                   </select>	  
+  
+               &nbsp; &nbsp;  &nbsp; <a class="btn_com_edit_normal" href="#"   onclick="doSearchPage();"><span>查&nbsp;&nbsp;询</span></a> &nbsp;&nbsp; <a class="btn_com_edit_normal" href="#"   onclick="doSmit();"><span>生&nbsp;&nbsp;成</span></a>&nbsp;&nbsp;&nbsp;<a class="btn_com_edit_normal" href="#"   onclick="doExport();"><span>导&nbsp;&nbsp;出</span></a> 
+                
+			 </form> 
+			#if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+			
+	      <div class="mod_block">
+		 	 	  
+	      <div class="imp_mod_inner">
+		  <div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="15%">序号</th>
+		    <th width="20%">日期</th>
+		  <th width="20%">员工姓名</th>		 
+		 <th width="20%">费用</th> 
+		    
+		  </tr>
+		 #set($i=1)
+		  #foreach($fankuan in $!fankuanOutcomeList)
+				<tr>    
+				    <input type="hidden" id="outcomeid-$i" value="$!fankuan.outcomeid">            
+						<td class="row">$!i</td> 
+							<td class="row">$!{fankuan.year}年$!{fankuan.month}月</td> 
+						<td class="row">$!fankuan.managername</td> 
+				     	<td   class="edit" id="fankuan-$i">#if("$!{fankuan.fankuan}"!= "0.0")$!fankuan.fankuan#end</td> 
+			 
+				</tr> 
+
+    #set($i=$i+1)
+
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	 			
+	  
+	  
+		</div>
+	</div>
+	</div>
+ 
+
+</form>
+ 	#include("/stat/footer.vm")
+<script type='text/javascript' src='/dtyd/dwr/interface/ReportServer.js'></script>
+<script type='text/javascript' src='/dtyd/dwr/engine.js'></script>
+<script type='text/javascript' src='../htdocs/js/jquery.js'></script>
+
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+
+ $(document).ready(function() {
+ 
+           
+         
+     $("td").click(function(){
+        
+	     var st="";
+	     var cl=$(this).attr("class");
+         var ids=$(this).attr("id");
+            st=$(this).text();
+            $(".click_input").each(function(){           
+            var ss=$(this).val();   	      
+	        $(this).parent().html(ss);
+	     
+            });
+            
+         if(cl=='edit'){
+           var str="<input type='text' class='click_input'  id='click'   style='width:80%;'  onblur='calc(\""+ids+"\")' value='"+st+"'/>";
+	       $(this).html(str);
+	       document.getElementById("click").focus();
+      
+      }
+	      
+	      
+	    
+      });
+      
+  });
+
+
+function calc(id){
+
+         $(".click_input").each(function(){           
+            var ss=$(this).val();   	      
+	       $(this).parent().html(ss);
+	      
+          });
+       
+     var str=id.split('-');
+  
+     var fankuan=0;
+    
+      
+     if($("#fankuan-"+str[1]).text()==''||!isNum($("#fankuan-"+str[1]).text())){
+        fankuan=0;
+        $("#fankuan-"+str[1]).html("");
+     }else fankuan=parseFloat($("#fankuan-"+str[1]).text());
+      
+    var fankuanOutcome = { 
+outcomeid 	:"",
+bsndate 	:"",
+managerid 	:"",
+managername:"",
+year 		:"",
+month 		:"",
+fankuan	 	:""
+ 
+}
+fankuanOutcome.outcomeid=$("#outcomeid-"+str[1]).val();   
+fankuanOutcome.fankuan=fankuan;  
+ 
+ReportServer.updateFankuanOutcome(fankuanOutcome,processFankuanOutcome);
+    
+
+}
+
+  
+ function processFankuanOutcome(data){
+    
+ }
+ 
+ 
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^-?[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+ 
+function doSmit(){
+   var dd=document.getElementById("weightform");
+   
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!createFankuanOutcome.jspa";
+   dd.submit();
+  
+ 
+}
+
+function doExport(){
+   var dd=document.getElementById("weightform");
+   
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!exportFankuanOutcome.jspa";
+   dd.submit();
+  
+ 
+}
+ 
+ function doSearchPage(){
+ var dd=document.getElementById("weightform");
+   dd.method="POST";
+   dd.action="../report/report!searchFankuanOutcomePage.jspa";                                                                                   
+   dd.submit();
+
+
+}
+</script> 
+
+</body></html>

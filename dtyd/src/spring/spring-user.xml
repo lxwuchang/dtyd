@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="userDao" class="com.yundastat.dao.UserDao">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	 
+	
+	<!--独立的服务注入 -->
+	<bean id="userService" class="com.yundastat.service.UserService">
+	 <property name="userDao" ref="userDao"/>
+	
+	</bean>
+	
+	
+	<!-- 合成的service -->
+	<bean id="userServiceImpl" class="com.yundastat.service.UserServiceImpl">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	
+	</bean>
+	
+	
+	<!--action 中bean 的注入 -->
+
+	<bean id="userAction" class="com.yundastat.action.UserAction">
+		<property name="userServiceImpl">
+			<ref bean="userServiceImpl" />
+		</property>
+		
+	</bean>
+	
+	
+</beans>

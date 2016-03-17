@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+</script>
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a id="hello"  onclick="exit();return true">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	<div class="lay_aside">
+	<ul id="ulMenu" class="menu">
+		<li><a href="./stat!showImportDataPage.jspa">导入EXCEL数据</a></li>
+		<li><a href="./stat!showStatReport.jspa">查看结算报表</a></li>
+		<li><a href="./stat!showSetWeight.jspa">重量规则设置</a></li>
+		<li><a href="./stat!showSetWeightPrice.jspa">计重规则费用设置</a></li>
+		<li><a href="./stat!showSetPrice.jspa">中转费设置</a></li>
+		<li><a href="http://wiki.opensns.qq.com/wiki/%E3%80%90QQ%E7%99%BB%E5%BD%95%E3%80%91%E5%BC%80%E5%8F%91%E8%80%85%E6%95%99%E7%A8%8B">导入中转站EXCEL数据</a></li>
+		<li><a href="http://wiki.opensns.qq.com/wiki/%E3%80%90QQ%E7%99%BB%E5%BD%95%E3%80%91SDK%E4%B8%8B%E8%BD%BD">数据比对</a></li>
+		<li><a href="http://connect.opensns.qq.com/wiki/">查看比对结果</a></li>
+		<li><a href="http://connect.opensns.qq.com/case/">比对规则设置</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">个人信息</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">退出</a></li>
+	</ul>
+	<script type="text/javascript">
+		var highlightnav = window.highlightnav || parseInt('0');
+		$('ulMenu').children[highlightnav].className = 'cur';
+	</script>
+</div>
+	<div class="lay_cont">
+<div class="yd_div_1"> 
+		 <p class="yd_captain">【企业目标】</p> 
+    <p>创优秀民族品牌</p> 
+    <p>做百年韵达事业</p> 
+    <p class="yd_captain">【经营理念】</p> 
+    <p>人文关怀 价值增值 激情创造 科技突破</p> 
+    <p class="yd_captain">【企业宗旨】</p> 
+    <p>为客户创造价值；</p> 
+    <p>为社会创造财富；</p> 
+    <p>为员工创造就业。</p> 
+    <p class="yd_captain">【企业精神】</p> 
+    <p>忠于职守，创造价值；</p> 
+    <p>时效保障，创造价值；</p> 
+    <p>群策群力，创造价值。</p> 
+    <p class="yd_captain">【企业品牌理念】</p> 
+    <p>公平诚信 快捷安全 热情周到 服务一流</p> 
+    <p class="yd_captain">【企业作风】</p> 
+    <p>忠诚 务实 敬业 主动</p> 
+    <p class="yd_captain">【经营哲学：交天下朋友、树百年企业】</p> 
+    <p>交天下朋友——我们这里所说的"朋友"指的是我们的客户、客户、合作商、行业协会、政府及其它各类协会，即便是我们的同行企业，只要关心支持韵达企业的发展，就都是我们的朋友。韵达企业前进的道路上有了"朋友"的爱护与帮助，路才会越走越宽，企业才会越做越强。</p> 
+    <p>树百年企业——我们这里所说的"百年"就是长久、稳固之意。</p> 
+    <p class="yd_captain">【公司的用人原则】</p> 
+    <p>德才兼备，主动创新</p> 
+ 
+ 
+	</div>
+	</div>
+</div>
+<div class="lay_foot">
+	<p class="copyright_en">Copyright © 2011 - 2011. All Rights Reserved.</p>
+	<p class="copyright">WUCHANGTEAM 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+
+
+</body></html>

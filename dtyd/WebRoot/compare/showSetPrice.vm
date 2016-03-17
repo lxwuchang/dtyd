@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+<script language="JavaScript" type="text/javascript" src="../dwr/engine.js"></script>
+<script language="JavaScript" type="text/javascript" src="../dwr/interface/TransformPriceServer.js"></script>
+
+<script type="text/javascript"> 
+
+
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function savePrice(str,id,row,col){
+
+  var pricelist="";
+  for(var i=1;i<col;i++){
+  
+   var inputid="price"+row+"price"+i;
+   var price=document.getElementById(inputid).value;
+   if(price==null||price=="")
+      price="0";
+   pricelist=pricelist+price+",";
+   
+  }
+  
+    var appendprice=document.getElementById("append"+row).value;
+     if(appendprice==null||appendprice=="")
+      appendprice="0";
+   pricelist=pricelist+appendprice;
+   
+  TransformPriceServer.saveTransformPriceRule(str,id,pricelist,show);
+  
+}
+
+function show(str){
+
+  if(str=="0")
+  alert("保存成功！");
+ 
+}
+
+</script>
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a id="hello"  onclick="exit();return true">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main  page_modSwap">
+	<div class="lay_aside">
+	<ul id="ulMenu" class="menu">
+		<li><a href="./stat!showImportDataPage.jspa">导入EXCEL数据</a></li>
+		<li><a href="./stat!showStatReport.jspa">查看结算报表</a></li>
+		<li><a href="./stat!showSetWeight.jspa">重量规则设置</a></li>
+		<li><a href="./stat!showSetWeightPrice.jspa">计重规则费用设置</a></li>
+		<li><a style="color:red;" href="./stat!showSetPrice.jspa">中转费设置</a></li>
+		<li><a href="./stat!showCompareData.jspa">数据报表生成</a></li>
+		<li><a href="./stat!showReport.jspa">数据报表查看</a></li>
+		<li><a href="http://connect.opensns.qq.com/case/">比对规则设置</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">个人信息</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">退出</a></li>
+	</ul>
+	
+</div>
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="中转费设置"><span>中转费设置</span></a>
+						</div>
+					</div>
+		    </div>
+		
+ 		
+		</div>
+       <div class="cc_mod_inner">
+				<div class="cc_para intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="8%">条形码</th>
+		  <th width="6%">目的地</th>
+		  <th width="10%">条码显示实名</th>	 
+		  
+		  #foreach($weight in $!weightRuleList)
+		    <th width="12%">$!weight</th>	 
+		  #end
+		  
+          <th width="8%">补助费</th>
+           <th width="8%">操作</th>
+       
+		  </tr>
+		    #set($num=$weightInfoList.size())
+		      #set($i=1)
+		  #foreach($cityinfo in $!cityInfoList)
+    <tr> 
+  
+  
+<td class="row"> $cityinfo.code</td> 
+<td class="row"> $cityinfo.destinationcity</td> 
+<td class="row"> $cityinfo.destinationcityname</td> 
+#set($j=1)
+   #foreach($weight in $!weightRuleList)
+    
+		 <td class="row"><input class="price_text_input"  id='price${i}price$j' name="user.loginid" size="8" type="text" /></td>
+	#set($j=$j+1)
+	#end
+<td class="row"><input class="price_text_input"  id="append$i" name="user.loginid" size="8" type="text" /></td>
+
+<td class="row"><a  class="adddel" href="#"  onclick="savePrice('$cityinfo.code',$weightRuleId,$i,$j);return false;"><span>保存</span></a></td>
+
+</tr> 
+#set($i=$i+1)
+#end
+        </table>
+	  </div>
+	 </div>
+	</div>
+			
+
+	</div>
+
+</div>
+
+  <div class="lay_foot">
+	<p class="copyright_en">Copyright © 2011 - 2011. All Rights Reserved.</p>
+	<p class="copyright">WUCHANGTEAM 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+
+<script type="text/javascript"> 
+window.onload=function(){
+
+  
+  var weightDiv=document.getElementById("weightDiv");
+  
+  var ss='$!transformPriceRuleList';
+  
+   ss=ss.substring(1,ss.length-1);
+   var priceArray=ss.split(', ');
+   var len=priceArray.length;
+   for(var i=1;i<=len;i++){
+      var cc=priceArray[i-1].split(","); 
+      var cclen=cc.length;
+     for(var j=1;j<cclen;j++){
+       var inputid="price"+i+"price"+j;
+        document.getElementById(inputid).value=cc[j-1]; 
+     }
+    document.getElementById("append"+i).value= cc[cclen-1];
+   }
+
+
+}
+
+</script>
+</body></html>

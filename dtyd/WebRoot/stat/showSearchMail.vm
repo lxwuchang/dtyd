@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—搜索快件</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+
+</head>
+
+<body>
+#set($page = 'unread41')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+
+  <form id="weightform">
+	<div class="lay_cont">
+  
+	   	<div id="weightDiv"></div>
+			#if($!messageInfo=="SUCCESS")
+			<font color=red>保存成功！</font>
+			#end
+	    <form id="weightform2">
+	      <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="多件查询"><span>快件查询</span></a>
+						</div>
+					</div>
+		    </div>
+		    <div class="gg_mod_inner">
+				<div class="cc_para cc_intro_para">
+					批量单号:&nbsp;&nbsp;<textarea class="txtarea" id="info" name="info"></textarea>
+              	<div class="link_sign_box">
+              	<br>
+							 <a class="tabcssselect" href="#" title="搜索" onclick="doSumbitMore();"><span>搜&nbsp;&nbsp;索</span></a>
+				</div>
+			 </div>
+				
+			</div>
+		 </div>
+	 
+	
+	</form>
+	
+			
+#if( $!statReportListMore.size()>0)
+		
+		 <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="10%">日期</th>
+		 <th width="10%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="10%">重量(公斤)</th>
+		   <th width="10%">目的地</th>
+ 
+		  <th width="10%">计件费(元)</th>
+		  <th width="10%">称重费(元)</th>
+		  <th width="13%">区域补贴(元)</th>
+          <th width="10%">中转费(元)</th>
+          <th width="10%">小&nbsp;结(元)</th>
+		  </tr>
+		  #foreach($statreport in $!statReportListMore)
+<tr> 
+<td class="row">$dateUtil.formatYYYYMMDD($!statreport.createtime)</td>
+<td class="row">$!statreport.mailid</td> 
+<td class="row">$!statreport.manager</td> 
+<td class="row">$!statreport.weight</td> 
+<td class="row" >$!statreport.destinationcity</td> 
+<td class="row">$statreport.scanfei</td>
+<td class="row">$statreport.weightprice</td>
+<td class="row">$statreport.buzufei</td>
+<td class="row">$statreport.transformprice</td>
+<td class="row">$statreport.wholeprice</td>
+</tr> 
+#end
+
+         </table>
+					</div>
+			  </div>
+	</div>
+#end 
+         #if($!errorMessage.hello2)
+           <div class="gg_mod_inner">
+				<div class="cc_para cc_intro_para">
+					
+					<div> $!errorMessage.hello2</div>
+				    </div>
+				
+			</div>
+
+       #end
+
+
+</div>
+</div>
+#include("/stat/footer.vm")
+<script type="text/javascript"> 
+
+count=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSumbit(){  
+  var id=document.getElementById("mailid").value;
+     if(id==null||id==""){
+     	alert("快件单号不能为空");
+     	return false;  
+     }
+   var wei=document.getElementById("weightform");
+   wei.method="POST";
+   wei.action="./stat!searchMail.jspa?mailid="+id+"&flgg=one";
+   wei.submit();
+ 
+}
+
+
+function doSumbitMore(){
+   var dd=document.getElementById("weightform2");
+   var id=document.getElementById("info").value;
+     
+     if(id==null||id==""){
+     	alert("快件单号不能为空");
+     	return false;  
+     }
+ 
+   ss=id.split('\n');
+   var str="";
+   for(var i=0;i<ss.length;i++){
+   var tmp=ss[i]; 
+   if(tmp!=''){
+     tmp= tmp.replace(/[\r\n]/g,"");
+     str=str+tmp+"@";
+   
+   }
+   
+   }
+ 
+    dd.method="POST";
+    dd.action="./stat!searchMail.jspa?mailid="+str+"&flgg=more";
+    dd.submit();
+ 
+}
+</script>
+
+
+</body></html>

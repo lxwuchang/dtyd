@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—公司支出</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread16')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+  
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 
+		     <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+		
+			  <a href="./report!showImportZhipaoOutcomePage.jspa"class="tabcssleft" ><span>直跑录入</span></a>
+			  <a href="./report!showImportZhichuOutcomePage.jspa"class="tabcssselect" ><span>公司支出录入</span></a>
+			  <a href="./report!showImportGongziOutcomePage.jspa"class="tabcssleft" ><span>工资录入</span></a>
+			  <a href="./report!showImportFankuanOutcomePage.jspa"class="tabcssleft" ><span>中转费返款</span></a>
+			  <a href="./report!showImportPeikuanOutcomePage.jspa"class="tabcssleft" ><span>客服赔款</span></a>
+        </div>
+        <div class="clear">
+			</div>
+		 <form name="dd" id="weightform" method="POST" > 
+		        <input type="hidden" id="pageNo"  name="pageNo" value="$!yearSmy.pageNo">		  
+		 	     <input type="hidden" name="yearSmy.year" value="$!yearSmy.year">
+		 	     <input type="hidden" name="yearSmy.month" value="$!yearSmy.month">
+		 	   <input type="hidden" name="zhichuOutcome.outcomeid"  value="$!zhichuOutcome.outcomeid">
+		 	   	  <div class="cc_para cc_intro_para" style="border-top: 1px solid #CCC7BE;">
+	              #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+		 	     </div>  
+				    <div class="cc_para cc_intro_para">
+					  支出日期 <input class="Wdate d_text_input" type="text" id="bsndatestr" name="zhichuOutcome.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$!dateUtil.formatYYYYMMDD($!zhichuOutcome.bsndate)'/>
+                     &nbsp;&nbsp;&nbsp;揽件人 
+                       <select id="manager" name="zhichuOutcome.managerid" class="text_input">
+                       <option value ="0" >请选择揽件人</option> 
+                       #foreach($manager in $!managerInfoList)                
+                    <option value ="$!manager.managerid@$!manager.managername" #if($!manager.managerid==$!zhichuOutcome.managerid)selected#end>$!manager.managername</option>
+                      #end
+                    
+                   </select>
+					    </div>  
+			     
+				 <div class="cc_para cc_intro_para">
+				     &nbsp;   费用类型   
+                       <input class="ui-input" id="pricetype" tabindex=1 name="zhichuOutcome.pricetype" type="text" style= "WIDTH: 180px" value='$!zhichuOutcome.pricetype' />  &nbsp;&nbsp;</font>
+                  
+                    
+                   </select>
+					&nbsp;&nbsp;&nbsp;支出金额(*)&nbsp;&nbsp;
+                    <input class="ui-input" id="price" tabindex=1 name="zhichuOutcome.price" type="text" style= "WIDTH: 100px"  placeholder="" value="$!zhichuOutcome.price"/> &nbsp;&nbsp; 
+                                                       
+				 <div class="cc_para cc_intro_para">
+				   备注 &nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="memo" name="zhichuOutcome.memo" type="text" style= "WIDTH: 384px" value="$!zhichuOutcome.memo"/> &nbsp;&nbsp;
+					 
+			 	</div>
+		  
+		   
+			  <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" title="韵达" onclick="doSumbit();"><span>保存修改</span></a>
+							  <a class="tabcssleft" href="#" title="韵达" onclick="fanhui();"><span>返&nbsp;&nbsp;回</span></a>
+							 	 
+						</div>
+					</div>
+				</div>
+			 </form> 
+			 
+		 
+		</div>
+	</div>
+	</div>
+ 
+ 	#include("/stat/footer.vm")
+ 
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+ 
+ 
+ 
+ 
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+ function fanhui(){
+   var dd=document.getElementById("weightform");
+   
+    var pg=document.getElementById("pageNo").value;
+   dd.method="POST";
+   dd.action="../report/report!searchZhichuOutcomePage.jspa?pageNo="+pg;                                                                                     
+   dd.submit();
+
+
+}
+ 
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var bsndatestr=document.getElementById("bsndatestr").value;
+   var price=document.getElementById("price").value;
+   var pricetype=document.getElementById("pricetype").value;
+   var manager=document.getElementById("manager").value;
+    if(manager==null||manager=="0"){
+     alert("请选择揽件人");
+     return false;
+   
+   }
+   
+    if(pricetype==null||pricetype==""){
+     alert("费用类型不能为空");
+     return false;
+   
+   }
+  
+   if(price==null||price==""){
+     alert("金额不能为空");
+     return false;
+   
+   }
+    if(!isNum(price))
+    return false;
+ 
+    
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!updateZhichuOutcome.jspa";
+   dd.submit();
+  
+ 
+}
+ 
+</script> 
+
+</body></html>

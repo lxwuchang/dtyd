@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—收款录入</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread15')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+  
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="收款录入"><span>收款录入</span></a>
+						</div>
+					</div>
+		    </div>
+		    <div>
+		 <form name="dd" id="weightform" method="POST" enctype="multipart/form-data"> 
+		 	     <input type="hidden" id="pageNo"  name="pageNo" value="$!yearSmy.pageNo">
+		 	     <input type="hidden" name="yearSmy.year" value="$!yearSmy.year">
+		 	     <input type="hidden" name="yearSmy.month" value="$!yearSmy.month">
+		 	     <input type="hidden" name="yearSmy.manager" value="$!yearSmy.manager">  
+		 	    <input type="hidden" id="incomeid" name="income.incomeid" value="$!income.incomeid">  
+		 	    
+		 	     <div class="cc_para cc_intro_para">
+		   #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+		      </div>  
+				   <div class="cc_para cc_intro_para">
+					  收款日期 <input class="Wdate d_text_input" type="text" id="bsndatestr" name="income.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$!dateUtil.formatYYYYMMDD($!income.bsndate)'/>
+                   &nbsp;&nbsp;&nbsp;&nbsp; 收款方式  <select id="fukuantype" name="income.fukuantype" class="text_input">
+                                         
+                    <option value ="支付宝转账" #if($!income.fukuantype=="支付宝转账")selected#end>支付宝转账</option>
+                    <option value ="工行转账"#if($!income.fukuantype=="工行转账")selected#end>工行转账</option>
+                    <option value ="农行转账"#if($!income.fukuantype=="农行转账")selected#end>农行转账</option>
+                     <option value ="建行转账"#if($!income.fukuantype=="建行转账")selected#end>建行转账</option>
+                    <option value ="中行转账"#if($!income.fukuantype=="中行转账")selected#end>中行转账</option>
+                    <option value ="邮储转账"#if($!income.fukuantype=="邮储转账")selected#end>邮储转账</option>
+                    <option value ="现金支付"#if($!income.fukuantype=="现金支付")selected#end>现金支付</option> 
+                    
+                   </select>
+					    </div>  
+				     <div class="cc_para cc_intro_para">
+				   
+				&nbsp;&nbsp;&nbsp;揽件人 
+                       <select id="manager" name="income.managerid" class="text_input" onchange="getIncomeInfo()">
+                       <option value ="0" >请选择揽件人</option> 
+                       #foreach($manager in $!managerInfoList)                
+                    <option value ="$!manager.managerid" #if($!manager.managerid==$!income.managerid)selected#end>$!manager.managername</option>
+                      #end
+                    
+                   </select>
+                 &nbsp;&nbsp;   &nbsp;&nbsp; 付款人名字  <input class="ui-input" id="fukuanman" tabindex=1 name="income.fukuanman" type="text" style= "WIDTH: 160px" value="$!income.fukuanman"/> &nbsp;&nbsp;
+				
+				    </div> 
+				    
+				    <div class="cc_para cc_intro_para" id="showincome" style="display:none;">
+				   
+				 <font color=red>&nbsp;&nbsp;&nbsp;(未付款数量(*)&nbsp;&nbsp;
+                     <input class="ui-input" id="wfnum" tabindex=1 name="wfnum" type="text" style= "WIDTH: 160px;"  /> &nbsp;&nbsp; 
+                                                      未付款金额
+                    <input class="ui-input" id="wfprice" tabindex=1 name="wfprice" type="text" style= "WIDTH: 160px"  /> ) &nbsp;&nbsp;</font>
+                  
+               	
+				    </div> 
+				    
+				    
+				 <div class="cc_para cc_intro_para">
+				     &nbsp;   费用类型  <select id="pricetype" name="income.pricetype" class="text_input">                                         
+                    <option value ="面单费"  #if($!income.pricetype=="面单费")selected#end>面单费</option>
+                    <option value ="中转费"  #if($!income.pricetype=="中转费")selected#end>中转费</option>
+                    <option value ="其他费用"  #if($!income.pricetype=="其他费用")selected#end>其他费用</option>
+                    
+                    
+                   </select>
+					&nbsp;&nbsp;&nbsp;付款金额(*)&nbsp;&nbsp;
+                    <input class="ui-input" id="price" tabindex=1 name="income.price" type="text" style= "WIDTH: 60px" value="$!income.price" placeholder=""/> &nbsp;&nbsp; 
+                                                      数量 
+                    <input class="ui-input" id="num" tabindex=1 name="income.num" type="text" style= "WIDTH: 60px;" value="$!income.num" placeholder="" /> &nbsp;&nbsp; 
+               	
+				    </div>
+				 <div class="cc_para cc_intro_para">
+				   备注 &nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="memo" name="income.memo" type="text" style= "WIDTH: 484px" value='$!income.memo'/> &nbsp;&nbsp;
+					 
+			 	</div>
+		  
+		   <div class="cc_para cc_intro_para">
+			 
+			      
+                    &nbsp;&nbsp;  选择转账图片：&nbsp;&nbsp;<input id="upexcel" class="text_input" type="file" name="upexcel" height="30px" style= "WIDTH: 224px"> (支持jpg、png格式) 
+                    ##<a  class="btn_com_edit_normal" href="#" id="search1" style="padding:5px 5px 5px 5px" onclick="submitCheck()"><span>上&nbsp;&nbsp;传</span>	</a>  
+                 
+				</div>
+			  <div class="para">
+					<div class="para_cont" style="border-top: 1px solid #CCC7BE;">
+						<div class="link_sign_box">
+							  <a class="tabcssselect" href="#" title="义乌韵达" onclick="doSumbit();"><span>保存修改</span></a>
+							  <a class="tabcssleft" href="#" title="义乌韵达" onclick="fanhui();"><span>返&nbsp;回</span></a>
+							 	 
+						</div>
+					</div>
+				</div>
+				
+				   <div class="cc_para cc_intro_para">    
+					图片预览：<img src="/dtyd/conf/$!{income.imgid}.jpg"  width="300" height="200"/>
+			    </div>
+			 </form> 
+		 
+	  
+		</div>
+	</div>
+	</div>
+ 
+
+</form>
+ 	#include("/stat/footer.vm")
+<script type='text/javascript' src='/dtyd/dwr/interface/ReportServer.js'></script>
+<script type='text/javascript' src='/dtyd/dwr/engine.js'></script>
+<script type='text/javascript' src='../htdocs/js/jquery.js'></script>
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+
+ function getIncomeInfo(){
+  
+  var managerid=document.getElementById("manager").value;
+  var date=document.getElementById("bsndatestr").value;
+   $("#num").attr("value","");
+    $("#price").attr("value","");
+  ReportServer.getIncome(date,managerid,processIncomeInfo);
+ 
+ }
+ 
+ function processIncomeInfo(data){
+     var managerid=document.getElementById("manager").value;
+   
+   if(managerid!="0"){
+   
+    $("#num").attr("placeholder",data.num);
+    $("#price").attr("placeholder",data.price);
+ 
+  }else{
+   
+    $("#num").attr("placeholder","");
+    $("#price").attr("placeholder","");
+ 
+  }
+  
+ }
+ 
+ 
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+ 
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var bsndatestr=document.getElementById("bsndatestr").value;
+   var price=document.getElementById("price").value;
+  var manager=document.getElementById("manager").value;
+     var incomeid=document.getElementById("incomeid").value;
+    if(manager==null||manager=="0"){
+     alert("请选择揽件人");
+     return false;
+   
+   }
+  
+   if(price==null||price==""){
+     alert("金额不能为空");
+     return false;
+   
+   }
+    if(!isNum(price))
+    return false;
+ 
+    
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!updateIncome.jspa?incomeid="+incomeid;
+   dd.submit();
+  
+ 
+}
+
+ 
+ function searchPage(){
+ 
+    var pageno=document.getElementById("pageNo").value;
+    var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!searchIncomePage.jspa?pageNo=1";                                                                                     
+   dd.submit();
+
+
+}
+
+
+ function doSearchPage(pageno){
+  
+   var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!searchIncomePage.jspa?pageNo="+pageno;                                                                                     
+   dd.submit();
+
+
+}
+ function doExport(){
+  
+    var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!exportIncome.jspa";                                                                                     
+   dd.submit();
+
+
+}
+
+ function showUpdate(incomeid){
+   var dd=document.getElementById("weightform");
+   var pageNo=document.getElementById("pageNo").value;
+   dd.method="POST";
+   dd.action="../report/report!showUpdateIncomePage.jspa?incomeid="+incomeid+"&pageNo="+pageNo;                                                                                     
+   dd.submit();
+
+
+}
+function fanhui(){
+   var dd=document.getElementById("weightform");
+   
+    var pg=document.getElementById("pageNo").value;
+   dd.method="POST";
+   dd.action="../report/report!searchIncomePage.jspa?pageNo="+pg;                                                                                     
+   dd.submit();
+
+
+}
+
+</script> 
+
+</body></html>

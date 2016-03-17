@@ -1,0 +1,3418 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="report">
+   <typeAlias alias="YearSmy" type="com.yundastat.model.YearSmy"/>
+    <typeAlias alias="DailyBalance" type="com.yundastat.model.DailyBalance"/>
+    <typeAlias alias="MailFenpei" type="com.yundastat.model.MailFenpei"/>
+    <typeAlias alias="CompanyIncome" type="com.yundastat.model.CompanyIncome"/>
+    <typeAlias alias="Income" type="com.yundastat.model.Income"/>
+    <typeAlias alias="GongziOutcome" type="com.yundastat.model.GongziOutcome"/>
+    <typeAlias alias="FankuanOutcome" type="com.yundastat.model.FankuanOutcome"/> 
+    <typeAlias alias="ZhichuOutcome" type="com.yundastat.model.ZhichuOutcome"/> 
+    <typeAlias alias="ZhipaoOutcome" type="com.yundastat.model.ZhipaoOutcome"/>  
+    <typeAlias alias="PeikuanOutcome" type="com.yundastat.model.PeikuanOutcome"/>  
+    
+     
+    <update id="updateZhichuOutcome" parameterClass="ZhichuOutcome">
+	    <![CDATA[
+			update zhichuoutcome
+            set   
+	       year = #year#,
+	       month=#month#,
+	       managerid=#managerid#,
+	       managername=#managername#,
+	       bsndate=#bsndate#,
+	       price=#price#,
+	       pricetype=#pricetype#,
+	         memo=#memo# 
+	     
+  
+		]]>
+    <dynamic prepend="where">
+		 
+		 
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+	</update>
+	
+    
+    <update id="updatePeikuanOutcome" parameterClass="PeikuanOutcome">
+	    <![CDATA[
+			update peikuanoutcome
+            set   
+	       year = #year#,
+	       month=#month#,
+	       managerid=#managerid#,
+	       managername=#managername#,
+	       bsndate=#bsndate#,
+	       yingpeiprice=#yingpeiprice#,
+	       reason=#reason#,
+	       realpeiprice=#realpeiprice#,
+	       memo=#memo#,
+	       dest=#dest#
+  
+		]]>
+    <dynamic prepend="where">
+		 
+		 
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+	</update>
+	
+    
+     <select id="getPeikuanOutcomeSmyList" resultClass="PeikuanOutcome"
+		parameterClass="PeikuanOutcome">
+	<![CDATA[
+	    select
+ year 		       as year 		    ,
+month 		     as month 		  ,
+managerid      as managerid   ,
+managername   as managername,
+count(*)     as  num,
+sum(IFNULL(yingpeiprice,0))	  as yingpeiprice,
+sum(IFNULL(realpeiprice,0)) as  realpeiprice
+ 
+	    from peikuanoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+				<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="dealstate" prepend="AND">
+		    	<![CDATA[
+		       dealstate=#dealstate#
+		    ]]>
+			</isNotEmpty>
+	
+	
+	       <isNotEmpty property="mailid" prepend="AND">
+		    	<![CDATA[
+		       mailid=#mailid#
+		    ]]>
+			</isNotEmpty>
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+        group by year,month,managerid,managername
+		order by outcomeid desc
+		limit #start#,#size#
+	 
+	 </select>
+    
+    	 <delete id="deletePeikuanOutcome"  parameterClass="PeikuanOutcome">
+	   <![CDATA[
+	    delete from peikuanoutcome
+	    
+		]]>
+		
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+	
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+		 
+	</delete>
+	
+	
+	
+	
+	
+	 <select id="getPeikuanOutcomeSmyByMonthList" resultClass="PeikuanOutcome"
+		parameterClass="PeikuanOutcome">
+	<![CDATA[
+	    select
+ 
+ 
+year 		       as year 		    ,
+month 		     as month 		  ,
+count(*) as num,
+sum(IFNULL(yingpeiprice,0))	  as yingpeiprice,
+sum(IFNULL(realpeiprice,0)) as realpeiprice
+ 
+	    from peikuanoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		  
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			 
+	
+		</dynamic>
+
+      group by year,month
+		order by year,month
+				 
+	 
+	 </select>
+    
+	 <select id="getPeikuanOutcomeList" resultClass="PeikuanOutcome"
+		parameterClass="PeikuanOutcome">
+	<![CDATA[
+	    select
+outcomeid      as outcomeid   ,
+bsndate 	     as bsndate 	  ,
+managerid      as managerid   ,
+managername   as managername,
+year 		       as year 		    ,
+month 		     as month 		  ,
+IFNULL(yingpeiprice,0)	  as yingpeiprice,
+dest as dest,
+memo as memo	, 	 
+mailid as mailid,
+reason as reason,
+dealstate as dealstate,
+IFNULL(realpeiprice,0) as realpeiprice
+ 
+	    from peikuanoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+				<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="dealstate" prepend="AND">
+		    	<![CDATA[
+		       dealstate=#dealstate#
+		    ]]>
+			</isNotEmpty>
+	
+	
+	       <isNotEmpty property="mailid" prepend="AND">
+		    	<![CDATA[
+		       mailid=#mailid#
+		    ]]>
+			</isNotEmpty>
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+      
+		order by outcomeid desc
+		limit #start#,#size#
+	 
+	 </select>
+    
+      <insert id="insertPeikuanOutcome" parameterClass="PeikuanOutcome">
+       
+         <![CDATA[ 
+	       insert into peikuanoutcome(	 
+ 
+bsndate 	,
+managerid ,
+managername,
+year 		  ,
+month 		,
+yingpeiprice,
+dest,
+memo,
+mailid,
+reason,
+dealstate,
+realpeiprice
+ 
+
+
+	       )values(
+ 
+#bsndate#        ,
+#managerid#      ,
+#managername#    , 
+#year#           ,
+#month#          ,
+#yingpeiprice#,
+#dest#,
+#memo#,
+#mailid#,
+#reason#,
+#dealstate#,
+#realpeiprice#
+  
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+		 <select id="getZhipaoOutcomeSmyByMonthList" resultClass="ZhipaoOutcome"
+		parameterClass="ZhipaoOutcome">
+	<![CDATA[
+	    select
+ 
+managerid      as managerid   ,
+managername   as managername,
+year 		       as year 		    ,
+month 		     as month 		  ,
+sum(IFNULL(price,0)	) 	     as prce,
+sum(IFNULL(weight      ,0))  as    weight      ,
+sum(IFNULL(jipaoweight ,0))  as    jipaoweight ,
+sum(IFNULL(totalweight ,0))  as    totalweight ,
+sum(IFNULL(shouldincome,0))  as    shouldincome,
+sum(IFNULL(tuikuan     ,0))  as    tuikuan     ,
+sum(IFNULL(realincome  ,0))  as    realincome 
+	    from zhipaooutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 
+		</dynamic>
+
+        group by managerid,managername,year,month
+		order by year,month
+		 
+	 
+	 </select>
+	
+    
+	 <select id="getZhipaoOutcomeList" resultClass="ZhipaoOutcome"
+		parameterClass="ZhipaoOutcome">
+	<![CDATA[
+	    select
+outcomeid      as outcomeid   ,
+bsndate 	     as bsndate 	  ,
+managerid      as managerid   ,
+managername   as managername,
+year 		       as year 		    ,
+month 		     as month 		  ,
+IFNULL(price,0)	 	     as prce,
+pricetype as pricetype,
+memo as memo	, 	 
+IFNULL(weight      ,0)  as    weight      ,
+IFNULL(jipaoweight ,0)  as    jipaoweight ,
+IFNULL(totalweight ,0)  as    totalweight ,
+IFNULL(shouldincome,0)  as    shouldincome,
+IFNULL(tuikuan     ,0)  as    tuikuan     ,
+IFNULL(realincome  ,0)  as    realincome 
+	    from zhipaooutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+	
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+      
+		order by outcomeid desc
+		limit #start#,#size#
+	 
+	 </select>
+	 
+	 <delete id="deleteZhipaoOutcome"  parameterClass="ZhipaoOutcome">
+	   <![CDATA[
+	    delete from zhipaooutcome
+	    
+		]]>
+		
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+	
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+		 
+	</delete>
+	
+	      <insert id="insertZhipaoOutcome" parameterClass="ZhipaoOutcome">
+       
+         <![CDATA[ 
+	       insert into zhipaooutcome(	 
+ 
+bsndate 	,
+managerid ,
+managername,
+year 		  ,
+month 		,
+price,
+pricetype,
+memo,
+weight         ,
+jipaoweight    ,
+totalweight    ,
+shouldincome   ,
+tuikuan        ,
+realincome 
+ 
+
+
+	       )values(
+ 
+#bsndate#        ,
+#managerid#      ,
+#managername#    , 
+#year#           ,
+#month#          ,
+#price#,
+#pricetype#,
+#memo#,
+#weight#         ,
+#jipaoweight#    ,
+#totalweight#    ,
+#shouldincome#   ,
+#tuikuan#        ,
+#realincome# 
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+      <delete id="deleteZhichuOutcome"  parameterClass="ZhichuOutcome">
+	   <![CDATA[
+	    delete from zhichuoutcome
+	    
+		]]>
+		
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+	
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+		 
+	</delete>
+	
+	
+     <select id="getZhichuOutcomeSmyByMonthList" resultClass="ZhichuOutcome"
+		parameterClass="ZhichuOutcome">
+	<![CDATA[
+	    select
+ 
+managerid      as managerid   ,
+managername   as managername,
+year 		       as year 		    ,
+month 		     as month 		  ,
+sum(IFNULL(price,0))	 	     as price
+  	 
+ 
+	    from zhichuoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 
+	
+		</dynamic>
+
+        group by managerid,managername,year,month
+		order by year,month  
+		 
+	 </select>
+	 
+       <select id="getZhichuOutcomeList" resultClass="ZhichuOutcome"
+		parameterClass="ZhichuOutcome">
+	<![CDATA[
+	    select
+outcomeid      as outcomeid   ,
+bsndate 	     as bsndate 	  ,
+managerid      as managerid   ,
+managername   as managername,
+year 		       as year 		    ,
+month 		     as month 		  ,
+IFNULL(price,0)	 	     as price,
+pricetype as pricetype,
+memo as memo	 	 
+ 
+	    from zhichuoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			 <isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+	
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+      
+		order by outcomeid desc
+		limit #start#,#size#
+	 
+	 </select>
+	 
+    
+    
+        <insert id="insertZhichuOutcome" parameterClass="ZhichuOutcome">
+       
+         <![CDATA[ 
+	       insert into zhichuoutcome(	 
+ 
+bsndate 	,
+managerid ,
+managername,
+year 		  ,
+month 		,
+price,
+pricetype,
+memo
+ 
+
+
+	       )values(
+ 
+#bsndate#        ,
+#managerid#      ,
+#managername#    , 
+#year#           ,
+#month#          ,
+#price#,
+#pricetype#,
+#memo#
+	       )
+	    
+	    	]]>
+
+	</insert>
+      	 
+    <update id="updateFankuanOutcome" parameterClass="FankuanOutcome">
+	    <![CDATA[
+			update fankuanoutcome
+            set   
+	      fankuan  = #fankuan# 
+  
+		]]>
+    <dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+	</update>
+	
+	
+      <delete id="deleteFankuanOutcome"  parameterClass="FankuanOutcome">
+	   <![CDATA[
+	    delete from fankuanoutcome
+	   where  year	=#year# and month=#month#
+		]]>
+		 
+	</delete>
+	
+	
+	
+          <select id="getFankuanOutcomeSmyByMonthList" resultClass="FankuanOutcome"
+		parameterClass="FankuanOutcome">
+	<![CDATA[
+	    select
+ 
+year 		       as year 		    ,
+month 		     as month 		  ,
+
+
+sum(IFNULL(fankuan,0))	     as fankuan	 	 
+ 
+	    from  fankuanoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			 
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+          
+		 
+	
+		</dynamic>
+
+        group by year,month 
+		order by year,month 
+		
+	 
+	 </select>
+	 
+    
+    
+       <select id="getFankuanOutcomeList" resultClass="FankuanOutcome"
+		parameterClass="FankuanOutcome">
+	<![CDATA[
+	    select
+outcomeid      as outcomeid   ,
+bsndate 	     as bsndate 	  ,
+managerid      as managerid   ,
+managername   as managername,
+year 		       as year 		    ,
+month 		     as month 		  ,
+IFNULL(fankuan,0)	 	     as fankuan	 	 
+ 
+	    from  fankuanoutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+      
+		order by outcomeid desc
+	 
+	 </select>
+	 
+    
+    
+        <insert id="insertFankuanOutcome" parameterClass="FankuanOutcome">
+       
+         <![CDATA[ 
+	       insert into fankuanoutcome(	 
+ 
+bsndate 	,
+managerid ,
+managername,
+year 		  ,
+month 		,
+fankuan	  
+ 
+
+
+	       )values(
+ 
+#bsndate#        ,
+#managerid#      ,
+#managername#    ,
+ 
+#year#           ,
+#month#          ,
+#fankuan#       
+ 
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+	
+    	 
+    <update id="updateGongziOutcome" parameterClass="GongziOutcome">
+	    <![CDATA[
+			update gongzioutcome
+            set   
+	   	  
+ 
+  jiaban  = #jiaban#,
+  shibu   = #shibu#,
+  quanqin   = #quanqin#,
+  fakuan   = #fakuan#,
+  qingjia   = #qingjia#,
+  shebao  = #shebao#,
+  zhiqu = #zhiqu#,
+  salary   = #salary# 
+ 
+ 
+  	    
+	         
+		]]>
+    <dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+	</update>
+	
+	
+      <delete id="deleteGongziOutcome"  parameterClass="GongziOutcome">
+	   <![CDATA[
+	    delete from gongzioutcome
+	   where  year	=#year# and month=#month#
+		]]>
+		 
+	</delete>
+	
+	
+      <select id="getGongziOutcomeSmyByMonthList" resultClass="GongziOutcome"
+		parameterClass="GongziOutcome">
+	<![CDATA[
+	    select
+	    
+year 		       as year 		    ,
+month 		     as month 		  ,
+ 
+sum(IFNULL(salary,0))		     as salary
+ from  gongzioutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+		 
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+       
+	
+		</dynamic>
+
+        group by year,month
+		order by year,month
+	 </select>
+	 
+    
+       <select id="getGongziOutcomeList" resultClass="GongziOutcome"
+		parameterClass="GongziOutcome">
+	<![CDATA[
+	    select
+outcomeid      as outcomeid   ,
+bsndate 	     as bsndate 	  ,
+managerid      as managerid   ,
+basicsalary     as basicsalary  ,
+outtime 	     as outtime 	  ,   
+cometime  as cometime,
+year 		       as year 		    ,
+month 		     as month 		  ,
+IFNULL(jiaban,0)	 	     as jiaban	 	  ,
+IFNULL(shibu ,0)		     as shibu 		  ,
+IFNULL(quanqin,0)		     as quanqin		  ,
+IFNULL(fakuan ,0)		     as fakuan 		  ,
+IFNULL(qingjia,0) 	     	 as qingjia 	  ,
+IFNULL(shebao,0) 		     as shebao 		  ,
+IFNULL(zhiqu ,0)		     as zhiqu 		  ,
+IFNULL(salary,0)		     as salary
+	    from  gongzioutcome  
+	   
+	      
+	 	]]>
+		<dynamic prepend="where">
+		 
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+          
+			 <isNotEmpty property="outcomeid" prepend="AND">
+		    	<![CDATA[
+		       outcomeid=#outcomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+      
+		order by outcomeid desc
+	 
+	 </select>
+	 
+    
+    
+        <insert id="insertGongziOutcome" parameterClass="GongziOutcome">
+       
+         <![CDATA[ 
+	       insert into  gongzioutcome(	 
+ 
+bsndate 	,
+managerid ,
+basicsalary,
+outtime 	,
+cometime,
+year 		  ,
+month 		,
+jiaban	 	,
+shibu 		,
+quanqin		,
+fakuan 		,
+qingjia 	,
+shebao 		,
+zhiqu 		,
+salary		 
+
+
+	       )values(
+ 
+#bsndate#        ,
+#managerid#      ,
+#basicsalary#    ,
+#outtime#        ,
+#cometime#,
+#year#           ,
+#month#          ,
+#jiaban#         ,
+#shibu#          ,
+#quanqin#        ,
+#fakuan#         ,
+#qingjia#        ,
+#shebao#         ,
+#zhiqu#          ,
+#salary#   
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+	
+	
+	
+      <delete id="deleteIncome"  parameterClass="Income">
+	   <![CDATA[
+	    delete from income
+	   where  incomeid	=#incomeid#
+		]]>
+		 
+	</delete>
+	
+	
+	 <update id="updateIncome" parameterClass="Income">
+	    <![CDATA[
+			update income
+            set   
+	       year = #year#,
+	       month=#month#,
+	       managerid=#managerid#,
+	       bsndate=#bsndate#,
+	       fukuanman=#fukuanman#,
+	       fukuantype=#fukuantype#,
+	       pricetype=#pricetype#,
+	       memo=#memo#,
+	       num=#num#,
+	       price=#price#,
+	       createtime=#createtime#,
+  		   imgid=#imgid#
+		]]>
+    <dynamic prepend="where">
+		  <isNotEmpty property="incomeid" prepend="AND">
+		    	<![CDATA[
+		       incomeid=#incomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+	</update>
+	
+	
+	  <select id="getIncomeYearSmyList" resultClass="Income"
+		parameterClass="Income">
+	<![CDATA[
+	    select
+
+ year as year,
+month as month,
+i.managername as manager,
+IFNULL(SUM(CASE pricetype WHEN  '面单费' THEN price END ),0)as mprice,
+IFNULL(SUM(CASE pricetype WHEN  '中转费' THEN price END ),0) as zprice,
+IFNULL(SUM(CASE pricetype WHEN  '其他费用' THEN price END ),0) as qprice,
+IFNULL(SUM(price),0) as price 
+ 
+	    from income m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			 
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+		 
+			
+
+		</dynamic>
+		group by year,month,i.managername
+		order by year,month,i.managername
+		
+		limit #start#,#size#
+
+	</select>
+	
+	
+	  <select id="getIncomeSmyByMonthList" resultClass="Income"
+		parameterClass="Income">
+	<![CDATA[
+	    select
+
+ year as year,
+month as month,
+sum(IFNULL(num,0)) as num,
+IFNULL(SUM(CASE pricetype WHEN  '面单费' THEN price END ),0)as mprice,
+IFNULL(SUM(CASE pricetype WHEN  '中转费' THEN price END ),0) as zprice,
+IFNULL(SUM(CASE pricetype WHEN  '其他费用' THEN price END ),0) as qprice,
+IFNULL(SUM(price),0) as price 
+ 
+	    from income m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			 
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+		 
+			
+
+		</dynamic>
+		group by year,month
+		order by year,month
+		
+		limit #start#,#size#
+
+	</select>
+	
+    
+        <select id="getIncomeSmyByDayList" resultClass="Income"
+		parameterClass="Income">
+	<![CDATA[
+	    select
+
+bsndate as bsndate,
+sum(IFNULL(num,0)) as num,
+IFNULL(SUM(CASE pricetype WHEN  '面单费' THEN price END ),0)as mprice,
+IFNULL(SUM(CASE pricetype WHEN  '中转费' THEN price END ),0) as zprice,
+IFNULL(SUM(CASE pricetype WHEN  '其他费用' THEN price END ),0) as qprice,
+IFNULL(SUM(price),0) as price,
+ year as year,
+month as month
+
+	    from income m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+		 
+			
+
+		</dynamic>
+		group by bsndate
+		order by bsndate
+		
+		limit #start#,#size#
+
+	</select>
+    	
+    <select id="getIncomeSmyList" resultClass="Income"
+		parameterClass="Income">
+	<![CDATA[
+	    select
+
+i.managername as managername,
+m.managerid  as managerid ,
+sum(IFNULL(num,0)) as num,
+IFNULL(SUM(CASE pricetype WHEN  '面单费' THEN price END ),0)as mprice,
+IFNULL(SUM(CASE pricetype WHEN  '中转费' THEN price END ),0) as zprice,
+IFNULL(SUM(CASE pricetype WHEN  '其他费用' THEN price END ),0) as qprice,
+IFNULL(SUM(price),0) as price,
+year as year,
+month as month
+
+	    from income m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+				<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		        m.managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+		
+		</dynamic>
+		group by m.managerid
+		order by m.managerid  
+		
+		limit #start#,#size#
+
+	</select>
+	
+    
+     <select id="getIncomeList" resultClass="Income"
+		parameterClass="Income">
+	<![CDATA[
+	    select
+	  incomeid as incomeid,
+	   bsndate          as bsndate       ,
+fukuantype             as fukuantype          ,
+m.managerid          as managerid       ,
+u.managername as managername,
+fukuanman as fukuanman,
+price            as price         ,
+createtime       as createtime    ,
+memo            as  memo         ,
+pricetype        as pricetype     ,
+year             as year          ,
+month            as month     ,
+imgid as imgid ,
+IFNULL(num,0) as num
+	    from  income m
+	    left join managerinfo u on u.managerid=m.managerid
+	      
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       m.managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       u.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="fukuantype" prepend="AND">
+		    	<![CDATA[
+		       fukuantype=#fukuantype#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+			
+			  <isNotEmpty property="incomeid" prepend="AND">
+		    	<![CDATA[
+		       incomeid=#incomeid#
+		    ]]>
+			</isNotEmpty>
+	
+		</dynamic>
+
+      
+		order by incomeid desc
+		
+		limit #start#,#size# 
+	 </select>
+	 
+    
+    <select id="getIncomeListCount" resultClass="Integer"
+		parameterClass="Income">
+	<![CDATA[
+	    select
+	    count(*) 
+	    from income m
+	      
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		       managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="fukuantype" prepend="AND">
+		    	<![CDATA[
+		       fukuantype=#fukuantype#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	 </select>
+    
+     <insert id="insertIncome" parameterClass="Income">
+       
+         <![CDATA[ 
+	       insert into  income(	 
+ 
+bsndate        ,
+fukuantype           ,
+managerid        ,
+fukuanman,
+price          ,
+createtime     ,
+memo          ,
+pricetype      ,
+year           ,
+month  ,
+imgid  ,
+num      
+
+	       )values(
+#bsndate#,
+#fukuantype#,
+#managerid#,
+#fukuanman#,
+#price#,
+#createtime#,
+#memo#,
+#pricetype#,
+#year#,
+#month#,
+#imgid#,
+#num#
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+	
+	
+       <select id="getCompanyIncomeMonthSmyByManagerList" resultClass="CompanyIncome"
+		parameterClass="PageParameter">
+			<![CDATA[
+select		
+year as year,
+month as month,
+manager as manager,
+sum(num) as num,
+sum(price) as price,
+IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0) as transformprice,
+IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0) as mailprice,
+(sum(price)-IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0)-IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0)) as profit
+ 
+from companyincome
+]]>
+    	<dynamic prepend="where">
+			  	<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+		
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		 
+		</dynamic>
+
+        group by year,month,manager
+		order by year,month,manager
+		
+		limit #start#,#size# 
+    </select>
+    
+        <select id="getCompanyIncomeMonthDetailList" resultClass="CompanyIncome"
+		parameterClass="PageParameter">
+			<![CDATA[
+select		
+bsndate as bsndate,
+manager as manager,
+sum(num) as num,
+sum(price) as price,
+IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0) as transformprice,
+IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0) as mailprice,
+(sum(price)-IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0)-IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0)) as profit,
+year,
+month 
+from companyincome
+]]>
+    	<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		 
+		</dynamic>
+
+        group by bsndate,manager
+		order by bsndate,manager
+		
+		limit #start#,#size# 
+    </select>
+    
+        <select id="getCompanyIncomeSmyByMonthList" resultClass="CompanyIncome"
+		parameterClass="PageParameter">
+			<![CDATA[
+select		
+year as year ,
+month as month,
+sum(num) as num,
+sum(price) as price,
+IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0) as transformprice,
+IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0) as mailprice,
+(sum(price)-IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0)-IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0)) as profit,
+year as year,
+month as month	
+
+from companyincome
+]]>
+    	<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		 
+		</dynamic>
+
+        group by year,month
+		order by year,month  
+		
+		limit #start#,#size# 
+    </select>
+    
+    
+        <select id="getCompanyIncomeSmyByDayList" resultClass="CompanyIncome"
+		parameterClass="PageParameter">
+			<![CDATA[
+select		
+bsndate as bsndate,
+sum(num) as num,
+sum(price) as price,
+IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0) as transformprice,
+IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0) as mailprice,
+(sum(price)-IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0)-IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0)) as profit,
+year as year,
+month as month	
+
+from companyincome
+
+]]>
+    	<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		 
+		</dynamic>
+
+        group by bsndate
+		order by bsndate  
+		
+		limit #start#,#size# 
+    </select>
+    
+    
+      <select id="getCompanyIncomeSmyList" resultClass="CompanyIncome"
+		parameterClass="PageParameter">
+			<![CDATA[
+select		
+manager as manager,
+sum(num) as num,
+sum(price) as price,
+IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0) as transformprice,
+IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0) as mailprice,
+(sum(price)-IFNULL(sum(CASE pricetype WHEN  '中转费' THEN transformprice END),0)-IFNULL(sum(CASE pricetype WHEN  '面单费' THEN mailprice END),0)) as profit,
+year as year,
+month as month,	
+bsndate as bsndate
+from companyincome
+]]>
+    	<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		 
+		</dynamic>
+
+        group by manager
+		order by manager desc
+		
+		limit #start#,#size# 
+    </select>
+    
+    
+      <delete id="deleteCompanyIncome"  parameterClass="CompanyIncome">
+	   <![CDATA[
+	    delete from companyincome
+	   where  dmid	=#dmid#
+		]]>
+		 
+	</delete>
+	
+	
+	
+      <select id="getCompanyIncomeList" resultClass="CompanyIncome"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+	  dmid as dmid,
+	   bsndate          as bsndate       ,
+type             as type          ,
+manager          as manager       ,
+num              as num           ,
+price            as price         ,
+createtime       as createtime    ,
+transformprice   as transformprice,
+mailprice        as mailprice     ,
+memo            as  memo         ,
+pricetype        as pricetype     ,
+year             as year          ,
+month            as month      
+	    from companyincome m
+	      
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+			 <isNotEmpty property="id" prepend="AND">
+		    	<![CDATA[
+		       dmid=#id#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+      
+		order by dmid desc
+		
+		limit #start#,#size# 
+	 </select>
+	 
+    
+    <select id="getCompanyIncomeListCount" resultClass="Integer"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+	    count(*) 
+	    from companyincome m
+	      
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       manager=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+           <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			  <isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	 </select>
+    
+    
+     <insert id="insertCompanyIncome" parameterClass="CompanyIncome">
+       
+         <![CDATA[ 
+	       insert into companyincome(	 
+ 
+bsndate        ,
+type           ,
+manager        ,
+num            ,
+price          ,
+createtime     ,
+transformprice ,
+mailprice      ,
+ memo          ,
+pricetype      ,
+year           ,
+month          
+
+	       )values(
+#bsndate#,
+#type#,
+#manager#,
+#num#,
+#price#,
+#createtime#,
+#transformprice#,
+#mailprice#,
+#memo#,
+#pricetype#,
+#year#,
+#month#
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+	
+    <delete id="deleteMailFenpei"  parameterClass="MailFenpei">
+	   <![CDATA[
+	    delete from mailfenpei
+	   where  mailinfoid=#mailinfoid#
+		]]>
+		 
+	</delete>
+	
+	
+	
+	 <update id="updateMailFenpei" parameterClass="MailFenpei">
+	    <![CDATA[
+			update mailfenpei
+            set   
+	   	  
+  num = #num#,
+  price= #price#,
+  perprice=#perprice#,
+  memo=#memo#,
+  type=#type#,
+  managerid=#managerid#,
+  year = #year#,
+  month = #month#,
+  bsndate=#bsndate#
+    where     mailinfoid=#mailinfoid# 
+		]]>
+
+	</update>
+    
+	
+	
+	
+     <select id="getMailFenpeiSmy" resultClass="MailFenpei"
+		parameterClass="MailFenpei">
+	<![CDATA[
+	    select
+ 
+bsndate    as bsndate   ,
+sum(num)       as num       ,
+sum(price)    as price    
+ 
+	    from mailfenpei  
+	     
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+	 
+		</dynamic>
+ 
+	</select>
+	
+		
+    <select id="getMailFenpeiSmyByMonthList" resultClass="MailFenpei"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+year as year,
+month as month,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN num END ),0)as cnum,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN price END ),0) as cprice,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN num END ),0) as pnum,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN price END ),0) as pprice,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN num END ),0) as dnum,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN price END ),0) as dprice,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN num END ),0) as rnum,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN price END ),0) as rprice,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN num END ),0) as fnum,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN price END ),0) as fprice,
+IFNULL(SUM(num),0) as num,
+IFNULL(SUM(price),0) as price
+
+
+	    from mailfenpei m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			
+
+		</dynamic>
+		group by year,month
+		order by year,month
+		
+		limit #start#,#size#
+
+	</select>
+	
+			
+    <select id="getMailFenpeiSmyByMonthManagerList" resultClass="MailFenpei"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+year as year,
+month as month,
+i.managername as managername,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN num END ),0)as cnum,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN price END ),0) as cprice,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN num END ),0) as pnum,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN price END ),0) as pprice,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN num END ),0) as dnum,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN price END ),0) as dprice,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN num END ),0) as rnum,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN price END ),0) as rprice,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN num END ),0) as fnum,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN price END ),0) as fprice,
+IFNULL(SUM(num),0) as num,
+IFNULL(SUM(price),0) as price
+
+
+	    from mailfenpei m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			
+
+		</dynamic>
+		group by year,month,i.managername
+		order by year,month,i.managername
+		
+		limit #start#,#size#
+
+	</select>
+	
+		
+    <select id="getMailFenpeiSmyByDayList" resultClass="MailFenpei"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+
+bsndate as bsndate,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN num END ),0)as cnum,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN price END ),0) as cprice,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN num END ),0) as pnum,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN price END ),0) as pprice,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN num END ),0) as dnum,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN price END ),0) as dprice,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN num END ),0) as rnum,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN price END ),0) as rprice,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN num END ),0) as fnum,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN price END ),0) as fprice,
+IFNULL(SUM(num),0) as num,
+IFNULL(SUM(price),0) as price,
+ year as year,
+month as month
+
+	    from mailfenpei m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			
+
+		</dynamic>
+		group by bsndate
+		order by bsndate
+		
+		limit #start#,#size#
+
+	</select>
+	
+    <select id="getMailFenpeiSmyList" resultClass="MailFenpei"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+
+i.managername as managername,
+m.managerid  as managerid ,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN num END ),0)as cnum,
+IFNULL(SUM(CASE type WHEN  '菜鸟面单' THEN price END ),0) as cprice,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN num END ),0) as pnum,
+IFNULL(SUM(CASE type WHEN  '普通面单' THEN price END ),0) as pprice,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN num END ),0) as dnum,
+IFNULL(SUM(CASE type WHEN  '电子面单' THEN price END ),0) as dprice,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN num END ),0) as rnum,
+IFNULL(SUM(CASE type WHEN  '热敏纸' THEN price END ),0) as rprice,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN num END ),0) as fnum,
+IFNULL(SUM(CASE type WHEN  '防水袋' THEN price END ),0) as fprice,
+IFNULL(SUM(num),0) as num,
+IFNULL(SUM(price),0) as price,
+ year as year,
+month as month
+
+	    from mailfenpei m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        i.managername=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="managerid" prepend="AND">
+		    	<![CDATA[
+		        m.managerid=#managerid#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			
+
+		</dynamic>
+		group by m.managerid
+		order by m.managerid  
+		
+		limit #start#,#size#
+
+	</select>
+	
+	
+    <select id="getMailFenpeiList" resultClass="MailFenpei"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+mailinfoid as mailinfoid,
+bsndate    as bsndate   ,
+m.managerid  as managerid ,
+type       as type      ,
+num        as num       ,
+perprice   as perprice  ,
+price      as price     ,
+memo       as memo      ,
+createtime as createtime,
+year       as year      ,
+month      as month   ,
+i.managername as managername
+	    from mailfenpei m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			
+				
+			<isEmpty  property="endtime"  prepend="AND"> 
+		 <isNotEmpty  property="starttime"> 
+		   <![CDATA[ 
+		      bsndate = date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+		  </isNotEmpty>
+		  </isEmpty>
+		  
+		 <isNotEmpty  property="endtime"  prepend="AND"> 
+	 
+		   <![CDATA[ 
+		      bsndate <= date_format(#endtime#,'%Y-%m-%d %H:%i:%s') 
+		       and bsndate >= date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+	 
+		   </isNotEmpty>
+		  
+				<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        m.managerid=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			
+	        <isNotEmpty property="id" prepend="AND">
+		    	<![CDATA[
+		       mailinfoid=#id#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+		order by mailinfoid desc
+		
+		limit #start#,#size#
+
+	</select>
+	
+	<select id="getMailFenpeiListCount" resultClass="Integer"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+	    count(*) 
+	    from mailfenpei m
+	    left join managerinfo i on i.managerid=m.managerid
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        m.managerid=#manager#
+		    ]]>
+			</isNotEmpty>
+			
+		 	
+			<isNotEmpty property="year" prepend="AND">
+		    	<![CDATA[
+		        year=#year#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="month" prepend="AND">
+		    	<![CDATA[
+		       month=#month#
+		    ]]>
+			</isNotEmpty>
+         <isNotEmpty property="type" prepend="AND">
+		    	<![CDATA[
+		       type=#type#
+		    ]]>
+			</isNotEmpty>
+			
+			  <isNotEmpty property="id" prepend="AND">
+		    	<![CDATA[
+		       mailinfoid=#id#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	 </select>
+    
+     <insert id="insertMailFenpei" parameterClass="MailFenpei">
+       
+         <![CDATA[ 
+	       insert into mailfenpei(	 
+   
+bsndate   ,
+managerid ,
+type      ,
+num       ,
+perprice  ,
+price     ,
+memo      ,
+createtime,
+year      ,
+month     
+	       )values(
+#bsndate#,
+#managerid#,
+#type#,
+#num#,
+#perprice#,
+#price#,
+#memo#,
+#createtime#,
+#year#,
+#month# 
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+    
+    <update id="updateYearSmy" parameterClass="YearSmy">
+	    <![CDATA[
+			update yearsmy
+            set   
+	   	  
+  wnum      = #wnum#,
+  znum      = #znum#,
+  wprice    = #wprice#,
+  zprice    = #zprice#,
+  ynum      = #ynum#,
+  yprice    = #yprice#,
+  yfkprice  = #yfkprice#,
+  zpprice   = #zpprice#,
+  gsprice   = #gsprice#,
+  gzprice   = #gzprice#,
+  qtprice   = #qtprice#,
+  fkprice  =#fkprice#,
+  pkprice =#pkprice#,
+  tinprice  = #tinprice#,
+  toutprice = #toutprice#,
+  tpprice   = #tpprice#,
+  skprice	= #skprice#,
+  year      = #year#,
+  month     = #month#
+  	    
+	        where     reportdate=#reportdate# 
+		]]>
+
+	</update>
+    
+    <insert id="insertYearSmy" parameterClass="YearSmy">
+       
+         <![CDATA[ 
+	       insert into yearsmy(	 
+  reportdate,
+  wnum      ,
+  znum      ,
+  wprice    ,
+  zprice    ,
+  ynum      ,
+  yprice    ,
+  yfkprice  ,
+  zpprice   ,
+  gsprice   ,
+  gzprice   ,
+  qtprice   ,
+  fkprice,
+  pkprice,
+  tinprice  ,
+  toutprice ,
+  tpprice   ,
+  skprice	,
+  year      ,
+  month     
+	       )values(
+     
+#reportdate#,
+#wnum#,
+#znum#,
+#wprice#,
+#zprice#,
+#ynum#,
+#yprice#,
+#yfkprice#,
+#zpprice#,
+#gsprice#,
+#gzprice#,
+#qtprice#,
+ #fkprice#,
+  #pkprice#,
+#tinprice#,
+#toutprice#,
+#tpprice#,
+#skprice#,
+#year#,
+#month#
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+    
+    
+     <select id="getMaxDaySmy" resultClass="Date">
+	<![CDATA[
+	    select 
+	     max( reportdate)  as reportdate  
+	    from yearsmy
+	    
+		]]>
+	 </select>
+	
+    	<insert id="insertDailyBalance" parameterClass="DailyBalance">
+       
+         <![CDATA[ 
+	       insert into dailybalance(	 
+	 bsndate       ,
+      manager       ,
+      num ,
+      jijianprice     ,
+      weightprice   ,
+      buzuprice     ,
+      transformprice,
+      fakuanprice ,
+      paisongprice    ,
+      zhuanjianprice   , 
+       diujianprice, 
+      wholeprice ,
+      year,
+      month,
+      status,
+      createtime,
+      chujianfei
+     	
+	       )values(
+     
+      #bsndate#,
+	 #manager#,
+	 #num#,
+	#jijianprice#,
+ 	#weightprice#,
+	#buzuprice#,
+	#transformprice#,
+ 	#fakuanprice#,
+	#paisongprice#,
+	#zhuanjianprice#,
+	#diujianprice#,
+	#wholeprice#,
+	 #year#,
+      #month#,
+      #status#,
+      #createtime#,
+      #chujianfei# 
+      
+	 
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+	
+	<select id="queryDailyBalanceCount" resultClass="int"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+		 count(*)
+	    from dailybalance
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        manager=#manager#
+		    ]]>
+			</isNotEmpty>
+
+		</dynamic>
+
+		 
+
+	</select>
+	<select id="queryDailyBalance" resultClass="DailyBalance"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+	    year as year,
+	    month as month,
+		bsndate     as bsndate       ,
+		manager as manager,
+num            as num           ,
+jijianprice      as jijianprice     ,
+weightprice    as weightprice   ,
+buzuprice      as buzuprice     ,
+transformprice as transformprice,
+fakuanprice     as fakuanprice    ,
+paisongprice  as paisongprice ,
+zhuanjianprice     as zhuanjianprice    ,
+diujianprice    as diujianprice   ,
+wholeprice     as wholeprice    ,
+createtime     as createtime    ,
+status         as status    
+    
+	    from dailybalance
+	    
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		        manager=#manager#
+		    ]]>
+			</isNotEmpty>
+
+		</dynamic>
+
+		order by bsndate desc,manager asc
+		
+		limit #start#,#size#
+
+	</select>
+	
+	<update id="updateDailyBalance" parameterClass="DailyBalance">
+	    <![CDATA[
+			update dailybalance
+            set   
+	   		num=#num#,	   		
+jijianprice=#jijianprice#             ,
+weightprice=#weightprice#         ,
+buzuprice=#buzuprice#,
+transformprice=#transformprice#,
+fakuanprice=#fakuanprice#           ,
+paisongprice=#paisongprice#     ,
+zhuanjianprice=#zhuanjianprice#           ,
+diujianprice=#diujianprice#         ,
+wholeprice=#wholeprice# 
+  	    
+	        where     bsndate=#bsndate# and manager=#manager#	  
+		]]>
+
+	</update>
+	 <select id="getYearSmy" resultClass="YearSmy" parameterClass="YearSmy">
+	<![CDATA[
+	    select 
+	      reportdate       as reportdate   ,
+wnum             as wnum         ,
+znum             as znum         ,
+ROUND(wprice,3)          as wprice       ,
+ROUND(zprice,3)           as zprice       ,
+ynum             as ynum         ,
+ROUND(yprice,3)            as yprice       ,
+ROUND(yfkprice,3)          as yfkprice     ,
+ROUND(zpprice ,3)          as zpprice      ,
+ROUND(gsprice ,3)          as gsprice      ,
+ROUND(gzprice ,3)          as gzprice      ,
+ROUND(qtprice ,3)          as qtprice      ,
+ROUND(fkprice ,3)          as fkprice      ,
+ROUND(pkprice ,3)          as pkprice      ,
+ROUND(tinprice ,3)         as tinprice     ,
+ROUND(toutprice ,3)        as toutprice    ,
+ROUND(tpprice ,3)          as tpprice    ,
+ROUND(skprice ,3)        as skprice  ,
+year as year,
+month as month  
+	 		  
+	    from yearsmy
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		  <isNotEmpty  property="reportdate" prepend="AND"> 
+		    
+		       reportdate=#reportdate#
+		  
+		  </isNotEmpty>
+		 
+		</dynamic>
+	 
+	</select>
+	
+	
+		 <select id="getTYearSmy" resultClass="YearSmy" parameterClass="YearSmy">
+	<![CDATA[
+	    select 
+	      year       as year   ,
+sum(wnum)            as wnum         ,
+sum(znum)             as znum         ,
+ROUND(sum(wprice)  ,3)           as wprice       ,
+ROUND(sum(zprice) ,3)            as zprice       ,
+sum(ynum)             as ynum         ,
+ROUND(sum(yprice)   ,3)          as yprice       ,
+ROUND(sum(yfkprice ) ,3)         as yfkprice     ,
+ROUND(sum(zpprice ) ,3)          as zpprice      ,
+ROUND(sum(gsprice ) ,3)          as gsprice      ,
+ROUND(sum(gzprice)  ,3)          as gzprice      ,
+ROUND(sum(qtprice )  ,3)         as qtprice      ,
+ROUND(sum(fkprice) ,3)          as fkprice      ,
+ROUND(sum(pkprice) ,3)          as pkprice      ,
+ROUND(sum(tinprice) ,3)          as tinprice     ,
+ROUND(sum(toutprice) ,3)         as toutprice    ,
+ROUND(sum(tpprice) ,3)        as tpprice     , 
+ROUND(sum(skprice) ,3)        as skprice  	 		  
+	    from yearsmy
+	    
+		]]>
+		<dynamic prepend="where">
+		 
+		  
+		   <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		 
+		 
+		</dynamic>
+	 
+	 group by year
+	</select>
+	
+	 <select id="getTMonthSmy" resultClass="YearSmy" parameterClass="YearSmy">
+	<![CDATA[
+	    select 
+	      year       as year   ,
+	      month      as month,
+sum(wnum)            as wnum         ,
+sum(znum)             as znum         ,
+ROUND(sum(wprice)  ,3)           as wprice       ,
+ROUND(sum(zprice) ,3)            as zprice       ,
+sum(ynum)             as ynum         ,
+ROUND(sum(yprice)   ,3)          as yprice       ,
+ROUND(sum(yfkprice ) ,3)         as yfkprice     ,
+ROUND(sum(zpprice ) ,3)          as zpprice      ,
+ROUND(sum(gsprice ) ,3)          as gsprice      ,
+ROUND(sum(gzprice)  ,3)          as gzprice      ,
+ROUND(sum(qtprice )  ,3)         as qtprice      ,
+ROUND(sum(fkprice) ,3)          as fkprice      ,
+ROUND(sum(pkprice) ,3)          as pkprice      ,
+ROUND(sum(tinprice) ,3)          as tinprice     ,
+ROUND(sum(toutprice) ,3)         as toutprice    ,
+ROUND(sum(tpprice) ,3)        as tpprice  ,    
+ROUND(sum(skprice) ,3)        as skprice      	 		  
+	    from yearsmy
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		 
+		  
+		   <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		  
+		   <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+ 
+		</dynamic>
+	 
+	 group by year,month
+	</select>
+	
+	 
+	
+	 <select id="getDailyBalanceForStatuser" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	  select bsndate as bsndate, 
+	  manager1 as manager ,
+	  year,month,
+	  sum(num) as num ,
+ROUND(sum(jijianprice   ),3)  as jijianprice      ,   
+ROUND(sum(chujianfei    ),3)  as chujianfei       ,  
+ROUND(sum(weightprice   ),3)  as weightprice      ,  
+ROUND(sum(buzuprice     ),3)  as buzuprice        ,  
+ROUND(sum(transformprice),3)  as transformprice   ,  
+ROUND(sum(fakuanprice   ),3)  as fakuanprice      ,   
+ROUND(sum(zhuanjianprice),3)  as zhuanjianprice   ,   
+ROUND(sum(paisongprice  ),3)  as paisongprice     ,   
+ROUND(sum(diujianprice  ),3)  as diujianprice     ,  
+ROUND(sum(wholeprice    ),3)  as wholeprice       , 
+status as status
+
+from (
+SELECT
+	*, manager as manager1
+FROM
+	`dailybalance`
+ 
+
+	]]> 
+	 <dynamic prepend="where">
+		
+		  <isNotEmpty  property="bsndate" prepend="AND"> 
+		    
+		      bsndate = #bsndate#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		      year = #year#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="month" prepend="AND"> 
+		    
+		      month = #month#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		      manager = #manager#
+		  
+		  </isNotEmpty>
+  </dynamic>
+		  
+<![CDATA[	
+	
+AND manager IN (
+	SELECT
+		managername
+	FROM
+		managerinfo
+	WHERE
+		roles = 'statuser'
+	AND cardid = 'stat'
+)
+UNION
+	SELECT
+		d.*, m3.managername as manager1
+	FROM
+		`dailybalance` d
+		LEFT JOIN managerinfo m ON d.manager = m.managername and m.roles = 'statuser'
+	LEFT JOIN managerinfo m3 ON m.salesid = m3.managerid and m3.roles = 'statuser'
+		]]> 
+	 <dynamic prepend="where">
+		
+		  <isNotEmpty  property="bsndate" prepend="AND"> 
+		    
+		      bsndate = #bsndate#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		      year = #year#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="month" prepend="AND"> 
+		    
+		      month = #month#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		      m3.managername = #manager#
+		  
+		  </isNotEmpty>
+  </dynamic>
+		  
+<![CDATA[
+	AND d.manager IN (
+		SELECT
+			managername
+		FROM
+			managerinfo
+		WHERE
+			roles = 'statuser'
+		AND cardid = 'unstat'
+	)
+)a group by bsndate,manager1
+
+     
+	 order by bsndate,manager1
+ 
+	    
+		]]>
+		 
+	
+	</select>
+	 
+	  
+	 <select id="getDailyBalanceForStatuserByYear" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	  select
+	  manager1 as manager ,
+	  year,
+	  sum(num) as num ,
+ROUND(sum(jijianprice   ),3)  as jijianprice      ,   
+ROUND(sum(chujianfei    ),3)  as chujianfei       ,  
+ROUND(sum(weightprice   ),3)  as weightprice      ,  
+ROUND(sum(buzuprice     ),3)  as buzuprice        ,  
+ROUND(sum(transformprice),3)  as transformprice   ,  
+ROUND(sum(fakuanprice   ),3)  as fakuanprice      ,   
+ROUND(sum(zhuanjianprice),3)  as zhuanjianprice   ,   
+ROUND(sum(paisongprice  ),3)  as paisongprice     ,   
+ROUND(sum(diujianprice  ),3)  as diujianprice     ,  
+ROUND(sum(wholeprice    ),3)  as wholeprice       , 
+status as status
+
+from (
+SELECT
+	*, manager as manager1
+FROM
+	`dailybalance`
+WHERE
+	 year = #year# 
+AND manager IN (
+	SELECT
+		managername
+	FROM
+		managerinfo
+	WHERE
+		roles = 'statuser'
+	AND cardid = 'stat'
+)
+UNION
+	SELECT
+		d.*, m3.managername as manager1
+	FROM
+		`dailybalance` d
+		LEFT JOIN managerinfo m ON d.manager = m.managername and m.roles = 'statuser'
+	LEFT JOIN managerinfo m3 ON m.salesid = m3.managerid and m3.roles = 'statuser'
+	WHERE
+		d.year = #year# 
+	AND d.manager IN (
+		SELECT
+			managername
+		FROM
+			managerinfo
+		WHERE
+			roles = 'statuser'
+		AND cardid = 'unstat'
+	)
+)a group by manager1
+
+     
+	 order by year,manager1
+ 
+	    
+		]]>
+		 
+	
+	</select>
+	 
+	 <select id="getDailyBalanceForStatuserByMonth" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	  select
+	  manager1 as manager ,
+	  year,month,
+	  sum(num) as num ,
+ROUND(sum(jijianprice   ),3)  as jijianprice      ,   
+ROUND(sum(chujianfei    ),3)  as chujianfei       ,  
+ROUND(sum(weightprice   ),3)  as weightprice      ,  
+ROUND(sum(buzuprice     ),3)  as buzuprice        ,  
+ROUND(sum(transformprice),3)  as transformprice   ,  
+ROUND(sum(fakuanprice   ),3)  as fakuanprice      ,   
+ROUND(sum(zhuanjianprice),3)  as zhuanjianprice   ,   
+ROUND(sum(paisongprice  ),3)  as paisongprice     ,   
+ROUND(sum(diujianprice  ),3)  as diujianprice     ,  
+ROUND(sum(wholeprice    ),3)  as wholeprice       , 
+status as status
+
+from (
+SELECT
+	*, manager as manager1
+FROM
+	`dailybalance`
+ 
+		]]> 
+	 <dynamic prepend="where">
+		
+		  <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+  </dynamic>
+		  
+<![CDATA[		  
+AND manager IN (
+	SELECT
+		managername
+	FROM
+		managerinfo
+	WHERE
+		roles = 'statuser'
+	AND cardid = 'stat'
+)
+UNION
+	SELECT
+		d.*, m3.managername as manager1
+	FROM
+		`dailybalance` d
+	LEFT JOIN managerinfo m ON d.manager = m.managername and m.roles = 'statuser'
+	LEFT JOIN managerinfo m3 ON m.salesid = m3.managerid and m3.roles = 'statuser' 
+	 ]]> 
+	 <dynamic prepend="where">
+		
+		  <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       m3.managername=#manager#
+		  
+		  </isNotEmpty>
+  </dynamic>
+		  
+<![CDATA[		  
+ 
+	AND d.manager IN (
+		SELECT
+			managername
+		FROM
+			managerinfo
+		WHERE
+			roles = 'statuser'
+		AND cardid = 'unstat'
+	)
+)a group by year,month, manager1
+
+     
+	 order by year,month,manager1
+ 
+	    
+		]]>
+		 
+	
+	</select>
+	 
+	
+	 <select id="getDailyBalance" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	    select 
+        bsndate          as bsndate          ,  
+manager          as manager          ,  
+jijianprice      as jijianprice      ,   
+chujianfei       as chujianfei       ,  
+weightprice      as weightprice      ,  
+buzuprice        as buzuprice        ,  
+transformprice   as transformprice   ,  
+fakuanprice      as fakuanprice      ,   
+zhuanjianprice   as zhuanjianprice   ,   
+paisongprice     as paisongprice     ,   
+diujianprice     as diujianprice     ,  
+wholeprice       as wholeprice       ,  
+createtime       as createtime       ,  
+status           as status           ,  
+num as num,
+year as year,
+month as month 
+	 		  
+	    from dailybalance
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		  <isNotEmpty  property="bsndate" prepend="AND"> 
+		    
+		       bsndate=#bsndate#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		      <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		   
+		 
+		</dynamic>
+	 
+	 order by bsndate,manager
+	</select>
+	 
+	 
+	 <select id="getDailyBalanceSmy" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	    select 
+        bsndate          as bsndate          ,  
+ROUND(sum(jijianprice  ), 3) as jijianprice      ,   
+ROUND(sum(chujianfei   ), 3) as chujianfei       ,  
+ROUND(sum(weightprice  ), 3) as weightprice      ,  
+ROUND(sum(buzuprice    ), 3) as buzuprice        ,  
+ROUND(sum(transformprice), 3) as transformprice   ,  
+ROUND(sum(fakuanprice  ), 3) as fakuanprice      ,   
+ROUND(sum(zhuanjianprice), 3) as zhuanjianprice   ,   
+ROUND(sum(paisongprice ), 3) as paisongprice     ,   
+ROUND(sum(diujianprice ), 3) as diujianprice     ,  
+ROUND(sum(wholeprice   ), 3) as wholeprice       ,  
+ sum(num) as num       
+                  
+	 		  
+	    from dailybalance
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		  <isNotEmpty  property="bsndate" prepend="AND"> 
+		    
+		       bsndate=#bsndate#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		      <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		 
+		</dynamic>
+	 
+	</select>
+	 
+	 
+	   <select id="getDailyBalanceMonthSmyByManager" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	    select 
+	    year  as year,
+	    month as month,
+        manager          as manager          ,  
+ROUND(sum(jijianprice  ), 3) as jijianprice      ,   
+ROUND(sum(chujianfei   ), 3) as chujianfei       ,  
+ROUND(sum(weightprice  ), 3) as weightprice      ,  
+ROUND(sum(buzuprice    ), 3) as buzuprice        ,  
+ROUND(sum(transformprice), 3) as transformprice   ,  
+ROUND(sum(fakuanprice  ), 3) as fakuanprice      ,   
+ROUND(sum(zhuanjianprice), 3) as zhuanjianprice   ,   
+ROUND(sum(paisongprice ), 3) as paisongprice     ,   
+ROUND(sum(diujianprice ), 3) as diujianprice     ,  
+ROUND(sum(wholeprice   ), 3) as wholeprice       ,  
+ sum(num) as num       
+ 
+                  
+	 		  
+	    from dailybalance
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		 
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		 
+		</dynamic>
+	 
+	 group by year ,month,manager
+	 order by  year ,month,manager
+	</select>
+	 
+	 
+	 
+	 
+	 
+	 
+	  <select id="getDailyBalanceSmyByManager" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	    select 
+        manager          as manager          ,  
+ROUND(sum(jijianprice  ), 3) as jijianprice      ,   
+ROUND(sum(chujianfei   ), 3) as chujianfei       ,  
+ROUND(sum(weightprice  ), 3) as weightprice      ,  
+ROUND(sum(buzuprice    ), 3) as buzuprice        ,  
+ROUND(sum(transformprice), 3) as transformprice   ,  
+ROUND(sum(fakuanprice  ), 3) as fakuanprice      ,   
+ROUND(sum(zhuanjianprice), 3) as zhuanjianprice   ,   
+ROUND(sum(paisongprice ), 3) as paisongprice     ,   
+ROUND(sum(diujianprice ), 3) as diujianprice     ,  
+ROUND(sum(wholeprice   ), 3) as wholeprice       ,  
+ sum(num) as num       ,
+ #year# as year,
+ #month# as month
+                  
+	 		  
+	    from dailybalance
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		  <isNotEmpty  property="bsndate" prepend="AND"> 
+		    
+		       bsndate=#bsndate#
+		  
+		  </isNotEmpty>
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		 
+		</dynamic>
+	 
+	 group by manager
+	 order by manager 
+	</select>
+	 
+	  <select id="getDailyBalanceSmyByDay" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	    select 
+        bsndate          as bsndate          ,  
+ROUND(sum(jijianprice  ), 3) as jijianprice      ,   
+ROUND(sum(chujianfei   ), 3) as chujianfei       ,  
+ROUND(sum(weightprice  ), 3) as weightprice      ,  
+ROUND(sum(buzuprice    ), 3) as buzuprice        ,  
+ROUND(sum(transformprice), 3) as transformprice   ,  
+ROUND(sum(fakuanprice  ), 3) as fakuanprice      ,   
+ROUND(sum(zhuanjianprice), 3) as zhuanjianprice   ,   
+ROUND(sum(paisongprice ), 3) as paisongprice     ,   
+ROUND(sum(diujianprice ), 3) as diujianprice     ,  
+ROUND(sum(wholeprice   ), 3) as wholeprice       ,  
+ sum(num) as num       
+                  
+	 		  
+	    from dailybalance
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		 	  
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		      <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		 
+		</dynamic>
+		
+		 
+	 group by bsndate
+	 order by bsndate 
+	 
+	</select>
+	
+	  <select id="getDailyBalanceSmyByMonth" resultClass="DailyBalance" parameterClass="DailyBalance">
+	<![CDATA[
+	    select 
+        year          as year          ,  
+        month         as month,
+ROUND(sum(jijianprice  ), 3) as jijianprice      ,   
+ROUND(sum(chujianfei   ), 3) as chujianfei       ,  
+ROUND(sum(weightprice  ), 3) as weightprice      ,  
+ROUND(sum(buzuprice    ), 3) as buzuprice        ,  
+ROUND(sum(transformprice), 3) as transformprice   ,  
+ROUND(sum(fakuanprice  ), 3) as fakuanprice      ,   
+ROUND(sum(zhuanjianprice), 3) as zhuanjianprice   ,   
+ROUND(sum(paisongprice ), 3) as paisongprice     ,   
+ROUND(sum(diujianprice ), 3) as diujianprice     ,  
+ROUND(sum(wholeprice   ), 3) as wholeprice       ,  
+ sum(num) as num       
+                  
+	 		  
+	    from dailybalance
+	    
+		]]>
+		<dynamic prepend="where">
+		
+		 	  
+		    <isNotEmpty  property="year" prepend="AND"> 
+		    
+		       year=#year#
+		  
+		  </isNotEmpty>
+		  
+		      <isNotEmpty  property="month" prepend="AND"> 
+		    
+		       month=#month#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		 
+		</dynamic>
+		
+		 
+	 group by year,month
+	 order by year,month 
+	 
+	</select>
+	
+</sqlMap>

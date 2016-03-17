@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统————条码分配查询</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+ 
+	<div class="lay_cont">
+
+	 
+   <form id="weightform2">
+	    
+	    <input type="hidden" id="maillist" name="mailidList"/>
+	      <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="条码分配查询"><span>条码分配查询</span></a>
+						</div>
+					</div>
+		    </div>
+		    <div class="gg_mod_inner">
+				<div class="cc_para cc_intro_para">
+					 :&nbsp;&nbsp;<textarea class="txtarea" id="info" name="info"></textarea>
+              	<div class="link_sign_box">
+							 <a class="btn_com" href="#" title="搜索" onclick="doSumbitMore();"><span>立即查询</span></a>
+				</div>
+			 </div>
+				
+			</div>
+		 </div>
+	 
+	
+	</form>
+	
+	 
+
+
+</div>
+</div>
+#include("/stat/footer.vm")
+<script type="text/javascript"> 
+
+count=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+ 
+
+function doSumbitMore(){
+   var dd=document.getElementById("weightform2");
+   var id=document.getElementById("info").value;
+     
+     if(id==null||id==""){
+     	alert("快件单号不能为空");
+     	return false;  
+     }
+  
+   ss=id.split('\n');
+    
+   var str="";
+   var len=ss.length;
+   if(len>1000){
+     alert("输入的单号数不能超过1000！");
+     return false;
+   }else{
+      for(var i=0;i<len;i++){
+      
+       if(ss[i]!=''){
+         var strtmp= ss[i].replace(/[\r\n]/g,"");
+          str=str+strtmp+"@";
+        }
+    
+     }
+     document.getElementById("maillist").value=str;
+     
+    dd.method="POST";
+    dd.action="./stat!searchOnlineManagerInfo.jspa";
+    dd.submit();
+ }
+}
+</script>
+
+
+</body></html>

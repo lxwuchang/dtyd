@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+
+<title>麦田快递财务结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSumbit(){
+                                     
+   var transformcategoryname=document.getElementById("transformCategory.transformcategoryname").value;
+   
+   if(transformcategoryname==null||transformcategoryname==""){
+     alert("费用方案名称不能为空");
+     return false;
+   }
+   
+     
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!updateTransformCategory.jspa?transformcategoryname="+transformcategoryname;
+   hellll.submit();
+   
+   }
+</script>
+</head>
+
+<body>
+ 
+
+#set($page = 'unread33')
+ 
+
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+	<div class="lay_cont">
+        <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#"><span>基础信息设置</span></a>
+						</div>
+					</div>
+		    </div>
+				
+			</div> 
+	 	 
+		 
+			 <form id="weightform">
+			   <input type="hidden" name="company" value="$!company">
+			   <input type="hidden" name="transformcategoryid" value="$!transformCategory.transformcategoryid">
+		      <div class="gg_mod_inner">
+		       #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+				  #end
+				    <div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >费用方案名称:&nbsp;&nbsp;</label> 
+                    <input class="text_input"  id="transformCategory.transformcategoryname" name="transformCategory.transformcategoryname" type="text" style= "WIDTH: 224px" value='$!transformCategory.transformcategoryname'/> 
+               
+				    </div>
+				   
+				   
+				   
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="btn_com_edit_normal" href="#"  onclick="doSumbit()"><span>保存</span></a>  <a class="btn_com_edit_down" href="./stat!showTransformCategory.jspa?company=$!company"><span>返回</span></a> 
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>
+			
+		    </div>
+		   </form>
+            
+			 
+	   </div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+</body></html>

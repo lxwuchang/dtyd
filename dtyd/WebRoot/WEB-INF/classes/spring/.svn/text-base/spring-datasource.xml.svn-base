@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- 为spring配置文件中的变量提供占位符 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/env.properties</value>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="env" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:/env.properties" />
+	</bean>
+	
+	 <bean id="newsEnv" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:/news.properties" />
+	</bean>
+	
+	
+	<bean id="baseAction" class="com.micronews.action.BaseAction">
+		<property name="env" value="env" />
+		<!-- <property name="backUrl">
+		 <value>${backUrl}</value>
+		</property>-->
+	</bean>
+
+<!--dbcp 不仅提供了带有缓冲的数据库连接池，还是一个完全轻量级的数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>${driver}</value>
+		</property>
+		<property name="url">
+			<value>${connectUrl}</value>
+		</property>
+		<property name="username">
+			<value>${username}</value>
+		</property>
+		<property name="password">
+			<value>${password}</value>
+		</property>
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:/SqlMapConfig.xml</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+
+	
+</beans>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—揽件人列表</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+
+</head>
+
+<body>
+#set($page = 'unread33')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")<!--menu_end--> 
+	<div class="lay_cont"><!--cont_start--> 
+        
+			<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>揽件人管理：修改揽件人信息</span></a>
+						</div>
+					</div>
+		    </div>
+		   
+		    	
+		    <form id="weightform">
+		      <div class="gg_mod_inner" style="background:white">
+		      
+			  <font color=red>$!errorMessage.hello</font>
+			 
+			<div class="cc_para cc_intro_para">
+					
+				
+					<label for="user_email" id="login_email_label" >揽件编号: </label> 
+                    <input class="text_input"  id="manager.managerid" name="manager.managerid" readonly type="text" style= "WIDTH: 184px" value="$manager.managerid"/> 
+				   
+				   	<label for="user_email" id="login_email_label" >揽件人姓名:&nbsp;&nbsp;</label> 
+                    <input class="text_input"  id="manager.managername" name="manager.managername"  type="text" style= "WIDTH: 184px" value="$manager.managername"/> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                 
+				    </div>
+				  
+				
+				      <div class="cc_para cc_intro_para">用户类型：
+					<select id="cardid" name="manager.cardid" class="text_input" onchange="changeClass()">
+                    
+                      <option value ="stat" #if($!manager.cardid=="stat")selected#end >结算用户</option>
+                      <option value ="unstat" #if($!manager.cardid=="unstat")selected#end>非结算用户</option>
+                    </select>
+                  
+				   <label for="user_email" id="login_email_label" >父结算用户选择:&nbsp;</label> 
+                    <select id="salesid" name="manager.salesid" class="text_input" #if($!manager.cardid=="stat")disabled#end>
+                     #foreach($managers in $!pmanagerInfoList)
+                      <option value ="$managers.managerid" #if($managers.managerid==$!manager.salesid)selected#end>$managers.managername</option>
+                    
+                    #end
+                    </select>
+                    
+                      
+				    </div>
+				     <div class="cc_para cc_intro_para">
+				   <input  id="manager.solutionid" name="manager.solutionid" type="hidden" value=""/> 
+					<input  id="manager.solutionname" name="manager.solutionname" type="hidden" value=""/> 
+				
+					<label for="user_email" id="login_email_label" >中转费选择:&nbsp;</label> 
+                    <select id="solution" name="solution" class="text_input" style="width:490px">
+                    #foreach($transformcategory in $!transformCategoryList)
+                      <option value ="$transformcategory.transformcategoryid,$transformcategory.transformcategoryname" #if($!transformcategory.transformcategoryname==$!manager.solutionname)selected#end>$transformcategory.transformcategoryname</option>
+                    
+                    #end
+                    </select>
+                   
+				    </div>
+				 
+		
+		        <div class="cc_para cc_intro_para">
+				      </select>
+                     <label for="user_email" id="login_email_label" >计重规则选择:&nbsp;</label> 
+                    <select id="weightpriceid" name="manager.weightpriceruleid" class="text_input" style="width:490px">
+                    #foreach($weightPrice in $!weightPriceList)
+                      <option value ="$weightPrice.weightpriceruleid" #if($!{weightPrice.weightpricename}==$!{manager.weightpricename})selected#end>$weightPrice.weightpricename</option>
+                    
+                    #end
+                    </select>
+				    </div>
+		
+		
+		
+		
+			    <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" id="sum" onclick="doSumbit()"><span>保存</span></a> <a class="tabcssleft" href="./stat!showReceiverManagement.jspa"><span>退出</span></a>
+							 	 
+						</div>
+						
+					</div>
+		        
+		       </div>
+		       </div>
+		   </form>
+            
+
+		</div>
+		    
+ </div>
+</div>
+#include("/stat/footer.vm")
+
+<script type="text/javascript"> 
+var flag=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+ 
+
+function doSumbit(){
+    var managerid=document.getElementById("manager.managerid").value;
+   var managername=document.getElementById("manager.managername").value;
+     var solution=document.getElementById("solution").value;
+ 
+   if(managerid==null||managerid==""){
+     alert("揽件人编码不能为空");
+     return false;
+   }
+   
+    if(managername==null||managername==""){
+     alert("揽件人姓名不能为空");
+     return false;
+   }
+     
+   
+   if(solution !=null && solution!=""){
+       var numbe = solution.split(",");
+       document.getElementById("manager.solutionid").value = numbe[0];
+       document.getElementById("manager.solutionname").value = numbe[1];
+    }
+ 
+    
+   
+ 
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!updateManager.jspa";
+   hellll.submit();
+ 
+   
+}
+
+   function changeClass(){
+   
+     var cardid=document.getElementById("cardid").value;
+     
+     if(cardid=="stat")
+         document.getElementById("salesid").disabled=true;
+      else  document.getElementById("salesid").disabled=false;
+   
+   
+   }
+
+</script>
+</body></html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body>
+#set($page = 'unread21')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>年收支汇总</span></a>
+						</div>
+					</div>
+		    </div>
+		 			
+			</div> 
+				<div class="cb_mod_inner">
+				<div class="cc_para cb_intro_para">
+					
+					<div class="link_sign_box6">
+				 <form  id="weightform">
+				    年份 <select id="manager" name="yearSmy.year" class="text_input">
+                     
+                    <option value ="2014"#if($yearSmy.year==2014)selected#end>2014年</option>
+                    <option value ="2015"#if($yearSmy.year==2015)selected#end>2015年</option>
+                    <option value ="2016"#if($yearSmy.year==2016)selected#end>2016年</option>
+                    <option value ="2017"#if($yearSmy.year==2017)selected#end>2017年</option>
+                    <option value ="2018"#if($yearSmy.year==2018)selected#end>2018年</option>
+                   </select>	 
+  
+                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="btn_com_edit_normal" href="#"   onclick="doSmit();"><span>查&nbsp;&nbsp;询</span></a>
+             
+					 </form>  
+					</div>
+					
+			  </div>
+				
+			</div>
+			
+		 
+		<div class="nav-not-fixedz">
+    		 
+			<a href="#windows"  class="showmessage"><span>总收入$!yearSmy.tinprice</span></a>
+            <a href="#windows"  class="showmessage"><span>总支出$!yearSmy.toutprice</span></a>     
+             <a href="#windows"  class="showmessage"><span>总利润$!yearSmy.tpprice</span></a> 
+    	 
+	   </div>
+	   
+	   <div class="clear">
+			</div>
+	
+		<div class="nav-not-fixedz">
+    		 
+			<a href="../report/report!showYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="showmessages"><span>中转费收入$!yearSmy.zprice</span></a>
+            <a href="../report/report!showCompanyIncomeYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="showmessages"><span>业务员利润$!yearSmy.yprice</span></a>     
+            <a href="../report/report!showMailPriceYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="showmessages"><span>面单收入$!yearSmy.wprice</span></a> 
+    	    <a href="../report/report!showIncomeYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="selected"><span>收款$!yearSmy.skprice</span></a>
+	   </div>
+			  
+      <div class="clear">
+			</div>
+		
+			<div class="nav-not-fixedz" style="display:block">
+    		 
+			<a href="../report/report!showYufukuanYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"   class="showmessagez"><span>预付款$!yearSmy.yfkprice</span></a>
+            <a href="../report/report!showZhipaoYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"   class="showmessagez"><span>直跑支出$!yearSmy.zpprice</span></a>     
+            <a href="../report/report!showZhichuYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"   class="showmessagez"><span>公司支出$!yearSmy.gsprice</span></a> 
+            <a href="../report/report!showGongziYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="showmessagez"><span>工资$!yearSmy.gzprice</span></a> 
+    	    <a href="../report/report!showFankuanYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"   class="showmessagez"><span>中转费返款$!yearSmy.fkprice</span></a> 
+    	    <a href="../report/report!showPeikuanYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="showmessagez"><span>客服赔款$!yearSmy.pkprice</span></a> 
+	   </div>
+			<div class="clear">
+			</div>  	
+		<div class="nav-not-fixedz">
+    		 
+			<a href="../report/report!showIncomeYearSmyPage.jspa?yearSmy.year=$!yearSmy.year"  class="tabcssselect"><span>按揽件人汇总</span></a>
+			<a href="../report/report!showIncomeYearSmyByMonthPage.jspa?yearSmy.year=$!yearSmy.year"  class="tabcssleft"><span>按日期汇总</span></a>
+               <a class="btn_com_edit_normal" id="export" href="#"  onclick="exportIncomeYearByManager($yearSmy.year);"><span>导出收款按揽件人年汇总</span></a> 
+	   </div>
+	     <div class="clear">
+			</div>
+	    <form id="weightform2">
+		 <div class="cd_mod_inner">
+		 <div class="cc_para cd_intro_para">
+					
+		<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		 <tr>
+		   <th width="5%">序号</th>
+		   <th width="7%">揽件人</th>
+		     <th width="6%">面单数量</th>
+		   <th width="6%">面单费</th>
+		   <th width="6%">中转费</th>
+		   <th width="6%">其他费用</th>	 
+          <th width="7%">总金额</th>
+          <th width="10%">操作</th>
+		  </tr>
+		 #set($i=1)
+		  #foreach($income in $!incomeList) 
+<tr> 
+<td class="row">$!i</td>
+<td class="row">$!income.managername</td> 
+<td class="row">$!income.num</td>   
+<td class="row">$!income.mprice</td> 
+<td class="row">$!income.zprice</td> 
+<td class="row">$!income.qprice</td> 
+<td class="row">$!income.price</td> 
+ <td class="row"><a class="btn_com_edit_normal" id="export" href="#"  onclick="exportIncomeYearSmyByManager($yearSmy.year,'$!income.managername');"><span>导出收款汇总</span></a></td>
+ 
+</tr> 
+ #set($i=$i+1)
+        #end 
+ <tr>
+<td class="row">合计</td> 
+<td class="row"></td> 
+<td class="row">$!income.num</td> 
+<td class="row">$!income.mprice</td>  
+<td class="row">$!income.zprice</td> 
+<td class="row">$!income.qprice</td> 
+<td class="row">$!income.price</td> 
+<td class="row"></td> 
+</tr>
+
+         </table>
+			 </div>
+			  </div>
+	</div>
+	 </form>	
+</div>
+#include("/stat/footer.vm")
+<script type="text/javascript"> 
+function exportIncomeYearByManager(year){
+
+  var a=document.getElementById("export");
+  a.href="../report/report!exportIncomeYearByManager.jspa?year="+year;
+}
+function exportIncomeYearSmyByManager(year,manager){
+
+ var hellll=document.getElementById("weightform2");
+  
+   hellll.method="POST";
+   hellll.action="../report/report!exportIncomeYearSmyByManager.jspa?year="+year+"&manager="+manager;
+    hellll.submit();
+}
+
+
+
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSmit(){
+ 
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="../report/report!showYearSmyPage.jspa";
+   hellll.submit();
+   
+   }
+   
+   function doDelete(managerid,managername){
+  
+   var bb= window.confirm("你是否要删除"+managername+"。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	  	 
+       document.getElementById(managerid).href="./stat!deleteManager.jspa?managerid="+managerid;
+       return true;
+       }
+   }
+</script>
+</body></html>

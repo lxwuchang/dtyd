@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+    "http://getahead.org/dwr/dwr20.dtd">
+
+<dwr>
+  <allow>
+   
+	<create creator="spring" javascript="ReportServer" scope="application">
+			<param name="beanName" value="ReportServer"/>
+		 
+			<include method="getIncome"/>
+	 	    <include method="updateGongziOutcome"/>
+	 	    <include method="updateFankuanOutcome"/>
+	</create>	
+     <convert converter="bean" match="com.yundastat.model.Income"></convert>
+     <convert converter="bean" match="com.yundastat.model.GongziOutcome"></convert>
+      <convert converter="bean" match="com.yundastat.model.FankuanOutcome"></convert>
+  </allow>
+  
+  <signatures>
+  <![CDATA[
+import java.util.Date;
+import java.util.List;
+import com.yundastat.model.Income;
+import com.yundastat.model.GongziOutcome;
+ReportServer.getIncome(String date,String managerid);
+ReportServer.updateGongziOutcome(GongziOutcome gongzi);
+ReportServer.updateFankuanOutcome(FankuanOutcome fankuan);
+  ]]>
+</signatures>
+</dwr>

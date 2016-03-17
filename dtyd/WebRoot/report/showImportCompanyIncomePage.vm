@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—公司录入</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread11')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+   <form id="weightform">
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+			  <a href="../stat/stat!showImportDataPage.jspa"class="tabcssleft" ><span>揽件数据导入</span></a>
+			 <a href="../stat/stat!showImportPricePage.jspa"class="tabcssleft" ><span>其他费用导入</span></a>
+			  <a href="../report/report!showImportCompanyIncomePage.jspa"class="tabcssselect" ><span>公司收入录入</span></a>
+			  <a href="../report/report!showImportMailInfoPage.jspa"class="tabcssleft" ><span>面单收入录入</span></a>
+			 
+        </div>
+        <div class="clear">
+			</div>
+			 	   <div class="cc_para cc_intro_para">
+			 	   
+			 	   
+					   结算日期&nbsp;&nbsp; <input class="Wdate d_text_input" type="text" id="bsndatestr" name="companyIncome.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$!dateUtil.formatYYYYMMDD($!companyIncome.bsndate)'/>
+                     &nbsp;&nbsp;  &nbsp;&nbsp;   结算类型&nbsp;  <select id="type" name="companyIncome.type" class="text_input" style= "WIDTH: 100px" onchange="changeType()";>
+                                         
+                    <option value ="现结">现结</option>
+                    <option value ="月结">月结</option>
+                   
+                    
+                   </select>
+				
+				    </div>  
+				     <div class="cc_para cc_intro_para" id="xjyh" >
+				     用户&nbsp;&nbsp;  <select id="manager" name="companyIncome.manager" class="text_input" style= "WIDTH: 130px" >
+                                         
+                    <option value ="店面">店面</option>
+                    <option value ="业务员">业务员</option>
+                    <option value ="公司">公司</option>
+                   
+                   </select>
+                   
+          &nbsp;&nbsp;    费用类型 &nbsp;&nbsp; <select id="pricetype" name="companyIncome.pricetype" class="text_input"  style= "WIDTH: 130px" onchange="changePricetype()">
+                                         
+                    <option value ="营业收入">营业收入</option>
+                    <option value ="中转费">中转费</option>
+                    <option value ="面单费">面单费</option>
+                   
+                   </select>
+                   </div>
+                      <div class="cc_para cc_intro_para" id="yjyh" style="display:none">
+				     用户 &nbsp; &nbsp;
+                 <input class="ui-input" id="manager1" tabindex=1 name="companyIncome.manager1" type="text" style= "WIDTH: 130px" value=''/> &nbsp;&nbsp;
+                       &nbsp;&nbsp;  费用类型&nbsp;&nbsp;  <select id="pricetype1" name="companyIncome.pricetype1" class="text_input"  style= "WIDTH: 130px">
+                                         
+                    <option value ="营业收入">营业收入</option>
+                    
+                   </select>
+                   </div>
+				 <div class="cc_para cc_intro_para" id="yysr"  >
+				  
+					票数 &nbsp;&nbsp;
+                    <input class="ui-input" id="num" tabindex=1 name="companyIncome.num" type="text" style= "WIDTH: 120px"  value=''/> &nbsp;&nbsp; 
+                                金额 &nbsp;&nbsp;
+                    <input class="ui-input" id="price" name="companyIncome.price" type="text" style= "WIDTH: 120px" value='' /> &nbsp;&nbsp;元
+               
+				    </div>
+				    
+				    
+				      <div class="cc_para cc_intro_para" id="zzf"  style="display:none">
+				    
+					中转费 &nbsp;&nbsp;
+                    <input class="ui-input" id="transformprice" tabindex=1 name="companyIncome.transformprice" type="text" style= "WIDTH: 330px"  value=''/> &nbsp;&nbsp; 
+                               
+				    </div>
+				    
+				         <div class="cc_para cc_intro_para" id="mdf" style="display:none">
+				    
+					面单费 &nbsp;&nbsp;
+                    <input class="ui-input" id="mailprice" tabindex=1 name="companyIncome.mailprice" type="text" style= "WIDTH: 330px" value=''/> &nbsp;&nbsp; 
+                               
+				    </div>
+				    
+				      <div class="cc_para cc_intro_para" id="memeodiv" >
+				    
+					备注&nbsp;&nbsp;
+                    <input class="ui-input" id="memo" tabindex=1 name="companyIncome.memo" type="text" style= "WIDTH: 320px" value=''/> &nbsp;&nbsp; 
+                               
+				    </div>
+			
+			
+			     <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" title="义乌韵达" onclick="doSumbit();"><span>保&nbsp;存</span></a>
+							 	 
+						</div>
+					</div>
+				</div>
+			#if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+			
+	      <div class="mod_block">
+		 	 	  
+	       <div class="imp_mod_inner">
+		   <div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="10%">日期</th>
+		  <th width="10%">用户</th>
+		  <th width="8%">结算类型</th>
+		  <th width="8%">费用类型</th>
+		  <th width="8%">票数</th>
+		  <th width="8%">金额</th>
+		  <th width="8%">中转费</th>		 
+		  <th width="8%">面单费</th>
+		  <th width="8%">备注</th>
+		  <th width="15%">创建时间</th>
+		  <th width="8%">操作</th>  
+		 
+		  </tr>
+		 #set($i=1)
+		  #foreach($companyIncome in $!companyIncomeList)
+				<tr>                
+					  
+				 		<td class="row">$dateUtil.formatYYYYMMDD($!companyIncome.bsndate)</td> 
+				     	<td class="row">$!companyIncome.manager</td> 
+				     	<td class="row">$!companyIncome.type</td> 
+				     	<td class="row">$!companyIncome.pricetype</td> 
+				     	<td class="row">$!companyIncome.num</td> 
+				     	<td class="row">$!companyIncome.price</td>
+				     	<td class="row">$!companyIncome.transformprice</td>  
+				     	<td class="row">$!companyIncome.mailprice</td>  
+				     	<td class="row">$!companyIncome.memo</td>
+				     	<td class="row">$!dateUtil.formatDateTime($!companyIncome.createtime,'yyyy-mm-dd HH:mm:ss')</td>    
+				        <td class="row"><a class="btn_com_edit_shan" href='../report/report!deletecompanyIncome.jspa?dmid=$!companyIncome.dmid'><span>删除</span></a></td> 
+
+				</tr> 
+
+    #set($i=$i+1)
+
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	 			
+		  <form id="searchForm">
+	 
+ <div class="pages-wrap">
+   <div class="Pages">
+#if($pageBean)
+	#set($pageNo = $pageBean.currentPage)
+	
+	#set($tPage = $pageBean.totalPages)
+ 
+	#set($prePage = $pageNo - 1)
+	 
+	#set($nextPage = $pageNo + 1)
+ 
+	#if ($pageNo > 1)
+		<a href="#" class="PrevPage" onclick="doSearchPage('$prePage')" title="上一页">上一页</a>
+	#end
+	#set($leftStart = 1)
+    #set($leftEnd = 2)
+    #set($mStart = $pageNo - 5)
+    #set($mEnd = $pageNo + 5)
+    #set($rStart = $tPage - 1)
+    #set($rEnd = $tPage)
+    #if ($mStart <= $leftEnd)
+    	#set($leftStart = 0)
+    	#set($leftEnd = 0)
+    	#set($mStart = 1)
+    #end
+    #if ($mEnd >= $rStart)
+    	#set($rStart = 0)
+    	#set($rEnd = 0)
+    	#set($mEnd = $tPage)
+    #end
+    #if ($leftEnd > $leftStart)
+    	#foreach($p in [${leftStart}..${leftEnd}])
+			#if($p != 0)
+					<a href=#"  class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+			#end
+    	#end
+    	#if($mStart > ($leftEnd +1))
+			<span class="PageMore">...</span>
+		#end
+    #end
+    #foreach($p in [${mStart}..${mEnd}])
+        #if($p == $pageNo)
+			<span class="PageSel">$p</span>
+        #else
+    		#if($p != 0)
+				<a href="#" class="PageLink"   onclick="doSearchPage('$p')" title="$p">$p</a>
+    		#end
+    	#end
+    #end
+       
+    #if ($rEnd > $rStart )
+		#if($rStart > ($mEnd+1))
+			<span class="PageMore">...</span>
+    	#end
+    	#foreach($p in [${rStart}..${rEnd}])
+			<a href="#" class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+ 
+    	#end
+	#end
+	#if ($pageNo < $tPage)
+		<a href="#" class="NextPage"  onclick="doSearchPage('$nextPage')" title="下一页">下一页</a>	
+	#end
+ 
+  #end
+  
+  </div>
+  </div>
+			
+
+	</div>
+
+</div>
+</form>  
+		</div>
+	</div>
+	</div>
+ 
+
+</form>
+ 	#include("/stat/footer.vm")
+ <script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+
+function changeNum(){
+
+  var num=document.getElementById("num").value;
+  var perprice=document.getElementById("perprice").value;
+  
+  if(!isNum(num)||!isNum(perprice)){
+  document.getElementById("num").value='';
+  document.getElementById("price").value='';
+  }else{
+    
+   document.getElementById("price").value=parseInt(num)*parseFloat(perprice);
+  }
+
+}
+
+
+function changePrice(){
+
+  var num=document.getElementById("num").value;
+  var perprice=document.getElementById("perprice").value;
+  
+  if(!isNum(num)||!isNum(perprice)){
+  document.getElementById("perprice").value='';
+  document.getElementById("price").value='';
+  }else{
+    
+   document.getElementById("price").value=parseInt(num)*parseFloat(perprice);
+  }
+
+}
+  
+  function changeType(){
+
+  var type=document.getElementById("type").value;
+  if(type=='月结'){
+  
+  document.getElementById("yjyh").style.display="block";
+  document.getElementById("xjyh").style.display="none";
+    document.getElementById("yysr").style.display="block";
+     document.getElementById("zzf").style.display="none";
+     document.getElementById("mdf").style.display="none";
+  }else{
+    document.getElementById("yjyh").style.display="none";
+  document.getElementById("xjyh").style.display="block";
+    document.getElementById("yysr").style.display="block";
+       document.getElementById("zzf").style.display="none";
+     document.getElementById("mdf").style.display="none";
+  
+  }
+  
+
+}
+
+function changePricetype(){
+
+  var pricetype=document.getElementById("pricetype").value;
+  if(pricetype=='营业收入'){
+    document.getElementById("zzf").style.display="none";
+     document.getElementById("yysr").style.display="block";
+      document.getElementById("mdf").style.display="none";
+  }else if(pricetype=='中转费'){
+     document.getElementById("zzf").style.display="block";
+     document.getElementById("yysr").style.display="none";
+      document.getElementById("mdf").style.display="none";
+  
+  }else{
+  
+     document.getElementById("zzf").style.display="none";
+     document.getElementById("yysr").style.display="none";
+      document.getElementById("mdf").style.display="block";
+  
+  }
+  
+
+}
+  
+  
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var bsndatestr=document.getElementById("bsndatestr").value;
+ 
+    var type=document.getElementById("type").value;
+   
+  if(type=='月结'){
+  
+   var num=document.getElementById("num").value;
+   var price=document.getElementById("price").value;
+   if(num==null||num==""){
+     alert("数量不能为空");
+     return false;
+   
+   }
+   
+    if(!isNum(num))
+    return false;
+  
+   if(price==null||price==""){
+     alert("金额不能为空");
+     return false;
+   
+   }
+    if(!isNum(price))
+    return false;
+ 
+  }else{
+  
+   var pricetype=document.getElementById("pricetype").value;
+  
+  if(pricetype=='营业收入'){
+  
+   var num=document.getElementById("num").value;
+   var price=document.getElementById("price").value;
+   if(num==null||num==""){
+     alert("数量不能为空");
+     return false;
+   
+   }
+   
+    if(!isNum(num))
+    return false;
+  
+   if(price==null||price==""){
+     alert("金额不能为空");
+     return false;
+   
+   }
+    if(!isNum(price))
+    return false;
+  }else if(pricetype=='中转费'){
+  
+   
+   var transformprice=document.getElementById("transformprice").value;
+   if(transformprice==null||transformprice==""){
+     alert("中转费不能为空");
+     return false;
+   
+   }
+   
+    if(!isNum(transformprice))
+    return false;
+  
+  }else{
+   
+   var mailprice=document.getElementById("mailprice").value;
+   if(mailprice==null||mailprice==""){
+     alert("面单费不能为空");
+     return false;
+   
+   }
+   
+    if(!isNum(mailprice))
+    return false;
+  
+  
+   }
+  
+  
+  }
+    
+    
+ 
+    
+    dd.method="post";//首重为weighpriceinfo
+    dd.action="../report/report!createCompanyIncome.jspa";
+    dd.submit();
+  
+ 
+}
+
+
+
+ function doSearchPage(pageno){
+ var dd=document.getElementById("weightform");
+   dd.method="POST";
+   dd.action="../report/report!showImportCompanyIncomePage.jspa?pageNo="+pageno;                                                                                     
+   dd.submit();
+
+
+}
+</script> 
+
+</body></html>

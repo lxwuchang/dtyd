@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统————导入中转站数据</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+<div style="display: none;" class="NewsPop" id="zz_show_div">
+  
+</div>
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>中转站数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">					
+					<div class="link_sign_box2" >
+					 <form id="dd" name="dd" onsubmit="submitCheck2()" method="POST" enctype="multipart/form-data"> 
+					  <input type="hidden" name="user.username" value="$!user.username">
+					 <input type="hidden" name="user.loginid" value="$!user.loginid">      
+                     	 
+                  &nbsp;&nbsp;  上传文件：&nbsp;&nbsp;<input id="fileinput2" class="text_input" type="file" name="excel" height="30px" style= "WIDTH: 224px">    <input type="submit" value="上传"/>   
+                      
+						</form> 	 
+						
+					</div>
+				</div>            
+			</div>
+					  <div id="showMessage2"> </div>
+					 
+						 
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+ 
+		
+		#if($!compareReportList.size()!=0)
+	    	<div class="gg_mod_inner">
+	    	
+	    	 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="btn_com" href="#" id="deleteid" onclick="deleteAllMail('${importDate}');"><span>删除所有新插入的快件</span></a> 	<a class="btn_com" href="#" onclick="downFile();" id="down" title="非论坛类网站"><span>下载Excel文件</span></a>  
+						</div>
+						
+					</div>
+				<div class="cc_para cc_intro_para">
+					
+					
+					
+				    </div>
+				
+			</div>
+		 
+			
+               <div class="imp_mod_inner">
+				<div class="cc_para imp_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   
+		   <th width="9%">中转站单件号</th>
+		  <th width="8%">中转站拦件人</th>
+		   <th width="8%">本地拦件人</th>
+		  <th width="10%">中转站派送公司</th>
+		  <th width="10%">本地目的地</th>
+		  <th width="7%">中转站重量(公斤)</th>
+		  <th width="7%">本地重量(公斤)</th>
+		  <th width="7%">中转站中转费小结</th>
+		  <th width="7%">本地中转费</th>
+		   <th width="12%">中转站扫描时间</th>
+		   <th width="12%">本地扫描时间</th>
+		    
+      
+		  </tr>
+		  
+		  #foreach($compareReport in $!compareReportList)
+<tr> 
+ 
+<td class="row"><a href="#" id="mailid_${id}">$!compareReport.mailid</a></td> 
+<td class="row" style="background:#00EE00;color:#FFFFFF;">$!compareReport.tmanager</td>
+<td class="row" style="background:#00EE00;color:#FFFFFF;">$!compareReport.lmanager</td> 
+<td class="row" style="background:#AEEEEE;">$!compareReport.transformcorp</td>
+<td class="row" style="background:#AEEEEE;">$!compareReport.ldestinationcity</td>
+<td class="row" style="background:#00EE00;color:#FFFFFF;">$!compareReport.tweight</td>
+<td class="row" style="background:#00EE00;color:#FFFFFF;">$!compareReport.lweight</td>
+<td class="row" style="background:#AEEEEE;">$!compareReport.wholeprice</td>
+<td class="row" style="background:#AEEEEE;"> $!compareReport.ltransformprice</td>
+<td class="row" style="background:#00EE00;color:#FFFFFF;">$dateUtil.formatDateTime($!compareReport.tscandate,'yyyy-MM-dd HH:mm:ss')</td>
+<td class="row" style="background:#00EE00;color:#FFFFFF;">$dateUtil.formatDateTime($!compareReport.lscandate,'yyyy-MM-dd HH:mm:ss')</td>
+</tr> 
+
+ 
+
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	 
+	 <form id="searchForm">
+
+         <input type="hidden" name="importdate" id="importdate"  value="$!importDate">
+	     <input type="hidden" name="totalnum" id="totalnum"  value="$!totalN"> 
+ <div class="pages-wrap">
+   <div class="Pages">
+#if($pageBean)
+	#set($pageNo = $pageBean.currentPage)
+	
+	#set($tPage = $pageBean.totalPages)
+ 
+	#set($prePage = $pageNo - 1)
+	 
+	#set($nextPage = $pageNo + 1)
+ 
+	#if ($pageNo > 1)
+		<a href="#" class="PrevPage" onclick="doSearchPage('$prePage')" title="上一页">上一页</a>
+	#end
+	#set($leftStart = 1)
+    #set($leftEnd = 2)
+    #set($mStart = $pageNo - 5)
+    #set($mEnd = $pageNo + 5)
+    #set($rStart = $tPage - 1)
+    #set($rEnd = $tPage)
+    #if ($mStart <= $leftEnd)
+    	#set($leftStart = 0)
+    	#set($leftEnd = 0)
+    	#set($mStart = 1)
+    #end
+    #if ($mEnd >= $rStart)
+    	#set($rStart = 0)
+    	#set($rEnd = 0)
+    	#set($mEnd = $tPage)
+    #end
+    #if ($leftEnd > $leftStart)
+    	#foreach($p in [${leftStart}..${leftEnd}])
+			#if($p != 0)
+					<a href=#"  class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+			#end
+    	#end
+    	#if($mStart > ($leftEnd +1))
+			<span class="PageMore">...</span>
+		#end
+    #end
+    #foreach($p in [${mStart}..${mEnd}])
+        #if($p == $pageNo)
+			<span class="PageSel">$p</span>
+        #else
+    		#if($p != 0)
+				<a href="#" class="PageLink"   onclick="doSearchPage('$p')" title="$p">$p</a>
+    		#end
+    	#end
+    #end
+       
+    #if ($rEnd > $rStart )
+		#if($rStart > ($mEnd+1))
+			<span class="PageMore">...</span>
+    	#end
+    	#foreach($p in [${rStart}..${rEnd}])
+			<a href="#" class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+ 
+    	#end
+	#end
+	#if ($pageNo < $tPage)
+		<a href="#" class="NextPage"  onclick="doSearchPage('$nextPage')" title="下一页">下一页</a>	
+	#end
+ 
+  #end
+  
+  </div>
+  </div>
+ 
+	 
+	#end
+	 </form>
+		</div>
+	</div>
+	</div>
+</div>
+
+#include("/stat/footer.vm")
+
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+var rows=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+ 
+  //a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+ 
+function showSource(){
+
+	//var zzDiv = document.getElementById(id);
+
+	var showDiv = document.getElementById("zz_show_div");
+
+	showDiv.innerHTML = "<h2> <font color='red'>正在上传文件，请耐心等待！</font></h2>";
+
+	gosoBox.showBox("zz_show_div");
+
+}
+function deleteAllMail(d){
+
+       var bb= window.confirm("你是否要删除新插入的"+d+"的所有快件。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+		 
+       document.getElementById("deleteid").href="./fileproc!deleteAllMail.jspa?importDate="+d;
+      
+       return true;
+       }
+
+
+}
+
+ 
+
+function submitCheck2(){
+    
+    var dd=document.getElementById("dd");
+    var d=document.getElementById("fileinput2").value;
+  
+     if(d==null||d==""){
+      alert("请选择Excel文件！");
+       return false;
+
+       }else {
+       
+       document.getElementById("showMessage2").innerHTML="	<font size='4' color=red>正在上传，请稍等......</font>";
+       
+       dd.action="./fileproc!uploadTransformFile.jspa?";
+       dd.submit();
+     
+       return true;
+    }
+
+
+ return false;
+}
+ 
+
+ 
+ 
+
+function doSearchPage(pageno){
+
+   var dd=document.getElementById("searchForm");
+   var  c=document.getElementById("importdate").value;
+   var  d=document.getElementById("totalnum").value;
+   
+   dd.method="POST";
+   dd.action="./fileproc!searchComparePage.jspa?importDate="+c+"&pageNo="+pageno+"&totalNum="+d;
+   dd.submit();      
+
+
+}
+function downFile(){
+
+   var managername='全部';
+
+   var date='$importDate';
+
+   var  str=managername+"@"+date; 
+
+   var hellll=document.getElementById("weightform");
+
+   document.getElementById("down").href="./fileproc!downFile.jspa?filename="+str;
+ }
+
+ 
+</script>
+</body></html>

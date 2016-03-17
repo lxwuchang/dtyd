@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="userDao" class="com.micronews.dao.UserDao">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<!--独立的服务注入 -->
+	<bean id="userService" class="com.micronews.service.UserService">
+	 <property name="userDao" ref="userDao"/>
+	
+	</bean>
+	
+	
+	<!-- 合成的service -->
+	<bean id="userServiceImpl" class="com.micronews.service.UserServiceImpl">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	
+		<property name="newsService">
+			<ref bean="newsService" />
+		</property>
+		
+	</bean>
+	<!--action 中bean 的注入 -->
+
+	<bean id="userLoginAction" class="com.micronews.action.UserLoginAction">
+		<property name="userServiceImpl">
+			<ref bean="userServiceImpl" />
+		</property>
+	</bean>
+	
+	
+</beans>

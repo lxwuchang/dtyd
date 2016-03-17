@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="mailDao" class="com.yundastat.dao.MailDao">
+	
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<!--独立的服务注入 -->
+	<bean id="mailService" class="com.yundastat.service.MailService">
+	 <property name="mailDao" ref="mailDao"/>
+	
+	</bean>
+	
+	
+	<!-- 合成的service 
+	<bean id="userServiceImpl" class="com.yundastat.service.UserServiceImpl">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	
+	</bean>-->
+	<!--action 中bean 的注入 -->
+
+	<bean id="mailAction" class="com.yundastat.action.FileProcAction">
+		<property name="mailService">
+			<ref bean="mailService" />
+		</property>
+			<property name="reportService">
+			<ref bean="reportService" />
+		</property>
+		
+	</bean>
+	
+	
+	<bean id="statAction" class="com.yundastat.action.StatAction">
+		<property name="mailService">
+			<ref bean="mailService" />
+		</property>
+		<property name="userServiceImpl">
+			<ref bean="userServiceImpl" />
+		</property>
+	</bean>
+	
+ 
+	 <bean id="mailServer" class="com.yundastat.service.MailServer">
+		 
+	</bean>
+	
+	
+	
+</beans>

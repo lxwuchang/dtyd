@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+
+function doSmit(){
+   var managername=document.getElementById("manager").value;
+   var startdate=document.getElementById("startdate").value;
+   var enddate=document.getElementById("enddate").value;
+   var starthour=document.getElementById("starthour").value;
+    var endhour=document.getElementById("endhour").value;
+   
+   var  str=managername+"@"+startdate+"@"+enddate+"@"+starthour+"@"+endhour;
+
+   if(startdate==null||startdate==""){
+     alert("开始日期不能为空");
+     return false;
+   }
+   
+    if(enddate==null||enddate==""){
+     alert("结束日期不能为空");
+     return false;
+   }
+   
+   
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!searchStatReport.jspa?searchInfo="+str;
+ 
+   hellll.submit();
+ 
+   
+}
+function downFile(){
+   var managername=document.getElementById("manager").value;
+   var startdate=document.getElementById("startdate").value;
+   
+   
+   var  str=managername+"@"+startdate;
+
+   if(startdate==null||startdate==""){
+     alert("开始日期不能为空");
+     return false;
+   }
+   
+   
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./fileproc!downFile.jspa?filename="+str;
+ 
+   hellll.submit();
+ 
+   
+}
+
+</script>
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a  onclick="exit();return true">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main  page_modSwap">
+	<div class="lay_aside">
+	<ul id="ulMenu" class="menu">
+		<li><a href="./stat!showImportDataPage.jspa">导入EXCEL数据</a></li>
+		<li><a style="color:red;"  href="./stat!showStatReport.jspa">查看结算报表</a></li>
+		<li><a href="./stat!showSetWeight.jspa">重量规则设置</a></li>
+		<li><a href="./stat!showSetWeightPrice.jspa">计重规则费用设置</a></li>
+		<li><a href="./stat!showSetPrice.jspa">中转费设置</a></li>
+		<li><a href="./stat!showCompareData.jspa">数据报表生成</a></li>
+		<li><a href="./stat!showReport.jspa">数据报表查看</a></li>
+		<li><a href="http://connect.opensns.qq.com/case/">比对规则设置</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">个人信息</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">退出</a></li>
+	</ul>
+	
+</div>
+  <form id="weightform">
+	<div class="lay_cont">
+   
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>结算报表查看</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="cb_mod_inner">
+				<div class="cc_para cb_intro_para">
+					
+					<div class="link_sign_box2">
+					
+                   网点/业务员  <select id="manager">
+                   #foreach($fd in $!managerList)
+  <option value ="$!fd">$!fd</option>
+              #end
+</select>	 &nbsp; 开始日期 <input class="Wdate" type="text" id="startdate" onFocus="WdatePicker({lang:'zh-cn'})"/>
+  
+  <select id="starthour"><option value="0">0</option>
+  <option value ="1">1</option> <option value="opel">2</option><option value="3">3</option>
+  <option value="4">4</option>  <option value="5">5</option>  <option value="6">6</option>
+  <option value="7">7</option><option value="10">8</option>  <option value="9">9</option>
+  
+  <option value="10">10</option>  <option value="11">11</option>  <option value="12">12</option>
+  <option value="13">13</option><option value="13">13</option>  <option value="14">14</option>
+  
+  <option value="15">15</option>  <option value="16">16</option>  <option value="17">17</option>
+  <option value="18">18</option><option value="19">19</option>  <option value="21">21</option>
+    <option value="22">22</option><option value="23">23</option>  <option value="24">24</option>
+
+  </select>点
+              &nbsp;---&nbsp; 	结束日期 <input class="Wdate" type="text" id="enddate" onFocus="WdatePicker({lang:'zh-cn'})"/>
+                  &nbsp;
+   <select id="endhour"><option value="0">0</option>
+  <option value ="1">1</option> <option value="opel">2</option><option value="3">3</option>
+  <option value="4">4</option>  <option value="5">5</option>  <option value="6">6</option>
+  <option value="7">7</option><option value="10">8</option>  <option value="9">9</option>
+  
+  <option value="10">10</option>  <option value="11">11</option>  <option value="12">12</option>
+  <option value="13">13</option><option value="13">13</option>  <option value="14">14</option>
+  
+  <option value="15">15</option>  <option value="16">16</option>  <option value="17">17</option>
+  <option value="18">18</option><option value="19">19</option>  <option value="21">21</option>
+    
+
+      </select>点   <a class="cc_btn_com" href="#" title="非论坛类网站" onclick="doSmit();"><span>搜索</span></a>
+     
+						</form> 	 
+					</div>
+					
+				    </div>
+				
+			</div>
+		
+ 		
+		</div>
+		</form>
+		
+		#if($!statReportList.size()!=0)
+		<div class="cc_mod_inner">
+				<div class="cc_para cc_intro_para">
+					
+					  <a class="bc_btn_com" href="#" onclick="downFile();" id="addButton" title="非论坛类网站"><span>下载Excel文件</span></a>
+					
+				    </div>
+				
+			</div>
+		  <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="20%">拦件人</th>
+		  <th width="10%">件数</th>
+		  <th width="10%">总重量</th>
+		  <th width="10%">中转费</th>
+		  <th width="10%">操作费</th>
+		  <th width="10%">计重费</th>
+          <th width="10%">补助费</th>
+          <th width="10%">总费用</th>
+		  </tr>
+  <tr>
+<td >$!allStatReport.manager</td>
+<td >$!allStatReport.allnum</td>
+<td >$!allStatReport.allweight</td>
+<td >$!allStatReport.alltransformprice</td>
+<td >$!allStatReport.alloperateprice</td>
+<td >$!allStatReport.allweightprice</td>
+<td >$!allStatReport.allbuzufei</td>
+<td >$!allStatReport.allwholeprice</td>
+ </tr>
+
+        </table>
+					</div>
+			  </div>
+	</div>
+			
+		
+      <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="20%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">重&nbsp;&nbsp;量</th>
+		  <th width="10%">中转费</th>
+		  <th width="10%">操作费</th>
+		  <th width="10%">计重费</th>
+          <th width="10%">补助费</th>
+          <th width="10%">小&nbsp;&nbsp;结</th>
+		  </tr>
+		  #foreach($statreport in $!statReportList)
+<tr> 
+<td class="row">$!statreport.mailid</td> 
+<td class="row">$!statreport.manager</td> 
+<td class="row" >$!statreport.destinationcity</td> 
+<td class="row">$!statreport.weight</td> 
+<td class="row">$statreport.transformprice</td>
+<td class="row">$statreport.operateprice</td>
+<td class="row">$statreport.weightprice</td>
+<td class="row">$statreport.buzufei</td>
+<td class="row">$statreport.wholeprice</td>
+</tr> 
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+			
+#end
+	</div>
+
+</div>
+
+ <div class="lay_foot">
+	<p class="copyright_en">Copyright © 2011 - 2011. All Rights Reserved.</p>
+	<p class="copyright">WUCHANGTEAM 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+<script type="text/javascript"> 
+window.onload=function(){
+
+  var ss='$!searchInfo';
+
+  if(ss!=null&&ss!=""){
+  var strArray=ss.split('@');
+  
+  var mangername=strArray[0];
+  var startdate=strArray[1];
+  var enddate=strArray[2];
+  var starthour=strArray[3];
+  var endhour=strArray[4];
+  
+  document.getElementById("manager").value=mangername;
+  document.getElementById("startdate").value=startdate;
+  document.getElementById("enddate").value=enddate;
+  document.getElementById("starthour").value=starthour;
+  document.getElementById("endhour").value=endhour;
+      
+   } 
+  
+  
+   
+}
+
+</script>
+
+</body></html>

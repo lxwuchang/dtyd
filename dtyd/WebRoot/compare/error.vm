@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://connect.opensns.qq.com/ -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="腾讯,社区,开放平台">
+<meta name="Description" content="腾讯社区开放平台，不寂寞的平台！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/images/yunda.ico" rel="SHORTCUT ICON" type="image/x-icon"  />
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达结算系统<sup>beta</sup></strong></h1> 
+<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a id="hello"  onclick="exit();return true">退出</a>
+		</div> 	</div> 
+	
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+		
+			<div class="mod_inner">
+			
+			<div style="position:relative;white-space:nowrap;font-family: Pmingliuverdana,arial,sans-serif; font-size:13px"> 
+            
+            <img src="../htdocs/images/error.jpg"/>
+            
+            </div> 
+            
+			<div style="position:relative;white-space:nowrap;font-family: Pmingliuverdana,arial,sans-serif; font-size:13px"> 
+           
+            <a href="stat!showImportDataPage.jspa"><img src="../htdocs/images/error2.jpg"/></a>
+            </div> 
+          
+				</div>
+				
+			
+			</div>
+	
+		</div>
+
+		
+					</div>
+			
+	
+<div class="lay_foot">
+	<p class="copyright_en">Copyright © 2011 - 2011. All Rights Reserved.</p>
+	<p class="copyright">WUCHANGTEAM 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+
+<script language="javascript" type="text/javascript">
+   setTimeout("javascript:location.href='stat!showImportDataPage.jspa'", 5000); 
+</script>
+</body></html>

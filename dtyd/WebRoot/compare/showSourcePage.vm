@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  var b=document.getElementById("d15");
+  alert(b.value);
+  //a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+</script>
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a id="hello"  onclick="exit();return true">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	<div class="lay_aside">
+	<ul id="ulMenu" class="menu">
+		<li><a href="./stat!showImportDataPage.jspa">导入EXCEL数据</a></li>
+		<li><a href="./stat!showStatReport.jspa">查看结算报表</a></li>
+		<li><a style="color:red;" href="./stat!showSetWeight.jspa">重量规则设置</a></li>
+		<li><a href="./stat!showWeightPrice.jspa">计重规则费用设置</a></li>
+		<li><a href="./stat!showSetPrice.jspa">中转费设置</a></li>
+		<li><a href="./stat!showCompareData.jspa">数据报表生成</a></li>
+		<li><a href="./stat!showReport.jspa">数据报表查看</a></li>
+		<li><a href="http://connect.opensns.qq.com/case/">比对规则设置</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">个人信息</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">退出</a></li>
+	</ul>
+	
+</div>
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>Execel数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="mod_inner">
+				<div class="para intro_para">
+					
+					<div class="link_sign_box2">
+					 <form action="./fileProc!uploadFile.jspa" method="POST" enctype="multipart/form-data">     
+                     	导入日期：  &nbsp;&nbsp; <input class="Wdate" type="text" id="d15" onFocus="WdatePicker({lang:'zh-cn'})"/>
+                  &nbsp;&nbsp;  上传文件：&nbsp;&nbsp;<input class="chuan_text_input" type="file" name="excel" height="30px" >    <input type="button" value="上传"/>   
+                      
+						</form> 
+							   
+                          
+						
+		
+					</div>
+					
+				    </div>
+				
+				
+			</div>
+	
+ 
+        <div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>中转站数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="mod_inner">
+				<div class="para intro_para">
+				
+						<div class="link_sign_box2">
+					 <form action="./fileProc!uploadFile.jspa" method="POST" enctype="multipart/form-data"> 
+					导入日期：  &nbsp;&nbsp; <input class="Wdate" type="text" id="d15" onFocus="WdatePicker({lang:'zh-cn'})"/>
+					    
+                  &nbsp;&nbsp;   上传文件：&nbsp;&nbsp;<input  class="chuan_text_input" type="file" name="excel" height="20px" value=""> <input type="button" value="上传"/>    
+        
+						</form> 	 
+					</div>
+				    </div>
+				
+				
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+ <div class="lay_foot">
+	<p class="copyright_en">Copyright © 2011 - 2011. All Rights Reserved.</p>
+	<p class="copyright">WUCHANGTEAM 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+
+
+</body></html>

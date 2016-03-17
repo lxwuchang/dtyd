@@ -1,0 +1,87 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+
+<xwork>
+ <package name="{http://yundastat}yundastat$framework" namespace="/framework">
+		
+	<result-types>
+      <result-type name="velocity" class="com.opensymphony.webwork.dispatcher.VelocityResult" default="true"/>
+      <result-type name="redirect-action" class="com.opensymphony.webwork.dispatcher.ServletActionRedirectResult"/>
+	  <result-type name="redirect" class="com.opensymphony.webwork.dispatcher.ServletRedirectResult"/>
+	  <result-type name="chain" class="com.opensymphony.xwork.ActionChainResult"/>
+    </result-types>
+
+    
+<interceptors>
+		
+     <interceptor name="alias" class="com.opensymphony.xwork.interceptor.AliasInterceptor"/>
+     <interceptor name="servlet-config" class="com.opensymphony.webwork.interceptor.ServletConfigInterceptor"/>
+     <interceptor name="prepare" class="com.opensymphony.xwork.interceptor.PrepareInterceptor"/>
+     <interceptor name="i18n" class="com.opensymphony.xwork.interceptor.I18nInterceptor"/>
+     <interceptor name="chain" class="com.opensymphony.xwork.interceptor.ChainingInterceptor"/>
+     <interceptor name="model-driven" class="com.opensymphony.xwork.interceptor.ModelDrivenInterceptor"/>
+	 <interceptor name="fileUpload" class="com.opensymphony.webwork.interceptor.FileUploadInterceptor"/>
+	 <interceptor name="static-params" class="com.opensymphony.xwork.interceptor.StaticParametersInterceptor"/>
+     <interceptor name="params" class="com.opensymphony.xwork.interceptor.ParametersInterceptor"/>
+     <interceptor name="conversionError" class="com.opensymphony.webwork.interceptor.WebWorkConversionErrorInterceptor"/>
+	  <interceptor name="exception" class="com.opensymphony.xwork.interceptor.ExceptionMappingInterceptor"/>		
+	<interceptor name="validation" class="com.opensymphony.xwork.validator.ValidationInterceptor">
+			<param name="excludeMethods">login,create,update,detail</param>
+	</interceptor>
+			
+	<interceptor name="workflow" class="com.opensymphony.xwork.interceptor.DefaultWorkflowInterceptor">
+		    <param name="excludeMethods">login,create,update,detail</param>
+	</interceptor>
+			
+	<interceptor name="autowireConstants" class="com.yundastat.framework.AutowireConstantsInterceptor" />
+	
+	<interceptor name="userAuthentication" class="com.yundastat.framework.UserAuthencationInterceptor" />
+	<interceptor name="autowire" class="com.opensymphony.xwork.spring.interceptor.ActionAutowiringInterceptor">  
+			 <param name="autowireStrategy">4</param>  
+	</interceptor>
+			
+			
+			
+             <interceptor-stack name="defaultStack">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="servlet-config"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="i18n"/> 
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="model-driven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="static-params"/>
+                <interceptor-ref name="params"/>
+                <interceptor-ref name="conversionError"/>
+				<interceptor-ref name="validation"/>
+				<interceptor-ref name="workflow"/>
+				 <interceptor-ref name="autowireConstants"/>
+            </interceptor-stack>
+			
+		    <interceptor-stack name="userAuthenticationStack">
+				<interceptor-ref name="userAuthentication"/>
+				<interceptor-ref name="defaultStack"/>				
+			</interceptor-stack>
+			
+			
+	
+   </interceptors>
+
+        <default-interceptor-ref name="defaultStack"/>
+
+    <!--    <default-interceptor-ref name="authenticationStack"/>-->
+
+		
+		<global-results>
+			
+			<result name="login" type="redirect">${env.get("homeUrl")}</result>
+			<result name="exception" type="redirect">${env.get("homeUrl")}</result>
+		
+        </global-results>
+		
+		<global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="exception"/>
+        </global-exception-mappings>
+		
+    </package>
+</xwork>

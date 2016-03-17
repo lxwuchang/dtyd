@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../htdocs/css/modSwap.css" rel="stylesheet" type="text/css" media="screen">
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/gobox.js"></script>
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+ 
+  //a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function showSource(){
+
+	//var zzDiv = document.getElementById(id);
+
+	var showDiv = document.getElementById("zz_show_div");
+
+	showDiv.innerHTML = "<h2> <font color='red'>正在上传文件，请耐心等待！</font></h2>";
+
+	gosoBox.showBox("zz_show_div");
+
+}
+
+
+function submitCheck(){
+   
+  var c=document.getElementById("d15").value;
+  var d=document.getElementById("fileinput").value;
+
+
+    if(c==null||c==""){
+    alert("日期不能为空");
+    return false;
+    
+    }else  if(d==null||d==""){
+      alert("请选择Excel文件！");
+       return false;
+
+       }else {
+      // showSource();
+      document.getElementById("showMessage").innerHTML="	<font size='4' color=red>正在上传，请稍等......</font>";
+       dd.action="./fileproc!uploadFile.jspa?importDate="+c;
+       dd.submit();
+     
+       return true;
+    }
+
+
+ return false;
+}
+
+
+function submitCheck2(){
+   
+  var c=document.getElementById("d16").value;
+  var d=document.getElementById("fileinput2").value;
+  
+    if(c==null||c==""){
+    alert("日期不能为空");
+    return false;
+    
+    }else  if(d==null||d==""){
+      alert("请选择Excel文件！");
+       return false;
+
+       }else {
+       
+      document.getElementById("showMessage2").innerHTML="	<font size='4' color=red>正在上传，请稍等......</font>";
+       ds.action="./fileproc!uploadTransformFile.jspa?importDate="+c;
+       ds.submit();
+     
+       return true;
+    }
+
+
+ return false;
+}
+
+</script>
+</head>
+
+<body>
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达快运<sup>beta</sup></strong></h1> 
+		<div class="link"> 
+		    <span id="loginInfo">$!user.username &nbsp;&nbsp;| &nbsp;&nbsp;<a id="hello"  onclick="exit();return true">退出</a>
+		</div> 
+		
+		
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	<div class="lay_aside">
+	<ul id="ulMenu" class="menu">
+		<li><a style="color:red;" href="./stat!showImportDataPage.jspa">导入EXCEL数据</a></li>
+		<li><a href="./stat!showStatReport.jspa">查看结算报表</a></li>
+		<li><a href="./stat!showSetWeight.jspa">重量规则设置</a></li>
+		<li><a href="./stat!showSetWeightPrice.jspa">计重规则费用设置</a></li>
+		<li><a href="./stat!showSetPrice.jspa">中转费设置</a></li>
+		<li><a href="./stat!showCompareData.jspa">数据报表生成</a></li>
+		<li><a href="./stat!showReport.jspa">数据报表查看</a></li>
+		<li><a href="http://connect.opensns.qq.com/case/">比对规则设置</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">个人信息</a></li>
+		<li><a href="http://code.qq.com/bbs/" target="_blank">退出</a></li>
+	</ul>
+	
+</div>
+<div style="display: none;" class="NewsPop" id="zz_show_div">
+  
+</div>
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>EXCEL数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">					
+					<div class="link_sign_box2" >
+					 <form name="dd" onsubmit="submitCheck()" method="POST" enctype="multipart/form-data"> 
+					  <input type="hidden" name="user.username" value="$!user.username">
+					 <input type="hidden" name="user.loginid" value="$!user.loginid">      
+                     	导入日期：  &nbsp;&nbsp; <input class="Wdate" type="text" id="d15" onFocus="WdatePicker({lang:'zh-cn'})"/>
+                  &nbsp;&nbsp;  上传文件：&nbsp;&nbsp;<input id="fileinput" class="chuan_text_input" type="file" name="excel" height="30px" >    <input type="submit" value="上传"/>   
+                      
+						</form> 	 
+						
+					</div>
+					
+							 #if($!numList.size()!=0)
+							   
+							   #set($d=$!numList.size())
+							  
+							<font size="3" color=red>     成功上传了,保存为${importDate}.xls文件，导入数据$d条</font>
+							   #end
+					  <div id="showMessage">
+					  </div>
+				    </div>            
+			</div>
+		
+		#if($!statReportList.size()!=0)
+			 <div class="cd_mod_inner">
+				<div class="cc_para cd_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="20%">时间</th>
+		  <th width="10%">总件数</th>
+		  <th width="10%">总重量</th>
+		  <th width="10%">总中转费</th>
+		  <th width="10%">总操作费</th>
+		  <th width="10%">总计重费</th>
+          <th width="10%">总补助费</th>
+          <th width="10%">总费用</th>
+		  </tr>
+<tr> 
+<td >$!allStatReport.reporttime</td>
+<td >$!allStatReport.allnum</td>
+<td >$!allStatReport.allweight</td>
+<td >$!allStatReport.alltransformprice</td>
+<td >$!allStatReport.alloperateprice</td>
+<td >$!allStatReport.allweightprice</td>
+<td >$!allStatReport.allbuzufei</td>
+<td >$!allStatReport.allwholeprice</td>
+
+</tr> 
+
+</tr> 
+ 
+                         </table>
+					</div>
+			  </div>
+	</div>
+			
+ <div class="imp_mod_inner">
+				<div class="cc_para imp_intro_para">
+					
+					<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="20%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="10%">目的地</th>
+		  <th width="10%">重&nbsp;&nbsp;量</th>
+		  <th width="10%">中转费</th>
+		  <th width="10%">操作费</th>
+		  <th width="10%">计重费</th>
+          <th width="10%">补助费</th>
+          <th width="10%">小&nbsp;&nbsp;结</th>
+		  </tr>
+		  #foreach($statReport in $!statReportList)
+<tr> 
+<td class="row">$!statReport.mailid</td> 
+<td class="row">$!statReport.manager</td> 
+<td class="row">$!statReport.destinationcity</td> 
+<td class="row">$!statReport.weight</td> 
+<td class="row">$!statReport.transformprice</td>
+<td class="row">$!statReport.operateprice</td>
+<td class="row">$!statReport.weightprice</td>
+<td class="row">$!statReport.buzufei</td>
+
+<td class="row">$!statReport.wholeprice</td>
+</tr> 
+
+    
+
+#end
+
+        </table>
+					</div>
+			  </div>
+	</div>
+	 
+	      <div class="para_cont">
+	<ul class="paginator">
+	#if($pageBean)
+	
+	#set($pageNo = $pageBean.currentPage)
+	#set($tPage = $pageBean.totalPages)	
+	#set($prePage = $pageNo - 1)
+	#set($nextPage = $pageNo + 1)
+	 #set($leftStart=1)
+	 #set($leftEnd=1)
+	 
+	 
+	#if($pageNo > 1 )
+	<li><a href="/deals">首页</a></li>
+	<li><a href="/deals/page17">上一页</a></li>
+	#end 
+ 
+	#if( $pageNo - 2 < 1) 
+	  #if($pageNo+2 < $tPage)
+	    #set($leftStart=1)
+	    #set($leftEnd=5)
+ 
+	  #else 
+	 
+	    #set($leftStart=1)
+	    #set($leftEnd=$tPage)
+	   
+     #end
+   #end
+   
+   
+   
+	#if(($pageNo - 2 >= 1)&&($pageNo + 2 <= $tPage))
+	 #set($leftStart = $pageNo - 2)
+	 #set($leftEnd= $pageNo + 2)
+	#end
+	
+	
+	#if($pageNo + 2 > $tPage)
+	 #set($leftStart=$tPage-5)
+	 #set($leftEnd=$tPage)
+    #end
+	
+	
+	#foreach($p in [${leftStart}..${leftEnd}])
+        #if($p == $pageNo)
+			<li class="current"><a href="/deals"><font color=red>$p</font></a></li>
+        #else
+    		#if($p != 0)
+				<li><a href="#" onclick="return PageChanage('$securityUtil.jsEncode($!{p})')">$p</a></li>
+    		#end
+    	#end
+    #end
+
+	
+	    #if ($pageNo < $tPage)
+             <li><a href="/deals/page19">下一页</a></li>
+             <li><a href="/deals/page19">最后一页</a></li>
+       #end
+   
+   
+ #end
+
+</ul>    
+	
+		  </div>
+ 
+	
+	#end		
+ 
+        <div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>中转站数据导入</span></a>
+						</div>
+					</div>
+		    </div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">
+				
+						<div class="link_sign_box2">
+					 <form  name="ds" onsubmit="submitCheck2()" method="POST" enctype="multipart/form-data"> 
+					  <input type="hidden" name="user.username" value="$!user.username">
+					 <input type="hidden" name="user.loginid" value="$!user.loginid">  
+					导入日期：  &nbsp;&nbsp; <input class="Wdate" type="text" id="d16" onFocus="WdatePicker({lang:'zh-cn'})"/>
+					    
+                  &nbsp;&nbsp;   上传文件：&nbsp;&nbsp;<input id="fileinput2" class="chuan_text_input" type="file" name="excel" height="20px" value=""> <input type="submit" value="上传"/>    
+        
+						</form> 	 
+					</div>
+					
+					 <div id="showMessage2">
+					 </div>
+				    </div>		
+			</div>
+			
+				#if($!mailTransformList.size()!=0)
+		
+			
+     <div class="imp_mod_inner">
+		<div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="20%">单件号</th>
+		  <th width="10%">拦件人</th>
+		  <th width="10%">目的地</th>
+		  <th width="30%">扫描时间</th>
+		  <th width="10%">重&nbsp;&nbsp;量</th>
+		 
+		  </tr>
+		  #foreach($statReport in $!mailTransformList)
+<tr> 
+<td class="row">$!statReport.mailid</td> 
+<td class="row">$!statReport.manager</td> 
+<td class="row">$!statReport.destinationgroup</td> 
+<td class="row">$dateUtil.format($!statReport.sendtime)</td> 
+<td class="row">$!statReport.weight</td> 
+
+</tr> 
+
+     
+
+#end
+ </table>
+      
+		  </div>
+	   </div>
+	</div>
+	
+				
+  <div class="para_cont">
+	<ul class="paginator">
+	#if($pageBean)
+	
+	#set($pageNo = $pageBean.currentPage)
+	#set($tPage = $pageBean.totalPages)	
+	#set($prePage = $pageNo - 1)
+	#set($nextPage = $pageNo + 1)
+	 #set($leftStart=1)
+	 #set($leftEnd=1)
+	 
+	 
+	#if($pageNo > 1 )
+	<li><a href="/deals">首页</a></li>
+	<li><a href="/deals/page17">上一页</a></li>
+	#end 
+ 
+	#if( $pageNo - 2 < 1) 
+	  #if($pageNo+2 < $tPage)
+	    #set($leftStart=1)
+	    #set($leftEnd=5)
+ 
+	  #else 
+	 
+	    #set($leftStart=1)
+	    #set($leftEnd=$tPage)
+	   
+     #end
+   #end
+   
+   
+   
+	#if(($pageNo - 2 >= 1)&&($pageNo + 2 <= $tPage))
+	 #set($leftStart = $pageNo - 2)
+	 #set($leftEnd= $pageNo + 2)
+	#end
+	
+	
+	#if($pageNo + 2 > $tPage)
+	 #set($leftStart= $tPage - 5)
+	 #set($leftEnd=$tPage)
+    #end
+	
+	
+	#foreach($p in [${leftStart}..${leftEnd}])
+        #if($p == $pageNo)
+			<li class="current"><a href="/deals"><font color=red>$p</font></a></li>
+        #else
+    		#if($p != 0)
+				<li><a href="#" onclick="return PageChanage('$securityUtil.jsEncode($!{p})')">$p</a></li>
+    		#end
+    	#end
+    #end
+
+	
+	    #if ($pageNo < $tPage)
+             <li><a href="/deals/page19">下一页</a></li>
+             <li><a href="/deals/page19">最后一页</a></li>
+       #end
+   
+   
+ #end
+
+</ul>    
+	
+		  </div>
+	
+	#end
+		</div>
+	</div>
+	</div>
+</div>
+<div class="lay_foot">
+	<p class="copyright_en">Copyright © 2011 - 2011. All Rights Reserved.</p>
+	<p class="copyright">WUCHANGTEAM 版权所有</p>
+</div>
+<div id="returnTop" class="to_top" style="position: absolute; top: auto; left: auto; right: 0px; bottom: 0px; "></div>
+
+
+
+
+</body></html>

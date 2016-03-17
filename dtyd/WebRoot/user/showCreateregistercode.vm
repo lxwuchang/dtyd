@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达结算系统">
+<meta name="Description" content="义乌韵达结算系统">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+ 
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+</head>
+
+<body  onload="document.getElementById('reg').focus()">
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达结算系统<sup>beta</sup></strong></h1> 
+	
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="mod_top">
+				<h2>义乌韵达分部快件费用结算系统</h2>
+			</div>
+			<form id="hello" method="post" > 
+			<div class="gg_mod_inner">
+				<div class="para intro_para">					
+					<div class="link_sign_box2" >
+					<font color=red>$!errorMessage.hello</font>
+					#if($!registerCode)
+						<font color=red>注册码： $!registerCode</font>
+						
+				    #end
+			<div style="position:relative;white-space:nowrap;font-family: Pmingliuverdana,arial,sans-serif; font-size:13px"> 
+              <label for="user_email" id="login_email_label">注册码日期：&nbsp;&nbsp;</label> 
+                             &nbsp;&nbsp; <input class="Wdate d_text_input" type="text" id="dt" onFocus="WdatePicker({lang:'zh-cn'})"/>  <a  class="upexe" href="#" id="search1" style="padding:5px 5px 5px 5px" onclick="doSubmit()"><span>生成</span>	</a>  
+           
+            </div>
+            </div>
+				</div>
+				 </div>
+				</form> 	
+			</div>
+	
+		</div>
+
+					</div>
+			
+	
+#include("/stat/footer.vm")
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript"> 
+ 
+function doSubmit(){
+   
+   var form=document.getElementById("hello");
+   var reg=document.getElementById("dt").value;
+ 
+   if(reg==""){
+    alert("注册码不能为空");
+   return false;
+   
+   }else{
+   form.action="./user!createregistercode.jspa?reg="+reg;
+   form.submit();
+   return true;
+   }
+    return false;
+}
+</script> 
+</body></html>

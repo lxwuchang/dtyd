@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body>
+#set($page = 'unread22')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>月收支汇总</span></a>
+						</div>
+					</div>
+		    </div>
+		 			
+			</div> 
+				 
+	  
+	   <div class="clear">
+			</div>
+	
+		 
+	 
+	<div class="nav-not-fixedz">
+    		 
+			##<a href="../report/report!showMonthSmyPage.jspa"  class="tabcssleft"><span>按揽件人汇总</span></a>
+			##<a href="../report/report!showMonthSmyByDayPage.jspa"  class="tabcssselect"><span>按日期汇总</span></a>
+          <a  id="exports" class="btn_com_edit_normal"   onclick="exportZZFDaySmyFileByManager($!yearSmy.year,$!yearSmy.month,'$!yearSmy.manager');"><span>导出日汇总</span></a><a  id="exports" class="btn_com_edit_normal" href="#"  onclick="exportZZFDaySmyFileByManagerDetail($!yearSmy.year,$!yearSmy.month,'$!yearSmy.manager');"><span>导出明细</span></a>
+              <a class="btn_com_edit_normal" href="../report/report!showMonthSmyPage.jspa?yearSmy.year=$!yearSmy.year&yearSmy.month=$!yearSmy.month"><span>返&nbsp;&nbsp;回</span></a>
+	   </div>
+	    <form id="weightform2">
+		 <div class="cd_mod_inner">
+		 <div class="cc_para cd_intro_para">
+					
+		<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">日期</th>
+		   <th width="7%">揽件人</th>
+		  <th width="6%">票数(件)</th>
+		   <th width="6%">计件费</th>
+		   <th width="6%">称重费</th> 
+		   <th width="7%">区域补助费</th>  
+	 	  <th width="7%">中转费</th>
+		   <th width="6%">大笔罚款</th>
+		  <th width="6%">有偿派费</th>
+		  <th width="6%">转件费</th>
+		   <th width="6%">丢件费</th>	 
+          <th width="7%">总金额</th>
+        
+		  </tr>
+		 
+		  #foreach($dailybalance in $!dailybalanceList) 
+<tr> 
+
+<td class="row">$dateUtil.formatYYYYMMDD($!dailybalance.bsndate)</td> 
+<td class="row">$!dailybalance.manager</td>  
+<td class="row">$!dailybalance.num</td>  
+<td class="row">$!dailybalance.jijianprice</td> 
+<td class="row">$!dailybalance.weightprice</td> 
+<td class="row">$!dailybalance.buzuprice</td> 
+<td class="row">$!dailybalance.transformprice</td> 
+<td class="row">$!dailybalance.fakuanprice</td> 
+<td class="row">$!dailybalance.paisongprice</td> 
+<td class="row">$!dailybalance.zhuanjianprice</td> 
+<td class="row">$!dailybalance.diujianprice</td> 
+<td class="row">$!dailybalance.wholeprice</td> 
+ 
+</tr> 
+ 
+        #end 
+
+         </table>
+			 </div>
+			  </div>
+	</div>
+	 </form>
+			  	
+			
+</div>
+#include("/stat/footer.vm")
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+
+function exportZZFDaySmyFileByManager(year,month,manager){
+
+  var hellll=document.getElementById("weightform2");
+  
+   hellll.method="POST";
+   hellll.action="../report/report!exportZZFDaySmyFileByManager.jspa?year="+year+"&month="+month+"&manager="+manager;
+   hellll.submit();
+ 
+}
+
+
+ function exportZZFDaySmyFileByManagerDetail(year,month,manager){
+ var hellll=document.getElementById("weightform2");
+  
+   hellll.method="POST";
+   hellll.action="../report/report!exportZZFDaySmyFileByManagerDetail.jspa?year="+year+"&month="+month+"&manager="+manager;
+    hellll.submit();
+}
+
+function exportDailyBalanceMonthByManager(year,month,manager){
+ var hellll=document.getElementById("weightform2");
+  
+   hellll.method="POST";
+   hellll.action="../report/report!exportDailyBalanceMonthByManager.jspa?year="+year+"&month="+month+"&manager="+manager;
+    hellll.submit();
+}
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+} 
+</script>
+</body></html>

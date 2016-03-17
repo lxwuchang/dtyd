@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—客服赔款</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread16')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+  
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 
+		     <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+		 #if($user.role=='admin') 
+			  <a href="./report!showImportZhipaoOutcomePage.jspa"class="tabcssleft" ><span>直跑录入</span></a>
+			  <a href="./report!showImportZhichuOutcomePage.jspa"class="tabcssleft" ><span>公司支出录入</span></a>
+			  <a href="./report!showImportGongziOutcomePage.jspa"class="tabcssleft" ><span>工资录入</span></a>
+			  <a href="./report!showImportFankuanOutcomePage.jspa"class="tabcssleft" ><span>中转费返款</span></a>
+			  #end
+			  <a href="./report!showImportPeikuanOutcomePage.jspa"class="tabcssselect" ><span>客服赔款</span></a>
+        </div>
+        <div class="clear">
+			</div>
+		 <form name="dd" id="weightform" method="POST" enctype="multipart/form-data"> 
+		 	   <input type="hidden" id="pageNo" name="pageNo" value="$!pageBean.currentPage">
+		 	      <div class="cc_para cc_intro_para" style="border-top: 1px solid #CCC7BE;">
+				     
+				     #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+		        </div> 
+				  
+				      <div class="cc_para cc_intro_para">
+				    
+					  业务日期 <input class="Wdate d_text_input" type="text" id="bsndatestr" name="peikuanOutcome.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$!bsndatestr'/>
+                     &nbsp;&nbsp;&nbsp;揽件人 
+                       <select id="manager" name="peikuanOutcome.managerid" class="text_input">
+                       <option value ="0" >请选择揽件人</option> 
+                       #foreach($manager in $!managerInfoList)                
+                       <option value ="$!manager.managerid@$!manager.managername" #if($!manager.managerid=='6617')selected#end>$!manager.managername</option>
+                      #end
+                    
+                   </select>
+					    </div> 
+					    
+				  <div class="cc_para cc_intro_para">
+				   面单号&nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="mailid" name="peikuanOutcome.mailid" type="text" style= "WIDTH: 384px" value=''/> &nbsp;&nbsp;
+					 
+			 	</div> 
+			     
+				 <div class="cc_para cc_intro_para">
+				     &nbsp; 问题原因   
+<select id="reason" name="peikuanOutcome.reason" class="text_input">
+<option value ="网点遗失">网点遗失</option>
+<option value ="中转遗失">中转遗失</option>
+<option value ="我司遗失">我司遗失</option>
+<option value ="网点破损">网点破损</option>
+<option value ="网点延误">网点延误</option>
+<option value ="赔付运费">赔付运费</option>
+<option value ="破损件">破损件</option>
+<option value ="收件人已退款">收件人已退款</option>
+<option value ="无揽件记录">无揽件记录 </option>
+<option value ="网点污染">网点污染</option>
+<option value ="内物短少">内物短少</option>
+<option value ="无记录">无记录</option>
+<option value ="网点少件">网点少件</option>
+<option value ="退件遗失">退件遗失</option>
+<option value ="虚假签收">虚假签收 </option>
+                   </select> 
+                  
+					&nbsp;&nbsp;&nbsp;应付金额(*)&nbsp;&nbsp;
+        <input class="ui-input" id="price" tabindex=1 name="peikuanOutcome.yingpeiprice" type="text" style= "WIDTH: 100px"  placeholder=""/> &nbsp;&nbsp; 
+       </div>    
+                     
+ <div class="cc_para cc_intro_para">
+				     &nbsp; 处理情况   
+<select id="dealstate" name="peikuanOutcome.dealstate" class="text_input">
+<option value="我司赔付">我司赔付</option>
+<option value="对方公司已录我司">对方公司已录</option>
+<option value="已打老板支付宝">已打老板支付宝</option>
+<option value="待调查">待调查</option>
+<option value="待接单">待接单</option>
+<option value="已完成">已完成</option>
+<option value="待发处决书">待发处决书</option>
+<option value="通知书未审核">通知书未审核</option>
+<option value="通知书驳回">通知书驳回</option>
+<option value="不予处理">不予处理</option>
+
+ </select>
+ 
+ 	&nbsp;&nbsp;&nbsp;实付金额&nbsp;&nbsp;
+                    <input class="ui-input" id="price" tabindex=1 name="peikuanOutcome.realpeiprice" type="text" style= "WIDTH: 100px"  placeholder=""/> &nbsp;&nbsp; 
+              
+			 	</div>
+		   <div class="cc_para cc_intro_para">
+				  目的地 &nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="dest" name="peikuanOutcome.dest" type="text" style= "WIDTH: 384px" value=''/> &nbsp;&nbsp;
+					 
+			 	</div>
+		  
+		                                    
+				 <div class="cc_para cc_intro_para">
+				   备注 &nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="memo" name="peikuanOutcome.memo" type="text" style= "WIDTH: 384px" value=''/> &nbsp;&nbsp;
+					 
+			 	</div>
+		  
+		   
+			  <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" title="韵达" onclick="doSumbit();"><span>保&nbsp;存</span></a>
+							 	 
+						</div>
+					</div>
+				</div>
+			 </form> 
+			
+		      <div class="mod_block" style="float:left">
+			 <form name="dd" id="weightform3" method="POST"> 
+		 	       <input type="hidden" name="pageNo" value="$!pageBean.currentPage">
+		 	   
+				 	   年份 <select id="yearstr" name="yearSmy.year" class="text_input" style= "WIDTH: 124px">
+				 	 <option value =""#if(!$yearSmy.year)selected#end>全部</option>
+                     <option value ="2014"#if($yearSmy.year==2014)selected#end>2014年</option>
+                     <option value ="2015"#if($yearSmy.year==2015)selected#end>2015年</option>
+                     <option value ="2016"#if($yearSmy.year==2016)selected#end>2016年</option>
+                     <option value ="2017"#if($yearSmy.year==2017)selected#end>2017年</option>
+                     <option value ="2018"#if($yearSmy.year==2018)selected#end>2018年</option>
+                   </select>
+                                       月份
+                    <select id="monthstr" name="yearSmy.month" class="text_input" style= "WIDTH: 124px">
+                    <option value =""#if(!$yearSmy.year)selected#end>全部</option>
+                    <option value ="1"#if($yearSmy.month==1)selected#end>1月</option>
+                    <option value ="2"#if($yearSmy.month==2)selected#end>2月</option>
+                    <option value ="3"#if($yearSmy.month==3)selected#end>3月</option>
+                    <option value ="4"#if($yearSmy.month==4)selected#end>4月</option>
+                  	<option value ="5"#if($yearSmy.month==5)selected#end>5月</option>
+                  	<option value ="6"#if($yearSmy.month==6)selected#end>6月</option>
+                  	<option value ="7"#if($yearSmy.month==7)selected#end>7月</option>
+                  	<option value ="8"#if($yearSmy.month==8)selected#end>8月</option>
+                    <option value ="9"#if($yearSmy.month==9)selected#end>9月</option>
+                    <option value ="10"#if($yearSmy.month==10)selected#end>10月</option>
+                    <option value ="11"#if($yearSmy.month==11)selected#end>11月</option>
+                    <option value ="12"#if($yearSmy.month==12)selected#end>12月</option>
+                   </select>
+                   
+      &nbsp;&nbsp;&nbsp;揽件人 
+                       <select id="manager" name="yearSmy.manager" class="text_input" style= "WIDTH: 144px">
+                      <option value="">全部</option> 
+                       #foreach($manager in $!managerInfoList)                
+                       <option value ="$!manager.managerid" #if("$!manager.managerid"=="$!yearSmy.manager")selected#end>$!manager.managername</option>
+                      #end
+                    
+                   </select>	  
+           处理情况
+<select id="dealstate" name="yearSmy.state" class="text_input"  style= "WIDTH: 124px" >
+<option value="">全部</option>
+<option value="我司赔付" #if("我司赔付"=="$yearSmy.state")selected#end>我司赔付</option>
+<option value="对方公司已录"#if("对方公司已录"=="$yearSmy.state")selected#end>对方公司已录</option>
+<option value="已打老板支付宝">已打老板支付宝</option>
+<option value="待调查">待调查</option>
+<option value="待接单">待接单</option>
+<option value="已完成">已完成</option>
+<option value="待发处决书">待发处决书</option>
+<option value="通知书未审核">通知书未审核</option>
+<option value="通知书驳回">通知书驳回</option>
+<option value="不予处理">不予处理</option>
+
+ </select>
+               面单号&nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="mailid" name="yearSmy.mailid" type="text" style= "WIDTH: 144px" value='$!yearSmy.mailid'/> 
+             
+               &nbsp; &nbsp;  &nbsp; <a class="btn_com_edit_normal" href="#"   onclick="searchPage();"><span>查&nbsp;&nbsp;询</span></a> &nbsp;&nbsp;&nbsp;<a class="btn_com_edit_normal" href="#"   onclick="doExport();"><span>导&nbsp;&nbsp;出</span></a> 
+            	 </div>
+			 <div class="clear">
+			</div>
+	      <div class="mod_block">
+		 	 	  
+	       <div class="imp_mod_inner">
+		   <div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="4%">序号</th>
+		  <th width="8%">日期</th>
+		  <th width="10%">单号</th>
+		  <th width="8%">揽件人</th>
+		  <th width="8%">金额</th>		  
+		  <th width="8%">问题原因</th>
+	 	   <th width="8%">处理情况</th>  
+		   <th width="8%">目的地</th>
+		    <th width="8%">实付金额</th>
+		   <th width="8%">备注</th>
+		    <th width="13%">操作</th>
+		  </tr>
+		 #set($i=1)
+		  #foreach($peikuanOutcome in $!peikuanOutcomeList)
+				<tr>                
+						<td class="row">$!i</td> 
+						<td class="row">$dateUtil.formatYYYYMMDD($!peikuanOutcome.bsndate)</td> 
+				     	<td class="row">$!peikuanOutcome.mailid</td> 
+				        <td class="row">$!peikuanOutcome.managername</td>
+				      	<td class="row">$!peikuanOutcome.yingpeiprice</td> 
+				     	<td class="row">$!peikuanOutcome.reason</td> 
+				     	<td class="row">$!peikuanOutcome.dealstate</td> 
+				     	<td class="row">$!peikuanOutcome.dest</td>  
+				     	<td class="row">$!peikuanOutcome.realpeiprice</td>  
+				     	<td class="row">$!peikuanOutcome.memo</td>
+				        <td class="row"><a class="btn_com_edit_normal"   href="#" onclick="showUpdate($!peikuanOutcome.outcomeid)"><span>修改</span></a><a class="btn_com_edit_shan" href='#' onclick="deletePeikuanOutcome($!peikuanOutcome.outcomeid)"><span>删除</span></a></td> 
+
+				</tr> 
+
+    #set($i=$i+1)
+
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	 	 </form> 			
+	  <form id="searchForm">
+
+ <div class="pages-wrap">
+   <div class="Pages">
+#if($pageBean)
+	#set($pageNo = $pageBean.currentPage)
+	
+	#set($tPage = $pageBean.totalPages)
+ 
+	#set($prePage = $pageNo - 1)
+	 
+	#set($nextPage = $pageNo + 1)
+ 
+	#if ($pageNo > 1)
+		<a href="#" class="PrevPage" onclick="doSearchPage('$prePage')" title="上一页">上一页</a>
+	#end
+	#set($leftStart = 1)
+    #set($leftEnd = 2)
+    #set($mStart = $pageNo - 5)
+    #set($mEnd = $pageNo + 5)
+    #set($rStart = $tPage - 1)
+    #set($rEnd = $tPage)
+    #if ($mStart <= $leftEnd)
+    	#set($leftStart = 0)
+    	#set($leftEnd = 0)
+    	#set($mStart = 1)
+    #end
+    #if ($mEnd >= $rStart)
+    	#set($rStart = 0)
+    	#set($rEnd = 0)
+    	#set($mEnd = $tPage)
+    #end
+    #if ($leftEnd > $leftStart)
+    	#foreach($p in [${leftStart}..${leftEnd}])
+			#if($p != 0)
+					<a href=#"  class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+			#end
+    	#end
+    	#if($mStart > ($leftEnd +1))
+			<span class="PageMore">...</span>
+		#end
+    #end
+    #foreach($p in [${mStart}..${mEnd}])
+        #if($p == $pageNo)
+			<span class="PageSel">$p</span>
+        #else
+    		#if($p != 0)
+				<a href="#" class="PageLink"   onclick="doSearchPage('$p')" title="$p">$p</a>
+    		#end
+    	#end
+    #end
+       
+    #if ($rEnd > $rStart )
+		#if($rStart > ($mEnd+1))
+			<span class="PageMore">...</span>
+    	#end
+    	#foreach($p in [${rStart}..${rEnd}])
+			<a href="#" class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+ 
+    	#end
+	#end
+	#if ($pageNo < $tPage)
+		<a href="#" class="NextPage"  onclick="doSearchPage('$nextPage')" title="下一页">下一页</a>	
+	#end
+ 
+  #end
+  
+  </div>
+  </div>
+			
+
+	</div>
+
+</div>
+</form>
+	  
+		</div>
+	</div>
+	</div>
+ 
+
+</form>
+ 	#include("/stat/footer.vm")
+<script type='text/javascript' src='/dtyd/dwr/interface/ReportServer.js'></script>
+<script type='text/javascript' src='/dtyd/dwr/engine.js'></script>
+<script type='text/javascript' src='../htdocs/js/jquery.js'></script>
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+
+ function getIncomeInfo(){
+  
+  var managerid=document.getElementById("manager").value;
+  var date=document.getElementById("bsndatestr").value;
+  
+  ReportServer.getIncome(date,managerid,processIncomeInfo);
+ 
+ }
+ 
+ function processIncomeInfo(data){
+     var managerid=document.getElementById("manager").value;
+   
+   if(managerid!="0"){
+   
+    $("#num").attr("placeholder",data.num);
+    $("#price").attr("placeholder",data.price);
+ 
+  }else{
+   
+    $("#num").attr("placeholder","");
+    $("#price").attr("placeholder","");
+ 
+  }
+  
+ }
+ 
+ 
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+ 
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var bsndatestr=document.getElementById("bsndatestr").value;
+   var mailid=document.getElementById("mailid").value;
+   var price=document.getElementById("price").value;
+   var manager=document.getElementById("manager").value;
+    if(manager==null||manager=="0"){
+     alert("请选择揽件人");
+     return false;
+   
+   }
+   
+    if(mailid==null||mailid==""){
+     alert("面单号不能为空");
+     return false;
+   
+   }
+  
+   if(price==null||price==""){
+     alert("应赔金额不能为空");
+     return false;
+   
+   }
+    if(!isNum(price))
+    return false;
+ 
+    
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!createPeikuanOutcome.jspa";
+   dd.submit();
+  
+ 
+}
+
+
+   function deletePeikuanOutcome(incomeid){
+      var bb= window.confirm("请再次确定要删除。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	    var dd= document.getElementById("weightform3");
+        dd.action="../report/report!deletePeikuanOutcomePage.jspa?outcomeid="+incomeid;       
+         dd.submit();
+        return true;
+       }
+       
+   }
+ function doSearchPage(pageno){
+   var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!searchPeikuanOutcomePage.jspa?pageNo="+pageno;                                                                                     
+   dd.submit();
+
+
+}
+
+ function showUpdate(outcomeid){
+   var dd=document.getElementById("weightform3");
+     var pageNo=document.getElementById("pageNo").value;
+   dd.method="POST";
+   dd.action="../report/report!showUpdatePeikuanOutcomePage.jspa?outcomeid="+outcomeid+"&pageNo="+pageNo;                                                                                     
+   dd.submit();
+
+
+}
+
+
+function doExport(){
+   var dd=document.getElementById("weightform3");
+   
+   dd.method="post";
+   dd.action="../report/report!exportPeikuanOutcome.jspa";
+   dd.submit();
+  
+ 
+}
+
+ function searchPage(){
+ var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!searchPeikuanOutcomePage.jspa?pageNo=1";                                                                            
+   dd.submit();
+
+}
+</script> 
+
+</body></html>

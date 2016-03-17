@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="user">
+
+	<typeAlias alias="User" type="com.yundastat.model.User"/>
+	<typeAlias alias="UserInfo" type="com.yundastat.model.UserInfo"/>
+	 	<insert id="registerUser" parameterClass="User">
+	    <![CDATA[
+			insert into user(
+			userid,
+			loginid,
+			username,
+			role,
+			isdeleted,
+			company,
+			password,
+		 	  effdays ,
+	              lastlogintime,
+	              deadline
+		 	 
+            )values(
+            #userid#,
+			#loginid#,
+			#username#,
+			#role#,
+			#isdeleted#,
+			#company#,
+			#password#,
+			#effdays#,
+			#lastlogintime#,
+			#deadline# 
+		  
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	 <select id="getUserByUserid" resultClass="User" parameterClass="Integer">
+	<![CDATA[
+			select
+			
+	              userid as userid,
+	              loginid as loginid,
+	              username as username,
+	              password as password,
+	              role as role,
+	              company as company,
+	              isdeleted as isdeleted,
+	                 effdays as effdays,
+	              lastlogintime as lastlogintime,
+	              deadline as deadline
+	         
+	               
+	        from    user
+	        where   userid=#userid# and isdeleted='n'
+		]]>
+	</select>
+	
+	 <select id="getUserByLoginid" resultClass="User" parameterClass="map">
+	<![CDATA[
+			select
+	              userid as userid,
+	              loginid as loginid,
+	              username as username,
+	              password as password,
+	              role as role,
+	              company as company,
+	              isdeleted as isdeleted,
+	              effdays as effdays,
+	              lastlogintime as lastlogintime,
+	              deadline as deadline
+	               
+	        from    user
+	        where   isdeleted='n'
+		]]>
+		<dynamic>
+		  <isNotEmpty  property="loginid" prepend="AND"> 
+		    
+		       loginid=#loginid#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+		 
+	</select>
+	
+ 
+	<delete id="deleteUser" parameterClass="User">
+	    <![CDATA[
+			delete 
+			from  user
+           where   loginid=#loginid# 
+	  
+		]]>
+	
+	</delete>	
+	
+	<update id="updateUser" parameterClass="User">
+	    <![CDATA[
+			update user
+            set  
+		       
+	              username =#username#,
+	              password=#password#,
+	              role=#role#,
+	              company =#company#,
+	              isdeleted = #isdeleted#,
+	              effdays= #effdays#,
+	              lastlogintime=#lastlogintime#,
+	              deadline =#deadline#
+	              
+                
+            where   loginid=#loginid# and isdeleted='n'
+	  
+		]]>
+	
+	</update>	
+	
+	 
+</sqlMap>

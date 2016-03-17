@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—设置计重规则</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread31')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+   <form id="weightform">
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="计重费规则设置"><span>计重费规则设置</span></a>
+						</div>
+					</div>
+		    </div>
+		    <div class="gg_mod_inner">
+				 
+				
+			  #if($!errorMessage.hello)
+					
+			 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+			  #end
+				   <div class="cc_para cc_intro_para">
+					
+					&nbsp;&nbsp;&nbsp;名称: 
+                    <input class="text_input"  id="weightpricename" name="weightpricename" type="text" style= "WIDTH: 224px"/> 
+               &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+				    </div>  
+				 <div class="cc_para cc_intro_para">
+					
+					首重:
+                    <input class="text_input" id="shouzhong" name="shouzhong" type="text" style= "WIDTH: 224px"/> &nbsp;&nbsp;公斤
+               
+				    </div>
+				 <div class="cc_para cc_intro_para">
+					
+					单价:
+                    <input class="text_input" id="perprice" name="perprice" type="text" style= "WIDTH: 224px"/> 元/公斤
+               
+				    </div>
+				    <div class="cc_para cc_intro_para">
+					
+					&nbsp;&nbsp;计件费: 
+                    <input class="text_input" id="scanfei" name="scanfei" type="text" style= "WIDTH: 224px"/>&nbsp; &nbsp;元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+				    </div>
+				    
+				 
+			</div>
+		  
+			
+			
+			
+			  <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" title="义乌韵达" onclick="doSumbit();"><span>保&nbsp;存</span></a>
+							 	 
+						</div>
+					</div>
+				</div>
+			#if($!messageInfo=="SUCCESS")
+			<font color=red>保存成功！</font>
+			#end
+			
+				
+			
+		     <div class="mod_block">
+			   <div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>计重规则</span></a>
+						</div>
+					</div>
+		    </div>
+		
+			<div class="gg_mod_inner">
+				  
+	       <div class="imp_mod_inner">
+		   <div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="13%">计重费方案名称</th>
+		  <th width="40%">计重费用</th>
+		  <th width="8%">单价(元)</th>
+		  <th width="10%">计件费(元)</th>		 
+		   <th width="12%">操作</th>
+		     
+		 
+		  </tr>
+		 
+		  #foreach($weightPrice in $!weightPriceList)
+				<tr> 
+						 
+					 
+						<td class="row">$!weightPrice.weightpricename</td> 
+						<td class="row">$!weightPrice.weightpricerulecontent</td> 
+				     	<td class="row">$!weightPrice.price</td> 
+				     	<td class="row">$!weightPrice.scanfei</td> 
+				          <td class="row">   <a class="btn_com_edit_normal" href='./stat!showUpdateWeightPrice.jspa?weightpriceid=$!weightPrice.weightpriceruleid'><span>修改</span></a>   <a class="btn_com_edit_shan"href='./stat!deleteWeightPriceRule.jspa?weightpriceid=$!weightPrice.weightpriceruleid'><span>删除</span></a></td> 
+
+				</tr> 
+
+    
+
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+				 
+				 
+				 
+			</div>
+				
+		  
+		</div>
+	</div>
+	</div>
+</div>
+
+</form>
+ 	#include("/stat/footer.vm")
+ 
+<script type="text/javascript"> 
+count=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+  
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var weightpricename=document.getElementById("weightpricename").value;
+   
+   var str="";
+  
+ 
+   var shouzhong=document.getElementById("shouzhong").value;
+   if(shouzhong==null||shouzhong==""){
+     alert("首重不能为空");
+     return false;
+   
+   }
+    if(!isNum(shouzhong))
+    return false;
+   var perprice=document.getElementById("perprice").value;
+   if(perprice==null||perprice==""){
+     alert("单价不能为空");
+     return false;
+   
+   }
+    if(!isNum(shouzhong))
+    return false;
+    
+     var scanfei=document.getElementById("scanfei").value;
+      
+   if(scanfei==null||scanfei==""){
+     alert("计件费不能为空");
+     return false;
+   
+   }
+    if(!isNum(scanfei))
+    return false;
+       
+  
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="./stat!setWeightPrice.jspa?weightPriceInfo="+shouzhong+"&price="+perprice+"&weightpricename="+weightpricename+"&chujianfei=0"+"&scanfei="+scanfei;
+   dd.submit();
+  
+ 
+}
+</script> 
+
+</body></html>

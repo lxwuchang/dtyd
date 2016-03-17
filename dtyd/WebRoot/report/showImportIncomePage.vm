@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—收款录入</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+</head>
+
+<body>
+#set($page = 'unread15')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+  
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="收款录入"><span>收款录入</span></a>
+						</div>
+					</div>
+		    </div>
+		    <div>
+		 <form name="dd" id="weightform" method="POST" enctype="multipart/form-data"> 
+		 	  	   <div class="cc_para cc_intro_para">
+					  收款日期 <input class="Wdate d_text_input" type="text" id="bsndatestr" name="income.bsndatestr" onFocus="WdatePicker({lang:'zh-cn'})" value='$!bsndatestr'/>
+                   &nbsp;&nbsp;&nbsp;&nbsp; 收款方式  <select id="fukuantype" name="income.fukuantype" class="text_input">
+                                         
+                    <option value ="支付宝转账">支付宝转账</option>
+                    <option value ="工行转账">工行转账</option>
+                    <option value ="农行转账">农行转账</option>
+                     <option value ="建行转账">建行转账</option>
+                    <option value ="中行转账">中行转账</option>
+                    <option value ="邮储转账">邮储转账</option>
+                    <option value ="现金支付">现金支付</option> 
+                    
+                   </select>
+					    </div>  
+				     <div class="cc_para cc_intro_para">
+				   
+				&nbsp;&nbsp;&nbsp;揽件人 
+                       <select id="manager" name="income.managerid" class="text_input" onchange="getIncomeInfo()">
+                       <option value ="0" >请选择揽件人</option> 
+                       #foreach($manager in $!managerInfoList)                
+                    <option value ="$!manager.managerid" >$!manager.managername</option>
+                      #end
+                    
+                   </select>
+                 &nbsp;&nbsp;   &nbsp;&nbsp; 付款人名字  <input class="ui-input" id="fukuanman" tabindex=1 name="income.fukuanman" type="text" style= "WIDTH: 160px"/> &nbsp;&nbsp;
+				
+				    </div> 
+				    
+				    <div class="cc_para cc_intro_para" id="showincome" style="display:none;">
+				   
+				 <font color=red>&nbsp;&nbsp;&nbsp;(未付款数量(*)&nbsp;&nbsp;
+                     <input class="ui-input" id="wfnum" tabindex=1 name="wfnum" type="text" style= "WIDTH: 160px;"  /> &nbsp;&nbsp; 
+                                                      未付款金额
+                    <input class="ui-input" id="wfprice" tabindex=1 name="wfprice" type="text" style= "WIDTH: 160px"  /> ) &nbsp;&nbsp;</font>
+                  
+               	
+				    </div> 
+				    
+				    
+				 <div class="cc_para cc_intro_para">
+				     &nbsp;   费用类型  <select id="pricetype" name="income.pricetype" class="text_input">                                         
+                    <option value ="面单费">面单费</option>
+                    <option value ="中转费">中转费</option>
+                    <option value ="其他费用">其他费用</option>
+                    
+                    
+                   </select>
+					&nbsp;&nbsp;&nbsp;付款金额(*)&nbsp;&nbsp;
+                    <input class="ui-input" id="price" tabindex=1 name="income.price" type="text" style= "WIDTH: 60px"  placeholder=""/> &nbsp;&nbsp; 
+                                                      数量 
+                    <input class="ui-input" id="num" tabindex=1 name="income.num" type="text" style= "WIDTH: 60px;" placeholder="" /> &nbsp;&nbsp; 
+               	
+				    </div>
+				 <div class="cc_para cc_intro_para">
+				   备注 &nbsp;&nbsp;<input class="ui-input"  tabindex=3 id="memo" name="income.memo" type="text" style= "WIDTH: 484px" value='清'/> &nbsp;&nbsp;
+					 
+			 	</div>
+		  
+		   <div class="cc_para cc_intro_para">
+			 
+			      
+                    &nbsp;&nbsp;  选择转账图片：&nbsp;&nbsp;<input id="upexcel" class="text_input" type="file" name="upexcel" height="30px" style= "WIDTH: 224px"> (支持jpg、png格式) 
+                    ##<a  class="btn_com_edit_normal" href="#" id="search1" style="padding:5px 5px 5px 5px" onclick="submitCheck()"><span>上&nbsp;&nbsp;传</span>	</a>  
+                      
+					
+			
+				</div>
+			  <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="tabcssselect" href="#" title="义乌韵达" onclick="doSumbit();"><span>保&nbsp;存</span></a>
+							 	 
+						</div>
+					</div>
+				</div>
+			 </form> 
+			#if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+		    #end
+		     <form name="dd" id="weightform3" method="POST"> 
+		 	       <input type="hidden" id="pageNo" name="pageNo" value="$!pageBean.currentPage">
+			  <div class="mod_block" style="float:left">
+			
+		 	   
+				 	   年份 <select id="yearstr" name="yearSmy.year" class="text_input" style= "WIDTH: 124px">
+				 	 <option value =""#if(!$yearSmy.year)selected#end>全部</option>
+                     <option value ="2014"#if($yearSmy.year==2014)selected#end>2014年</option>
+                     <option value ="2015"#if($yearSmy.year==2015)selected#end>2015年</option>
+                     <option value ="2016"#if($yearSmy.year==2016)selected#end>2016年</option>
+                     <option value ="2017"#if($yearSmy.year==2017)selected#end>2017年</option>
+                     <option value ="2018"#if($yearSmy.year==2018)selected#end>2018年</option>
+                   </select>
+                                       月份
+                    <select id="monthstr" name="yearSmy.month" class="text_input" style= "WIDTH: 124px">
+                      <option value =""#if(!$yearSmy.year)selected#end>全部</option>
+                    <option value ="1"#if($yearSmy.month==1)selected#end>1月</option>
+                    <option value ="2"#if($yearSmy.month==2)selected#end>2月</option>
+                    <option value ="3"#if($yearSmy.month==3)selected#end>3月</option>
+                    <option value ="4"#if($yearSmy.month==4)selected#end>4月</option>
+                  	<option value ="5"#if($yearSmy.month==5)selected#end>5月</option>
+                  	<option value ="6"#if($yearSmy.month==6)selected#end>6月</option>
+                  	<option value ="7"#if($yearSmy.month==7)selected#end>7月</option>
+                  	<option value ="8"#if($yearSmy.month==8)selected#end>8月</option>
+                    <option value ="9"#if($yearSmy.month==9)selected#end>9月</option>
+                    <option value ="10"#if($yearSmy.month==10)selected#end>10月</option>
+                    <option value ="11"#if($yearSmy.month==11)selected#end>11月</option>
+                    <option value ="12"#if($yearSmy.month==12)selected#end>12月</option>
+                   </select>
+                   
+                    &nbsp;&nbsp;&nbsp;揽件人 
+                       <select id="manager" name="yearSmy.manager" class="text_input" style= "WIDTH: 144px">
+                      <option value="">全部</option> 
+                       #foreach($manager in $!managerInfoList)                
+                       <option value ="$!manager.managerid" #if("$!manager.managerid"=="$!yearSmy.manager")selected#end>$!manager.managername</option>
+                      #end
+                    
+                   </select>	  
+  
+                     &nbsp; &nbsp;  &nbsp; <a class="btn_com_edit_normal" href="#"   onclick="searchPage();"><span>查&nbsp;&nbsp;询</span></a> &nbsp;&nbsp;&nbsp;<a class="btn_com_edit_normal" href="#"   onclick="doExport();"><span>导&nbsp;&nbsp;出</span></a> 
+            	 </div>
+			 <div class="clear">
+			</div>
+	      <div class="mod_block">
+		 	 	  
+	       <div class="imp_mod_inner">
+		   <div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="5%">序号</th>
+		  <th width="10%">收款日期</th>
+		  <th width="10%">揽件人</th>
+		  <th width="8%">付款人</th>
+		  <th width="8%">付款金额</th>
+		  <th width="8%">数量</th>
+		  <th width="8%">付款方式</th>
+		  <th width="8%">费用类型</th>
+		  <th width="8%">备注</th>
+		##  <th width="15%">创建时间</th>
+		  <th width="10%">查看付款凭证</th>
+	 	   <th width="12%">操作</th>  
+		 
+		  </tr>
+		 #set($i=1)
+		  #foreach($income in $!incomeList)
+				<tr>                
+						<td class="row">$!i</td> 
+						<td class="row">$dateUtil.formatYYYYMMDD($!income.bsndate)</td> 
+				     	<td class="row">$!income.managername</td> 
+				     	<td class="row">$!income.fukuanman</td> 
+				     	<td class="row">$!income.price</td> 
+				     	<td class="row">#if($!income.num!=0)$!income.num#end</td> 
+				     	<td class="row">$!income.fukuantype</td>
+				     	<td class="row">$!income.pricetype</td>  
+				     	<td class="row">$!income.memo</td>
+				     	##<td class="row">$!dateUtil.formatDateTime($!income.createtime,'yyyy-mm-dd HH:mm:ss')</td>    
+				     	<td class="row"><a class="btn_com_edit_normal" target="_blank"  href='/dtyd/conf/$!{income.imgid}.jpg'><span>查看凭证</span></a></td> 
+				        <td class="row"><a class="btn_com_edit_normal" onclick="showUpdate($!income.incomeid)" href='#'><span>修改</span></a><a class="btn_com_edit_shan" href='#' onclick="deleteIncome($!income.incomeid,'$dateUtil.formatYYYYMMDD($!income.bsndate)',$!income.num,$!income.price)"><span>删除</span></a></td> 
+
+				</tr> 
+
+    #set($i=$i+1)
+
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	</form> 			
+	  <form id="searchForm">
+
+ <div class="pages-wrap">
+   <div class="Pages">
+#if($pageBean)
+	#set($pageNo = $pageBean.currentPage)
+	
+	#set($tPage = $pageBean.totalPages)
+ 
+	#set($prePage = $pageNo - 1)
+	 
+	#set($nextPage = $pageNo + 1)
+ 
+	#if ($pageNo > 1)
+		<a href="#" class="PrevPage" onclick="doSearchPage('$prePage')" title="上一页">上一页</a>
+	#end
+	#set($leftStart = 1)
+    #set($leftEnd = 2)
+    #set($mStart = $pageNo - 5)
+    #set($mEnd = $pageNo + 5)
+    #set($rStart = $tPage - 1)
+    #set($rEnd = $tPage)
+    #if ($mStart <= $leftEnd)
+    	#set($leftStart = 0)
+    	#set($leftEnd = 0)
+    	#set($mStart = 1)
+    #end
+    #if ($mEnd >= $rStart)
+    	#set($rStart = 0)
+    	#set($rEnd = 0)
+    	#set($mEnd = $tPage)
+    #end
+    #if ($leftEnd > $leftStart)
+    	#foreach($p in [${leftStart}..${leftEnd}])
+			#if($p != 0)
+					<a href=#"  class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+			#end
+    	#end
+    	#if($mStart > ($leftEnd +1))
+			<span class="PageMore">...</span>
+		#end
+    #end
+    #foreach($p in [${mStart}..${mEnd}])
+        #if($p == $pageNo)
+			<span class="PageSel">$p</span>
+        #else
+    		#if($p != 0)
+				<a href="#" class="PageLink"   onclick="doSearchPage('$p')" title="$p">$p</a>
+    		#end
+    	#end
+    #end
+       
+    #if ($rEnd > $rStart )
+		#if($rStart > ($mEnd+1))
+			<span class="PageMore">...</span>
+    	#end
+    	#foreach($p in [${rStart}..${rEnd}])
+			<a href="#" class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+ 
+    	#end
+	#end
+	#if ($pageNo < $tPage)
+		<a href="#" class="NextPage"  onclick="doSearchPage('$nextPage')" title="下一页">下一页</a>	
+	#end
+ 
+  #end
+  
+  </div>
+  </div>
+			
+
+	</div>
+
+</div>
+</form>
+	  
+		</div>
+	</div>
+	</div>
+ 
+
+</form>
+ 	#include("/stat/footer.vm")
+<script type='text/javascript' src='/dtyd/dwr/interface/ReportServer.js'></script>
+<script type='text/javascript' src='/dtyd/dwr/engine.js'></script>
+<script type='text/javascript' src='../htdocs/js/jquery.js'></script>
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+count=0;
+
+ function getIncomeInfo(){
+  
+  var managerid=document.getElementById("manager").value;
+  var date=document.getElementById("bsndatestr").value;
+  
+  ReportServer.getIncome(date,managerid,processIncomeInfo);
+ 
+ }
+ 
+ function processIncomeInfo(data){
+     var managerid=document.getElementById("manager").value;
+   
+   if(managerid!="0"){
+   
+    $("#num").attr("placeholder",data.num);
+    $("#price").attr("placeholder",data.price);
+ 
+  }else{
+   
+    $("#num").attr("placeholder","");
+    $("#price").attr("placeholder","");
+ 
+  }
+  
+ }
+ 
+ 
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+ 
+function doSumbit(){
+   var dd=document.getElementById("weightform");
+   var bsndatestr=document.getElementById("bsndatestr").value;
+   var price=document.getElementById("price").value;
+  var manager=document.getElementById("manager").value;
+    if(manager==null||manager=="0"){
+     alert("请选择揽件人");
+     return false;
+   
+   }
+  
+   if(price==null||price==""){
+     alert("金额不能为空");
+     return false;
+   
+   }
+    if(!isNum(price))
+    return false;
+ 
+    
+   dd.method="post";//首重为weighpriceinfo
+   dd.action="../report/report!createIncome.jspa";
+   dd.submit();
+  
+ 
+}
+
+
+   function deleteIncome(incomeid,bsnstr,num,price){
+      var bb= window.confirm("请再次确定要删除。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	    var dd= document.getElementById("weightform");
+        dd.action="../report/report!deleteIncome.jspa?incomeid="+incomeid+"&bsndate="+bsnstr+"&num="+num+"&skprice="+price;       
+         dd.submit();
+        return true;
+       }
+       
+   }
+
+ function searchPage(){
+ 
+    var pageno=document.getElementById("pageNo").value;
+    var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!searchIncomePage.jspa?pageNo=1";                                                                                     
+   dd.submit();
+
+
+}
+
+
+ function doSearchPage(pageno){
+  
+   var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!searchIncomePage.jspa?pageNo="+pageno;                                                                                     
+   dd.submit();
+
+
+}
+ function doExport(){
+  
+    var dd=document.getElementById("weightform3");
+   dd.method="POST";
+   dd.action="../report/report!exportIncome.jspa";                                                                                     
+   dd.submit();
+
+
+}
+
+ function showUpdate(incomeid){
+   var dd=document.getElementById("weightform3");
+   var pageNo=document.getElementById("pageNo").value;
+   dd.method="POST";
+   dd.action="../report/report!showUpdateIncomePage.jspa?incomeid="+incomeid+"&pageNo="+pageNo;                                                                                     
+   dd.submit();
+
+
+}
+
+</script> 
+
+</body></html>

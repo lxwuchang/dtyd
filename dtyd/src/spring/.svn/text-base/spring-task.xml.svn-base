@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+	<!-- ==============================执行的订阅任务======================================== -->
+  <!-- 指定待执行的订阅任务logJob-->
+  	<bean id="downNewsHandler" class="com.micronews.task.DownNewsHandler">
+    	<property name="service" ref="newsServiceImpl"/>  	
+  	</bean>
+  		<bean id="downHobbyHandler" class="com.micronews.task.DownHobbyHandler">
+    	<property name="service" ref="newsServiceImpl"/>
+    	
+  	</bean>
+  	
+  	<bean id="downHappeningNewsHandler" class="com.micronews.task.DownHappeningNewsHandler">
+    	<property name="service" ref="newsServiceImpl"/>  	     
+  	</bean>
+  	<bean id="downCityNewsHandlerHandler" class="com.micronews.task.DownCityNewsHandler">
+    	<property name="service" ref="newsServiceImpl"/>  	     
+  	</bean>
+  	
+  	<bean id="downWholeHappeningNewsHandler" class="com.micronews.task.DownWholeHappeningNewsHandler">
+    	<property name="service" ref="newsServiceImpl"/>  	     
+  	</bean>
+  		
+  		
+  		
+  	
+    <bean id="downNewsJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+        <property name="targetObject">
+            <ref bean="downNewsHandler"/>
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>    	
+    </bean>
+    
+     <bean id="downCityNewsJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+        <property name="targetObject">
+            <ref bean="downCityNewsHandlerHandler"/>
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>    	
+    </bean>
+    
+    <bean id="downHobbyJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+        <property name="targetObject">
+            <ref bean="downHobbyHandler"/>
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>    	
+    </bean>
+    
+    <bean id="downHappeningNewsJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+        <property name="targetObject">
+            <ref bean="downHappeningNewsHandler"/>
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>    	
+    </bean>
+    
+    <bean id="downWholeHappeningNewsJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+        <property name="targetObject">
+            <ref bean="downWholeHappeningNewsHandler"/>
+        </property>
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>    	
+    </bean>
+   
+        <!-- 配置用户触发器 --> 
+ 	<bean id="downNewsTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  		<property name="jobDetail">
+   			<ref bean="downNewsJobDetail"/>
+  		</property>
+  		<!-- 任务触发时间 -->
+  		<property name="cronExpression">
+   			<value>0 53 11 * * ?</value> 
+   			<!--0  30  0  * * ?0 0 8,12,17 * * ? -->
+  		</property>
+ 	</bean>
+ 	
+ 		<bean id="downCityNewsTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  		<property name="jobDetail">
+   			<ref bean="downCityNewsJobDetail"/>
+  		</property>
+  		<!-- 任务触发时间 -->
+  		<property name="cronExpression">
+   			<value>0 2 13 * * ?</value> 
+   			<!--0  30  0  * * ?0 0 8,12,17 * * ? -->
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="downHobbyTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  		<property name="jobDetail">
+   			<ref bean="downHobbyJobDetail"/>
+  		</property>
+  		<!-- 任务触发时间 -->
+  		<property name="cronExpression">
+   			<value>0 56 11 * * ?</value> 
+   			<!--0  30  0  * * ?0 0 8,12,17 * * ? -->
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="downHappeningNewsTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  		<property name="jobDetail">
+   			<ref bean="downHappeningNewsJobDetail"/>
+  		</property>
+  		<!-- 任务触发时间 -->
+  		<property name="cronExpression">
+   			<value>0 57 11 * * ?</value> 
+   			<!--0  30  0  * * ?0 0 8,12,17 * * ? -->
+   			<!-- userfull 0 0/3 * * * ? -->
+   			
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="downWholeHappeningNewsTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  		<property name="jobDetail">
+   			<ref bean="downWholeHappeningNewsJobDetail"/>
+  		</property>
+  		<!-- 任务触发时间 -->
+  		<property name="cronExpression">
+   			<value>0 07 13 * * ?</value> 
+   			<!--0  30  0  * * ?0 0 8,12,17 * * ? -->
+   			<!-- userfull 0 0/3 * * * ? -->
+   			
+  		</property>
+ 	</bean>
+ 	<!-- ==================================触发器=================================== -->
+    
+    <bean id="dnt" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+  	<!-- 添加触发器 -->
+  		<property name="triggers">
+   			<list>
+    			<ref local="downNewsTrigger"/>
+   			</list>
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="dcnt" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+  	<!-- 添加触发器 -->
+  		<property name="triggers">
+   			<list>
+    			<ref local="downCityNewsTrigger"/>
+   			</list>
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="dht" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+  	<!-- 添加触发器 -->
+  		<property name="triggers">
+   			<list>
+    			<ref local="downHobbyTrigger"/>
+   			</list>
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="dhnt" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+  	<!-- 添加触发器 -->
+  		<property name="triggers">
+   			<list>
+    			<ref local="downHappeningNewsTrigger"/>
+   			</list>
+  		</property>
+ 	</bean>
+ 	
+ 	<bean id="dwhnt" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+  	<!-- 添加触发器 -->
+  		<property name="triggers">
+   			<list>
+    			<ref local="downWholeHappeningNewsTrigger"/>
+   			</list>
+  		</property>
+ 	</bean>
+
+</beans>

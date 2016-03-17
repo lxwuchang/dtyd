@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—设置中转费</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+			<div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>中转费修改</span></a>
+						</div>
+					</div>
+		    </div>
+				
+			</div> 
+			
+			 <form id="weightform">
+                 <input   name="transformPriceRule.code" type="hidden"  value="$transformPriceRule.code"/>  
+                  <input   name="transformPriceRule.transformcategoryid" type="hidden"  value="$transformPriceRule.transformcategoryid"/>
+                  <input   name="transformPriceRule.transformpriceruleid" type="hidden"  value="$transformPriceRule.transformpriceruleid"/>  
+              
+		      <div class="gg_mod_inner">
+		       #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+				  #end
+				  <div class="cc_para cc_intro_para">
+					
+					 
+					
+					<label for="user_email" id="login_email_label">条码:&nbsp; </label> 
+                    <input class="text_input" disabled=true  id="transformPriceRule.code"   name="transformPriceRule.code" type="text" style= "WIDTH: 224px" value="$transformPriceRule.code"/>  
+              
+				    
+				    </div>
+				     
+				    
+				   <div class="cc_para cc_intro_para">
+					
+					  <label for="user_email" id="login_email_label" >目的地:</label> 
+                    <input class="text_input"  id="transformPriceRule.destinationcity" name="transformPriceRule.destinationcity" type="text" style= "WIDTH: 224px"  value="$transformPriceRule.destinationcity"/> 
+              
+				    </div>
+				    
+			     <div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >面单类型:&nbsp;</label> 
+                    <select id="mtype" name="transformPriceRule.mtype" class="text_input">
+                    <option value ="0" #if($!transformPriceRule.mtype=='0')selected#end>普通面单</option>         
+                    <option value ="1" #if($!transformPriceRule.mtype=='1')selected#end>电子菜鸟面单</option>
+                      
+                    </select>
+				    </div>
+				   <div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >中转费方案选择:&nbsp;</label> 
+                    <select id="weightrule"  onChange="changeStyle();" class="text_input">
+                      <option value ="0">请中转费方案名称</option>         
+                      <option value ="1">单价式中转费方案</option>
+                      <option value ="2">首重式中转费方案</option>
+                      <option value ="3">分段式中转费方案</option>
+                      <option value ="4">三段式取整费用方案</option>
+                       <option value ="5">两段式取整费用方案</option>
+                      <option value ="6">小件与超重中转费方案</option>
+                      <option value ="9">分段单价式中转费方案</option>
+                    </select>
+				    </div>
+				    
+				       <div class="cc_para cc_intro_para"  id="shouzhong2" style="display:none;">
+					 
+                &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >首重:</label> 
+                    <input class="text_input"  id="increment"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp;&nbsp;&nbsp;公斤
+              
+				    </div>
+				    <div class="cc_para cc_intro_para" id="fenduanminweight" style="display:none;">
+					 
+               &nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >最小结算重量:</label> 
+                    <input class="text_input"  id="fenduanminweight1"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp;&nbsp;&nbsp;公斤
+              
+				    </div>
+				   
+				    <div class="cc_para cc_intro_para" id="fenduanshouzhongfei" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label">第一段价格:&nbsp;</label> 
+                    <input class="text_input"  id="fenduanshouzhongfei1"  type="text" style= "WIDTH: 224px"/> 元/公斤
+              
+				    </div>
+				        <div class="cc_para cc_intro_para" id="fenduanjiacheng" style="display:none;">
+					 
+               <label for="user_email" id="login_email_label" >第一段固定加成:</label> 
+                    <input class="text_input"  id="fenduanjiacheng1"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp;&nbsp;&nbsp;元
+              
+				    </div>
+				    
+				 
+				     <div class="cc_para cc_intro_para" id="fenduanincrement" style="display:none;">
+					 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >重量分界点:</label> 
+                    <input class="text_input"  id="fenduanincrement1"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp;&nbsp;&nbsp;公斤
+              
+				    </div>
+				  
+				      <div class="cc_para cc_intro_para" id="fenduanxuzhongfei" style="display:none;">
+					
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >第二段续重价格: </label> 
+                    <input class="text_input"  id="fenduanxuzhongfei1"  type="text" style= "WIDTH: 224px"/> 元/公斤
+              
+				    </div>
+				     
+				    
+				   
+				    
+				     <div class="cc_para cc_intro_para" id="danjia" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >单价:</label> 
+                    <input class="text_input"  id="danjiafei"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp;  元/公斤
+              
+				    </div>
+				  	 
+				  	  <div class="cc_para cc_intro_para" id="shouzhong" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label">首重价格:&nbsp;</label> 
+                    <input class="text_input"  id="shouzhongfei"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp; 元
+              
+				    </div>
+				    
+				     
+				     <div class="cc_para cc_intro_para" id="xuzhongdiv" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >续重:&nbsp;</label> 
+                    <input class="text_input"  id="xuzhong"  type="text" style= "WIDTH: 224px"/> 公斤
+              
+				    </div>
+				    
+				     <div class="cc_para cc_intro_para" id="xuzhongfeidiv" style="display:none;">
+					
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >续重单价:&nbsp;</label> 
+                    <input class="text_input"  id="xuzhongfei"  type="text" style= "WIDTH: 224px"/> 元/公斤
+              
+				    </div>
+				    
+				     <div class="cc_para cc_intro_para" id="xuzhongfeidiv2" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >续重价格:&nbsp;</label> 
+                    <input class="text_input"  id="xuzhongfei2"  type="text" style= "WIDTH: 224px"/> 元
+              
+				    </div>
+				  
+				    <div class="cc_para cc_intro_para" id="chaozhongweightdiv" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >超重重量:&nbsp;</label> 
+                    <input class="text_input"  id="chaozhongweight"  type="text" style= "WIDTH: 224px"/>  公斤
+             
+				    </div>
+				    <div class="cc_para cc_intro_para" id="chaozhongfeidiv" style="display:none;">
+					
+				 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >超重单价:&nbsp;</label> 
+                    <input class="text_input"  id="chaozhongfei"  type="text" style= "WIDTH: 224px"/> 元
+              
+				    </div>
+				  
+				     <div class="cc_para cc_intro_para" id="dydiv" style="display:none;">
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >第一段重量:&nbsp;</label> 
+                    <input class="text_input"  id="dyyi"  type="text" style= "WIDTH: 54px"/> 公斤
+              <label for="user_email" id="login_email_label" >-&nbsp;</label> 
+                    <input class="text_input"  id="dyer"  type="text" style= "WIDTH: 54px"/> 公斤
+                    
+                        &nbsp;&nbsp;费用：<input class="text_input"  id="dyfei"  type="text" style= "WIDTH: 114px"/> 元
+				    </div>
+				  
+				    <div class="cc_para cc_intro_para" id="dediv" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >第二段重量:&nbsp;</label> 
+                    <input class="text_input"  id="deyi"  type="text" style= "WIDTH: 54px"/> 公斤
+              <label for="user_email" id="login_email_label" >-&nbsp;</label> 
+                    <input class="text_input"  id="deer"  type="text" style= "WIDTH: 54px"/> 公斤
+                    
+                        &nbsp;&nbsp;费用： <input class="text_input"  id="defei"  type="text" style= "WIDTH: 114px"/> 元
+				    </div>
+				     <div class="cc_para cc_intro_para" id="dsdiv" style="display:none;">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >第三段重量:&nbsp;</label> 
+                    <input class="text_input"  id="dsyi"  type="text" style= "WIDTH: 54px"/> 公斤
+             <label for="user_email" id="login_email_label" >-&nbsp;</label> 
+                    <input class="text_input"  id="dser"  type="text" style= "WIDTH: 54px"/> 公斤
+                    
+                    &nbsp;&nbsp;费用：    <input class="text_input"  id="dsfei"  type="text" style= "WIDTH: 114px"/> 元
+				    </div>
+				    
+				       
+				     <div class="cc_para cc_intro_para" id="dfdiv" style="display:none;">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >第四段重量:&nbsp;</label> 
+                    <input class="text_input"  id="dfyi"  type="text" style= "WIDTH: 54px"/> 公斤
+                      <label for="user_email" id="login_email_label" >-&nbsp;</label> 
+                    <input class="text_input"  id="dfer"  type="text" style= "WIDTH: 54px"/> 公斤
+                    
+                    &nbsp;&nbsp;费用：    <input class="text_input"  id="dffei"  type="text" style= "WIDTH: 114px"/> 元
+				    </div>
+				    
+				        <div class="cc_para cc_intro_para" id="fenduandiv1" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0-2公斤:&nbsp;&nbsp;</label> 
+                        &nbsp;&nbsp;     <input class="text_input"  id="fenduanfei1"  type="text" style= "WIDTH: 204px"/> 元/公斤
+				    </div>
+				    
+				     <div class="cc_para cc_intro_para" id="fenduandiv2" style="display:none;">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >大于2公斤:&nbsp;</label> 
+                     
+                    &nbsp;&nbsp;     <input class="text_input"  id="fenduanfei2"  type="text" style= "WIDTH: 204px"/> 元/公斤
+				    </div>
+				    
+				    <div class="cc_para cc_intro_para" id="dezzdiv" style="display:none;">
+					
+					<label for="user_email" id="login_email_label" >原中转费方案选择:&nbsp;</label> 
+                    <select id="weightrule2"  onChange="changeStyle2();" class="text_input">
+                    <option value ="0">请中转费方案名称</option>         
+                      <option value ="7">单价式中转费方案</option>
+                      <option value ="8">首重式中转费方案</option>
+                      
+                    </select>
+				    </div>
+				    
+				       
+				      <div class="cc_para cc_intro_para"  id="deshouzhong2" style="display:none;">
+					 
+                &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >首重:</label> 
+                    <input class="text_input"  id="deincrement"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp; 公斤
+              
+				    </div>
+				   
+				   
+				      <div class="cc_para cc_intro_para" id="dedanjia" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >单价:&nbsp;&nbsp;&nbsp;</label> 
+                    <input class="text_input"  id="dedanjiafei"  type="text" style= "WIDTH: 224px"/> 元/公斤
+              
+				    </div>
+				   
+				    <div class="cc_para cc_intro_para" id="deshouzhong" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label">首重价格:&nbsp;</label> 
+                    <input class="text_input"  id="deshouzhongfei"  type="text" style= "WIDTH: 224px"/> 元
+              
+				    </div>
+				    
+				   
+				    
+				     <div class="cc_para cc_intro_para" id="dexuzhongfeidiv" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >续重单价:&nbsp;</label> 
+                    <input class="text_input"  id="dexuzhongfei"  type="text" style= "WIDTH: 224px"/> 元/公斤
+              
+				    </div>
+				   
+				       <div class="cc_para cc_intro_para" id="buzufeidiv" style="display:none;">
+					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="user_email" id="login_email_label" >区域补贴: </label> 
+                    <input class="text_input"  id="buzufei"  type="text" style= "WIDTH: 224px"/>&nbsp;&nbsp;元/票
+              
+				    </div>
+				   
+				   
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="btn_com_edit_normal" href="#"  onclick="doSumbit()"><span>保存</span></a> <a class="btn_com_edit_down" href="./stat!showTransformPriceList.jspa?transformcategoryid=$!transformPriceRule.transformcategoryid"><span>退出</span></a>
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>
+			
+		    </div>
+		   </form>
+			 
+			
+		</div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+
+
+<script type="text/javascript"> 
+
+
+window.onload=function(){
+  
+  var weightDiv=document.getElementById("weightDiv");
+   //price=中转费方案:首重:单价
+	 //price=中转费方案：首重：首重价格,续重单价
+  var ss='$!price';
+  
+  var dd=ss.split(":")
+  var len=dd.length;
+  
+  var objSelect=document.getElementById("weightrule");
+  if(dd[0]=='1'){
+  
+    for (var i = 0; i < objSelect.options.length; i++) {        
+        if (objSelect.options[i].value == '1') {        
+            objSelect.options[i].selected=true;     
+            break;        
+        }        
+    }  
+    
+    document.getElementById("increment").value= dd[1];
+    
+  
+    
+   document.getElementById("danjiafei").value=dd[2];
+   document.getElementById("buzufei").value=dd[3];
+   document.getElementById("shouzhong2").style.display="block";
+     document.getElementById("danjia").style.display="block";
+   document.getElementById("buzufeidiv").style.display="block";  
+     type=1;
+  
+  
+  } 
+  
+  if(dd[0]=='2'||dd[0]=='5'){
+   
+   for (var i = 0; i < objSelect.options.length; i++) {  
+   
+        if(  dd[0]=='2'){    
+        if (objSelect.options[i].value == '2') {        
+            objSelect.options[i].selected=true;     
+            
+             type=2;
+            break;        
+        } 
+        }  
+         if(  dd[0]=='5'){    
+        if (objSelect.options[i].value == '5') {        
+            objSelect.options[i].selected=true;     
+             type=5;
+            break;        
+        } 
+        }       
+    }  
+    
+   document.getElementById("increment").value= dd[1];
+ 
+     var sd=dd[2].split(',');
+   
+   document.getElementById("shouzhongfei").value=sd[0];
+   document.getElementById("xuzhongfei").value=sd[1];
+    
+     document.getElementById("shouzhong2").style.display="block";
+    document.getElementById("shouzhong").style.display="block";
+    document.getElementById("xuzhongfeidiv").style.display="block";
+    document.getElementById("buzufei").value=dd[3];
+     document.getElementById("buzufeidiv").style.display="block"; 
+    
+  }
+  
+  if(dd[0]=='3'){
+  
+   
+  
+   for (var i = 0; i < objSelect.options.length; i++) {        
+        if (objSelect.options[i].value == '3') {        
+            objSelect.options[i].selected=true;     
+            break;        
+        }        
+    }  
+    
+   document.getElementById("fenduanincrement1").value= dd[3];
+    
+     var sd=dd[4].split(',');
+    document.getElementById("fenduanshouzhongfei1").value=sd[0];
+   document.getElementById("fenduanxuzhongfei1").value=sd[1];
+   document.getElementById("fenduanminweight1").value=dd[1];
+   document.getElementById("fenduanjiacheng1").value=dd[2];
+    
+    
+  document.getElementById("fenduanshouzhongfei").style.display="block";
+  document.getElementById("fenduanxuzhongfei").style.display="block";
+  document.getElementById("fenduanincrement").style.display="block";
+  document.getElementById("fenduanminweight").style.display="block";
+  document.getElementById("fenduanjiacheng").style.display="block";
+     
+  document.getElementById("buzufei").value=dd[5];
+     type=3;
+ 
+    
+}
+  
+  if(dd[0]=='4'){
+   
+   for (var i = 0; i < objSelect.options.length; i++) {        
+        if (objSelect.options[i].value == '4') {        
+            objSelect.options[i].selected=true;     
+            break;        
+        }        
+    }  
+    
+   document.getElementById("increment").value= dd[1];
+   document.getElementById("shouzhongfei").value=dd[2];
+    var sd=dd[3].split(',');
+   
+    document.getElementById("xuzhong").value=sd[0];
+    document.getElementById("xuzhongfei2").value=sd[1];
+    var w="";
+    var p="";
+     if(dd[4].indexOf(",")!=-1){
+        w=dd[4].split(',')[0];
+        p=dd[4].split(',')[1];
+     }else{
+        w='1';
+        p=dd[4];
+      }
+     document.getElementById("chaozhongfei").value=p;
+      document.getElementById("chaozhongweight").value=w;
+     document.getElementById("buzufei").value=dd[5];
+     document.getElementById("shouzhong2").style.display="block";
+    document.getElementById("shouzhong").style.display="block";
+     document.getElementById("xuzhongdiv").style.display="block";
+     document.getElementById("xuzhongfeidiv2").style.display="block";
+    document.getElementById("chaozhongfeidiv").style.display="block";
+    document.getElementById("chaozhongweightdiv").style.display="block";
+     type=4;
+  }
+  
+  if(dd[0]=='6'){
+    //price=中转费方案：首重,首重二,价格:首重,首重二,价格:首重,首重二,价格：中转费方案：首重,首重价格,续重单价：补助费
+   for (var i = 0; i < objSelect.options.length; i++) {        
+        if (objSelect.options[i].value == '6') {        
+            objSelect.options[i].selected=true;     
+            break;        
+        }        
+    }  
+    
+    document.getElementById("dydiv").style.display="block"; 
+    document.getElementById("dediv").style.display="block";
+    document.getElementById("dsdiv").style.display="block"; 
+      document.getElementById("dfdiv").style.display="block"; 
+    document.getElementById("dezzdiv").style.display="block";
+   
+   
+   if(dd.length==5){
+   var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+   }
+   
+   if(dd.length==6){
+    var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+    var sd2=dd[2].split(',');
+     document.getElementById("deyi").value=sd2[0];
+   document.getElementById("deer").value=sd2[1];
+    document.getElementById("defei").value=sd2[2];
+   }
+    if(dd.length==7){
+    var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+    var sd2=dd[2].split(',');
+     document.getElementById("deyi").value=sd2[0];
+   document.getElementById("deer").value=sd2[1];
+    document.getElementById("defei").value=sd2[2];
+     var sd3=dd[3].split(','); 
+   document.getElementById("dsyi").value=sd3[0];
+   document.getElementById("dser").value=sd3[1];
+   document.getElementById("dsfei").value=sd3[2];
+   }
+   
+     if(dd.length==8){
+    var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+    var sd2=dd[2].split(',');
+     document.getElementById("deyi").value=sd2[0];
+   document.getElementById("deer").value=sd2[1];
+    document.getElementById("defei").value=sd2[2];
+     var sd3=dd[3].split(','); 
+   document.getElementById("dsyi").value=sd3[0];
+   document.getElementById("dser").value=sd3[1];
+   document.getElementById("dsfei").value=sd3[2];
+   
+     var sd4=dd[4].split(','); 
+   document.getElementById("dfyi").value=sd4[0];
+   document.getElementById("dfer").value=sd4[1];
+   document.getElementById("dffei").value=sd4[2];
+   }
+   
+  
+  var len=dd.length;
+    
+      
+  var objSelect2=document.getElementById("weightrule2");
+    for (var i = 0; i < objSelect2.options.length; i++) {        
+        if (objSelect2.options[i].value == dd[len-3]) {        
+            objSelect2.options[i].selected=true;     
+            break;        
+        }        
+    }  
+   
+   if(dd[len-3]=='7'){
+   var ss=dd[len-2].split(',');
+   
+   document.getElementById("deincrement").value=ss[0];
+   document.getElementById("dedanjiafei").value=ss[1];
+   document.getElementById("buzufei").value=dd[len-1];
+  document.getElementById("deshouzhong2").style.display="block"; 
+   document.getElementById("dedanjia").style.display="block"; 
+    document.getElementById("buzufeidiv").style.display="block"; 
+    type2=7;
+      
+      }
+          
+     if(dd[len-3]=='8'){
+      var ss=dd[len-2].split(',');
+
+     document.getElementById("deincrement").value=ss[0];
+     document.getElementById("deshouzhongfei").value=ss[1];
+    document.getElementById("dexuzhongfei").value=ss[2];
+    document.getElementById("buzufei").value=dd[len-1];
+    document.getElementById("deshouzhong2").style.display="block"; 
+    document.getElementById("deshouzhong").style.display="block"; 
+    document.getElementById("dexuzhongfeidiv").style.display="block"; 
+    document.getElementById("buzufeidiv").style.display="block"; 
+      type2=8;
+      
+      }
+     type=6;
+  }
+ 
+      if(dd[0]=='9'){
+  
+    for (var i = 0; i < objSelect.options.length; i++) {        
+        if (objSelect.options[i].value == '9') {        
+            objSelect.options[i].selected=true;     
+            break;        
+        }        
+    }  
+    
+      document.getElementById("dydiv").style.display="block"; 
+    document.getElementById("dediv").style.display="block";
+    document.getElementById("dsdiv").style.display="block"; 
+   document.getElementById("dfdiv").style.display="block"; 
+    document.getElementById("dezzdiv").style.display="block";
+   
+   
+   if(dd.length==5){
+   var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+   }
+   
+   if(dd.length==6){
+    var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+    var sd2=dd[2].split(',');
+     document.getElementById("deyi").value=sd2[0];
+   document.getElementById("deer").value=sd2[1];
+    document.getElementById("defei").value=sd2[2];
+   }
+    if(dd.length==7){
+    var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+    var sd2=dd[2].split(',');
+     document.getElementById("deyi").value=sd2[0];
+   document.getElementById("deer").value=sd2[1];
+    document.getElementById("defei").value=sd2[2];
+     var sd3=dd[3].split(','); 
+   document.getElementById("dsyi").value=sd3[0];
+   document.getElementById("dser").value=sd3[1];
+   document.getElementById("dsfei").value=sd3[2];
+   }
+   
+     if(dd.length==8){
+    var sd1=dd[1].split(',');
+    document.getElementById("dyyi").value=sd1[0];
+    document.getElementById("dyer").value=sd1[1];
+    document.getElementById("dyfei").value=sd1[2];
+    var sd2=dd[2].split(',');
+     document.getElementById("deyi").value=sd2[0];
+   document.getElementById("deer").value=sd2[1];
+    document.getElementById("defei").value=sd2[2];
+     var sd3=dd[3].split(','); 
+   document.getElementById("dsyi").value=sd3[0];
+   document.getElementById("dser").value=sd3[1];
+   document.getElementById("dsfei").value=sd3[2];
+   
+     var sd4=dd[4].split(','); 
+   document.getElementById("dfyi").value=sd4[0];
+   document.getElementById("dfer").value=sd4[1];
+   document.getElementById("dffei").value=sd4[2];
+   }
+    
+    document.getElementById("fenduanfei1").value= dd[dd.length-3];
+    document.getElementById("fenduanfei2").value=dd[dd.length-2];
+   document.getElementById("buzufei").value=dd[dd.length-1];
+   document.getElementById("fenduandiv1").style.display="block";
+   document.getElementById("fenduandiv2").style.display="block";
+   document.getElementById("buzufeidiv").style.display="block";  
+   document.getElementById("dezzdiv").style.display="none";
+   
+     type=9;
+  
+  
+  } 
+}
+type=0;
+type2=0;
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function isNum(str){
+  var ts= /^[0-9]+(\.[0-9]+)?$/;
+      
+      if(!ts.test(str)){
+      
+        alert("请输入正确的数值！");
+        return false;
+      
+      }
+     
+   return true;
+
+
+}
+function doSumbit(){
+   
+   
+   var weightrule=document.getElementById("weightrule").value;
+    var buzufei=document.getElementById("buzufei").value;
+   
+      var  destinationStation=document.getElementById("transformPriceRule.destinationcity").value;
+     
+    
+       
+        if(destinationStation==""||destinationStation==null) {
+       alert("目的地不能为空");
+     return false;
+       
+       }
+   
+  
+ if(weightrule==0||weightrule==""||weightrule==null){
+     alert("中转费方案不能为空");
+     return false;
+   }
+   
+   var str="";
+   var weightruleid="";
+   
+    str=type+":";
+ 
+   
+   //单价式
+   if(type==1){
+    var increment=document.getElementById("increment").value;
+  
+     if(!isNum(increment))
+      return false;
+    
+    str=str+increment+":";
+    
+     var danjia=document.getElementById("danjiafei").value;
+     if(danjia==""||danjia==null){
+     alert("单价不能为空");
+     return false;
+    }
+    
+     if(!isNum(danjia))
+      return false;
+    str=str+danjia;
+    
+   }
+    if(type==2||type==5){
+    
+     var increment=document.getElementById("increment").value;
+  
+     if(!isNum(increment))
+      return false;
+    
+    str=str+increment+":";
+     var shouzhong=document.getElementById("shouzhongfei").value;
+     var xuzhong=document.getElementById("xuzhongfei").value;
+     
+      if(shouzhong==""||shouzhong==null){
+     alert("首重价格不能为空！");
+     return false;
+     }
+    
+     if(!isNum(shouzhong))
+      return false;
+     if(xuzhong==""||xuzhong==null){
+     alert("续重单价不能为空！");
+     return false;
+     }
+      if(!isNum(xuzhong))
+      return false;
+    str=str+shouzhong+","+xuzhong;
+    
+     }
+     if(type==3){
+     var shouzhong=document.getElementById("fenduanshouzhongfei1").value;
+     var xuzhong=document.getElementById("fenduanxuzhongfei1").value;
+     var increment=document.getElementById("fenduanincrement1").value;
+     var minweight=document.getElementById("fenduanminweight1").value;
+     var jiacheng=document.getElementById("fenduanjiacheng1").value;
+  
+   if(minweight==""||minweight==null){
+     alert("最小结算重量不能为空");
+     return false;
+    }
+     if(!isNum(minweight))
+      return false;
+     str=str+minweight+":";
+  
+  
+    if(jiacheng==""||jiacheng==null){
+     alert("第一固定加成不能为空");
+     return false;
+    }
+     if(!isNum(jiacheng))
+      return false;
+     str=str+jiacheng+":";
+  
+  
+   if(increment==""||increment==null){
+     alert("重量分界点不能为空");
+     return false;
+    }
+     if(!isNum(increment))
+      return false;
+     str=str+increment+":";
+       
+       
+      if(shouzhong==""||shouzhong==null){
+     alert("第一段价格不能为空！");
+     return false;
+     }
+     if(!isNum(shouzhong))
+      return false;
+     if(xuzhong==""||xuzhong==null){
+     alert("第二段续重价格不能为空！");
+     return false;
+     }
+     
+      if(!isNum(xuzhong))
+      return false;
+      
+    str=str+shouzhong+","+xuzhong;
+    
+     }
+       if(type==4){
+    
+       var increment=document.getElementById("increment").value;
+      var shouzhongfei=document.getElementById("shouzhongfei").value;
+      var xuzhong=document.getElementById("xuzhong").value;
+       var xuzhongfei=document.getElementById("xuzhongfei2").value;
+       var chaozhongfei=document.getElementById("chaozhongfei").value;
+  var chaozhongweight=document.getElementById("chaozhongweight").value;
+   if(!isNum(increment))
+      return false;
+       str=str+increment+":";
+      
+      
+      if(shouzhongfei==""||shouzhongfei==null){
+     alert("首重价格不能为空！");
+     return false;
+     }
+     if(!isNum(shouzhongfei))
+      return false;
+      
+       str=str+shouzhongfei+":";
+     if(xuzhong==""||xuzhong==null){
+     alert("续重不能为空！");
+     return false;
+     }
+     
+      if(!isNum(xuzhong))
+      return false;
+      
+         str=str+xuzhong+",";
+       if(xuzhongfei==""||xuzhongfei==null){
+     alert("续重不能为空！");
+     return false;
+     }
+    
+      if(!isNum(xuzhongfei))
+      return false;
+       
+       str=str+xuzhongfei+":";
+    if(chaozhongweight==""||chaozhongweight==null){
+     alert("超重不能为空！");
+     return false;
+     }
+    
+      if(!isNum(chaozhongweight))
+      return false;
+      str=str+chaozhongweight+",";
+     if(chaozhongfei==""||chaozhongfei==null){
+     alert("超重费不能为空！");
+     return false;
+     }
+     
+      if(!isNum(chaozhongfei))
+      return false;
+     str=str+chaozhongfei;
+    
+     }
+        
+   //单价式
+   if(type==6){
+    var maxweight=0;
+     var dyyi=document.getElementById("dyyi").value;
+     var dyer=document.getElementById("dyer").value;
+     var dyfei=document.getElementById("dyfei").value;
+      
+   if(!isNum(dyyi)||!isNum(dyer)||!isNum(dyfei)){
+     alert("重量或者费用不正确！");
+      return false;
+      
+   }
+    str=str+dyyi+","; 
+    str=str+dyer+",";
+    str=str+dyfei+":";
+    maxweight=parseFloat(dyer);
+   
+     var deyi=document.getElementById("deyi").value;
+     var deer=document.getElementById("deer").value;
+     var defei=document.getElementById("defei").value;
+   if(deyi==null||deyi==''){   
+   
+   }else{
+    if(!isNum(deyi)||!isNum(deer)||!isNum(defei)){
+     alert("重量或者费用不正确！");
+      return false;
+      }
+     str=str+deyi+","; 
+     str=str+deer+",";   
+     str=str+defei+":";
+     maxweight=parseFloat(deer);
+   
+   }
+  
+    
+     var dsyi=document.getElementById("dsyi").value;
+     var dser=document.getElementById("dser").value;
+     var dsfei=document.getElementById("dsfei").value;
+     if(dsyi==null||dsyi==''){   
+     }else{
+    if(!isNum(dsyi)||!isNum(dser)||!isNum(dsfei)){
+     alert("重量或者费用不正确！");
+      return false;
+      }
+    str=str+dsyi+","; 
+    str=str+dser+",";   
+    str=str+dsfei+":";
+    maxweight=parseFloat(dser);
+    }
+    
+      var dfyi=document.getElementById("dfyi").value;
+     var dfer=document.getElementById("dfer").value;
+     var dffei=document.getElementById("dffei").value;
+   if(dfyi==null||dfyi==''){   
+   
+   }else{
+    if(!isNum(dfyi)||!isNum(dfer)||!isNum(dffei)){
+     alert("重量或者费用不正确！");
+      return false;
+      }
+     str=str+dfyi+","; 
+     str=str+dfer+",";   
+     str=str+dffei+":";
+        maxweight=parseFloat(dfer);
+   
+   }
+    
+    
+     var transform=document.getElementById("weightrule2").value;
+     if(transform=="0"){
+     alert("中转费方案不能为空");
+     return false;
+    }
+    
+    str=str+transform+":";
+    
+     if(transform==7){
+   
+     var increment=document.getElementById("deincrement").value;
+    if(!isNum(increment))
+      return false;
+      
+       
+      var sz=parseFloat(increment);
+       
+      if(maxweight>sz){
+        alert("首重重量必须大于等于分段的最大重量");
+        return false;
+      }
+       str=str+increment+",";
+      
+     var danjia=document.getElementById("dedanjiafei").value;
+     if(danjia==""||danjia==null){
+     alert("单价不能为空");
+     return false;
+    }
+    
+     if(!isNum(danjia))
+      return false;
+    str=str+danjia;
+    
+   }
+    if(transform==8){
+     var shouzhong=document.getElementById("deshouzhongfei").value;
+     var xuzhong=document.getElementById("dexuzhongfei").value;    
+     var increment=document.getElementById("deincrement").value;
+   if(!isNum(increment))
+      return false;
+      
+      
+      var sz=parseFloat(increment);
+    
+      if(maxweight>sz){
+        alert("首重重量必须大于等于分段的最大重量");
+      return false;
+      }
+      
+       str=str+increment+",";
+      
+      
+     if(shouzhong==""||shouzhong==null){
+     alert("首重价格不能为空！");
+     return false;
+     }
+     if(!isNum(shouzhong))
+      return false;
+      
+      
+     if(xuzhong==""||xuzhong==null){
+     alert("续重单价不能为空！");
+     return false;
+     }
+     
+      if(!isNum(xuzhong))
+      return false;
+      
+      str=str+shouzhong+","+xuzhong;
+    
+     }
+  
+   }
+   
+   
+      if(type==9){
+   
+       var dyyi=document.getElementById("dyyi").value;
+     var dyer=document.getElementById("dyer").value;
+     var dyfei=document.getElementById("dyfei").value;
+      
+   if(!isNum(dyyi)||!isNum(dyer)||!isNum(dyfei)){
+     alert("重量或者费用不正确！");
+      return false;
+      
+   }
+    str=str+dyyi+","; 
+    str=str+dyer+",";
+    str=str+dyfei+":";
+    maxweight=parseFloat(dyer);
+    var deyi=document.getElementById("deyi").value;
+     var deer=document.getElementById("deer").value;
+     var defei=document.getElementById("defei").value;
+   if(deyi==null||deyi==''){   
+   
+   }else{
+    if(!isNum(deyi)||!isNum(deer)||!isNum(defei)){
+     alert("重量或者费用不正确！");
+      return false;
+      }
+     str=str+deyi+","; 
+     str=str+deer+",";   
+     str=str+defei+":";
+        maxweight=parseFloat(deer);
+   
+   }
+  
+    
+     var dsyi=document.getElementById("dsyi").value;
+     var dser=document.getElementById("dser").value;
+     var dsfei=document.getElementById("dsfei").value;
+     if(dsyi==null||dsyi==''){   
+     }else{
+    if(!isNum(dsyi)||!isNum(dser)||!isNum(dsfei)){
+     alert("重量或者费用不正确！");
+      return false;
+      }
+    str=str+dsyi+","; 
+    str=str+dser+",";   
+    str=str+dsfei+":";
+     maxweight=parseFloat(dser);
+    }
+    
+    
+     var dfyi=document.getElementById("dfyi").value;
+     var dfer=document.getElementById("dfer").value;
+     var dffei=document.getElementById("dffei").value;
+   if(dfyi==null||dfyi==''){   
+   
+   }else{
+    if(!isNum(dfyi)||!isNum(dfer)||!isNum(dffei)){
+     alert("重量或者费用不正确！");
+      return false;
+      }
+     str=str+dfyi+","; 
+     str=str+dfer+",";   
+     str=str+dffei+":";
+        maxweight=parseFloat(dfer);
+   
+   }
+     var fenduanfei1=document.getElementById("fenduanfei1").value;
+      if(!isNum(fenduanfei1)) 
+      return false;
+      
+        str=str+fenduanfei1+":";
+      
+     var fenduanfei2=document.getElementById("fenduanfei2").value;
+     if(fenduanfei2==""||fenduanfei2==null){
+     alert("第二段单价不能为空");
+     return false;
+    }
+    
+     if(!isNum(fenduanfei1))
+      return false;
+    str=str+fenduanfei2;
+    
+   }
+   
+   
+      if(buzufei==""||buzufei==null){
+        str=str+":0";
+      }else str=str+":"+buzufei;
+   
+    
+    //price=中转费方案:首重:单价:补助费
+    //price=中转费方案：首重：首重价格,续重单价：补助费
+    //price=中转费方案：首重:首重价格：续重,续重单价:超重费：补助费
+    //price=中转费方案：首重,首重二,价格:首重,首重二,价格:首重,首重二,价格：中转费方案：首重,首重价格,续重单价：补助费
+    //price=中转费方案：首重,首重二,价格:首重,首重二,价格:首重,首重二,价格:中转费方案：首重,单价：补助费
+   //续重式
+   
+    
+    var hellll=document.getElementById("weightform");
+    hellll.method="POST";
+    hellll.action="./stat!updateTransformPrice.jspa?price="+str;
+    hellll.submit();
+   
+   
+}
+
+function changeStyle2(){
+  
+   document.getElementById("buzufeidiv").style.display="none";   
+    document.getElementById("deshouzhong2").style.display="none"; 
+     document.getElementById("deshouzhong").style.display="none"; 
+    document.getElementById("dexuzhongfeidiv").style.display="none"; 
+    document.getElementById("dedanjia").style.display="none"; 
+ 
+    var v= document.getElementById("weightrule2").value;
+   
+   
+   if(v==0){
+     alert("请选择中转费方案！");
+     type2=0;
+     return false;
+   }
+ 
+      
+   if(v==7){
+   document.getElementById("deshouzhong2").style.display="block"; 
+     document.getElementById("dedanjia").style.display="block"; 
+    document.getElementById("buzufeidiv").style.display="block"; 
+      type2=7;
+      
+      }
+          
+   if(v==8){
+   document.getElementById("deshouzhong2").style.display="block"; 
+     document.getElementById("deshouzhong").style.display="block"; 
+    document.getElementById("dexuzhongfeidiv").style.display="block"; 
+    document.getElementById("buzufeidiv").style.display="block"; 
+      type2=8;
+      
+      }
+   
+}
+function changeStyle(){
+    document.getElementById("danjia").style.display="none";
+    document.getElementById("shouzhong").style.display="none";
+    document.getElementById("xuzhongdiv").style.display="none"; 
+    document.getElementById("xuzhongfeidiv2").style.display="none";
+    document.getElementById("chaozhongfeidiv").style.display="none";  
+    document.getElementById("xuzhongfeidiv").style.display="none";
+   document.getElementById("shouzhong2").style.display="none";
+     document.getElementById("fenduanshouzhongfei").style.display="none";
+     document.getElementById("fenduanxuzhongfei").style.display="none";
+     document.getElementById("fenduanincrement").style.display="none";
+      document.getElementById("fenduanminweight").style.display="none";
+     document.getElementById("fenduanjiacheng").style.display="none";
+     document.getElementById("buzufeidiv").style.display="none"; 
+    document.getElementById("chaozhongweightdiv").style.display="none"; 
+    document.getElementById("dydiv").style.display="none"; 
+    document.getElementById("dediv").style.display="none"; 
+    document.getElementById("dsdiv").style.display="none"; 
+     document.getElementById("dfdiv").style.display="none"; 
+    document.getElementById("dezzdiv").style.display="none"; 
+    document.getElementById("deshouzhong2").style.display="none"; 
+    document.getElementById("deshouzhong").style.display="none"; 
+    document.getElementById("dexuzhongfeidiv").style.display="none"; 
+    document.getElementById("dedanjia").style.display="none"; 
+   document.getElementById("fenduandiv1").style.display="none";
+   document.getElementById("fenduandiv2").style.display="none";
+ 
+    var v= document.getElementById("weightrule").value;
+   
+     document.getElementById("weightrule2").value="0"; 
+   if(v==0){
+     alert("请选择中转费方案！");
+     type=0;
+     return false;
+   }
+   if(v==1){
+     document.getElementById("shouzhong2").style.display="block";
+   document.getElementById("danjia").style.display="block";
+   document.getElementById("buzufeidiv").style.display="block"; 
+     type=1;
+   
+   }
+   
+   if(v==2){
+     document.getElementById("shouzhong2").style.display="block";
+     document.getElementById("shouzhong").style.display="block";
+    document.getElementById("xuzhongfeidiv").style.display="block";
+     document.getElementById("buzufeidiv").style.display="block"; 
+      type=2;
+   }
+	 if(v==3){
+	   document.getElementById("fenduanminweight").style.display="block";
+     document.getElementById("fenduanjiacheng").style.display="block";
+	  document.getElementById("fenduanshouzhongfei").style.display="block";
+     document.getElementById("fenduanxuzhongfei").style.display="block";
+     document.getElementById("fenduanincrement").style.display="block";
+      document.getElementById("buzufeidiv").style.display="block"; 
+      type=3;
+      
+      }
+ 
+ 
+	  if(v==5){
+    document.getElementById("shouzhong2").style.display="block";
+     document.getElementById("shouzhong").style.display="block";
+    document.getElementById("xuzhongfeidiv").style.display="block";
+      type=5;
+   }
+   
+        if(v==4){
+	   document.getElementById("shouzhong2").style.display="block";
+     document.getElementById("shouzhong").style.display="block";
+	  document.getElementById("xuzhongdiv").style.display="block";
+     document.getElementById("xuzhongfeidiv2").style.display="block";
+     document.getElementById("chaozhongfeidiv").style.display="block";
+       document.getElementById("chaozhongweightdiv").style.display="block";
+      type=4;
+      
+      }
+      
+     if(v==6){
+	 document.getElementById("dydiv").style.display="block"; 
+     document.getElementById("dediv").style.display="block"; 
+     document.getElementById("dsdiv").style.display="block"; 
+      document.getElementById("dfdiv").style.display="block"; 
+     document.getElementById("dezzdiv").style.display="block"; 
+  
+      type=6;
+      
+      }
+      
+      
+    if(v==9){
+	document.getElementById("fenduandiv1").style.display="block";
+   document.getElementById("fenduandiv2").style.display="block";
+   document.getElementById("buzufeidiv").style.display="block"; 
+    	 document.getElementById("dydiv").style.display="block"; 
+     document.getElementById("dediv").style.display="block"; 
+     document.getElementById("dsdiv").style.display="block"; 
+     document.getElementById("dfdiv").style.display="block"; 
+      type=9;
+      
+      }
+       
+      
+}
+ 
+
+</script>
+
+</body></html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body>
+#set($page = 'unread33')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>揽件人管理</span></a>
+						</div>
+					</div>
+		    </div>
+				
+		 
+				
+			</div> 
+			 <form id="weightform">
+		      <div class="gg_mod_inner">
+		       #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+				  #end
+				<div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >揽件人姓名:&nbsp;&nbsp;</label> 
+                    <input class="text_input"  id="manager.managername" name="manager.managername" type="text" style= "WIDTH: 224px"/> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                 
+				    </div>
+				    <div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >揽件编号: </label> 
+                    <input class="text_input"  id="manager.managerid" name="manager.managerid" type="text" style= "WIDTH: 224px"/> 
+                  </div>
+				   
+				  <div class="cc_para cc_intro_para">
+						<input  id="manager.solutionid" name="manager.solutionid" type="hidden" value=""/> 
+					<input  id="manager.solutionname" name="manager.solutionname" type="hidden" value=""/> 
+				
+					<label for="user_email" id="login_email_label" >中转费方案选择:&nbsp;</label> 
+                    <select id="solution" name="solution">
+                    #foreach($transformcategory in $!transformCategoryList)
+                      <option value ="$transformcategory.transformcategoryid,$transformcategory.transformcategoryname" #if($!transformcategory.transformcategoryname=='默认价格')selected #end>$transformcategory.transformcategoryname</option>
+                    
+                    #end
+                    </select>
+				    </div>
+				      <div class="cc_para cc_intro_para">
+					 <label for="user_email" id="login_email_label" >计重规则选择:&nbsp;</label> 
+                    <select id="weightpriceid" name="manager.weightpriceruleid">
+                    #foreach($weightPrice in $!weightPriceList)
+                      <option value ="$weightPrice.weightpriceruleid" #if($!weightPrice.weightpricename=='默认计重')selected #end>$weightPrice.weightpricename</option>
+                    
+                    #end
+                    </select>
+				    </div>
+				   
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="btn_com_edit_normal" href="#"  onclick="doSumbit()"><span>保存</span></a> </a>
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>
+			
+		    
+		   </form>
+            
+			<!--应用列表--> 
+	         #if($!managerInfoList.size()>0)
+	          <div class="imp_mod_inner">
+		<div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="10%">序号</th>
+		  <th width="15%">揽件人姓名</th>
+		  <th width="15%">揽件人编号</th>
+		   <th width="20%">中转费方案</th>
+		  <th width="20%">计重规则方案</th>
+		   <th width="20%">操作</th>
+		 
+		  </tr>
+		  #set($i=1)
+		  #foreach($manager in $!managerInfoList)
+				<tr> 
+				       <td class="row">$i</td> 
+						<td class="row"> $!manager.managername </td> 
+						<td class="row">$!manager.managerid</td> 
+					    <td class="row"> <a  href="./stat!showTransformPriceList.jspa?transformcategoryid=$manager.solutionid">$!manager.solutionname</a></td>
+				        <td class="row"> <a  href="./stat!showTransformPriceList.jspa?transformcategoryid=$manager.solutionid">$!manager.weightpricename</a></td>
+				        <td class="row">  <a class="btn_com_edit_normal" href="./stat!showManagerDetail.jspa?managerid=$!manager.managerid"><span>修改</span></a>   <a class="btn_com_edit_shan" id='$manager.managerid' href="#" onclick="doDelete('$!manager.managerid','$!manager.managername')"><span>删除</span></a></td> 
+
+				</tr> 
+
+     
+         #set($i=$i+1)
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	
+	         #else
+	         
+	          
+				<div class="inner_box"> 
+				
+				<div style="line-height:100px;height:100px;">目前您还没有添加任何揽件人。</div> 
+				
+				</div> 
+	 
+			#end 
+			
+		</div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSumbit(){
+                                     
+   var managerid=document.getElementById("manager.managerid").value;
+   var managername=document.getElementById("manager.managername").value;
+     var solution=document.getElementById("solution").value;
+ 
+   if(managerid==null||managerid==""){
+     alert("揽件人编码不能为空");
+     return false;
+   }
+   
+    if(managername==null||managername==""){
+     alert("揽件人姓名不能为空");
+     return false;
+   }
+     
+   
+   if(solution !=null && solution!=""){
+       var numbe = solution.split(",");
+       document.getElementById("manager.solutionid").value = numbe[0];
+       document.getElementById("manager.solutionname").value = numbe[1];
+    }
+ 
+    
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!createManager.jspa";
+   hellll.submit();
+   
+   }
+   
+   function doDelete(managerid,managername){
+  
+   var bb= window.confirm("你是否要删除"+managername+"。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	  	 
+       document.getElementById(managerid).href="./stat!deleteManager.jspa?managerid="+managerid;
+       return true;
+       }
+   }
+</script>
+</body></html>

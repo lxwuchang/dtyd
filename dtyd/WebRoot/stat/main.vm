@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+	<div class="lay_cont">
+<div class="yd_div_1"> 
+		 <p class="yd_captain">【企业目标】</p> 
+    <p>创优秀民族品牌</p> 
+    <p>做百年韵达事业</p> 
+    <p class="yd_captain">【经营理念】</p> 
+    <p>人文关怀 价值增值 激情创造 科技突破</p> 
+    <p class="yd_captain">【企业宗旨】</p> 
+    <p>为客户创造价值；</p> 
+    <p>为社会创造财富；</p> 
+    <p>为员工创造就业。</p> 
+    <p class="yd_captain">【企业精神】</p> 
+    <p>忠于职守，创造价值；</p> 
+    <p>时效保障，创造价值；</p> 
+    <p>群策群力，创造价值。</p> 
+    <p class="yd_captain">【企业品牌理念】</p> 
+    <p>公平诚信 快捷安全 热情周到 服务一流</p> 
+    <p class="yd_captain">【企业作风】</p> 
+    <p>忠诚 务实 敬业 主动</p> 
+    <p class="yd_captain">【经营哲学：交天下朋友、树百年企业】</p> 
+    <p>交天下朋友——我们这里所说的"朋友"指的是我们的客户、客户、合作商、行业协会、政府及其它各类协会，即便是我们的同行企业，只要关心支持韵达企业的发展，就都是我们的朋友。韵达企业前进的道路上有了"朋友"的爱护与帮助，路才会越走越宽，企业才会越做越强。</p> 
+    <p>树百年企业——我们这里所说的"百年"就是长久、稳固之意。</p> 
+    <p class="yd_captain">【公司的用人原则】</p> 
+    <p>德才兼备，主动创新</p> 
+ 
+ 
+	</div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+</script>
+</body></html>

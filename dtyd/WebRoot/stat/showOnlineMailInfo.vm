@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/jquery-1.7.2.js"></script>
+  <script language="JavaScript" type="text/javascript" src="../htdocs/js/main_comp.js"></script>
+ <script language="JavaScript" type="text/javascript" src="../htdocs/js/main_hashtable.js"></script>
+
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#"><span>快件跟踪详细记录</span></a>
+						</div>
+					</div>
+		    </div>
+				
+		 
+				
+			</div> 
+			
+			<div class="gg_mod_inner">
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box3">
+							  &nbsp; &nbsp; <a class="btn_com" href="./stat!showManagerMailDetail.jspa?importdate=$importDate&managerdd=$weightrulename"><span>返回</span></a>
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>	
+			</div>
+			 
+		    
+		  
+		  #parse("/stat/mailinfolist.vm")
+ 		 
+	 	
+		</div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+
+<script type="text/javascript"> 
+  var area_hash = new Hashtable();
+    $(document).ready(function(){
+  
+   aCity = areaData.split(",");
+    for (i = 1; i <= aCity.length; i++) {
+
+	area_hash.put(aCity[i - 1].substring(0, 6), aCity[i - 1].substring(7, aCity[i - 1].length));
+
+  }
+     set_form_key(); 
+    
+    });
+    
+    
+
+function set_form_key(){
+
+	var ipt = document.getElementsByTagName("td");
+
+	for(i=0;i<9;i++){
+
+		if(ipt[i].className=="wltz"){
+
+			var bm=ipt[i].id;
+
+			var mc=area_hash.get(bm);
+
+			ipt[i].innerText=mc;
+
+		}
+
+	}
+
+}
+</script>
+</body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="义乌韵达快运">
+<meta name="Description" content="义乌韵达快运结算系统！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ <script language="JavaScript" type="text/javascript" src="../htdocs/js/jquery-1.7.2.js"></script>
+ <script language="JavaScript" type="text/javascript" src="../htdocs/js/main_comp.js"></script>
+ <script language="JavaScript" type="text/javascript" src="../htdocs/js/main_hashtable.js"></script>
+<script language="JavaScript" type="text/javascript" src="../dwr/engine.js"></script>
+<script language="JavaScript" type="text/javascript" src="../dwr/interface/MailServer.js"></script>
+
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#"><span>查询快件跟踪详细记录列表</span></a>
+						</div>
+					</div>
+		    </div>
+				
+		 
+				
+			</div> 
+			
+			<div class="gg_mod_inner">
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box3">
+							  &nbsp; &nbsp; <a class="btn_com" href="./stat!showSearchOnlineMailInfo.jspa"><span>返回</span></a>
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>	
+			</div>
+			 
+		      <div class="gg_mod_inner">
+		    
+			<!--应用列表--> 
+	      
+		    #parse("/stat/mailinfolist.vm")
+ 		 
+	 	
+		       </div>
+		       
+		         <div  id="moredata" class="gg_mod_inner"> </div>
+		         <div   class="ss_mod_inner"> </div>
+		      
+	</div>
+</div>
+#include("/stat/footer.vm")
+
+
+<script type="text/javascript"> 
+   var area_hash = new Hashtable();
+    $(document).ready(function(){
+  
+   aCity = areaData.split(",");
+    for (i = 1; i <= aCity.length; i++) {
+
+	area_hash.put(aCity[i - 1].substring(0, 6), aCity[i - 1].substring(7, aCity[i - 1].length));
+
+  }
+     set_form_key(); 
+    
+    });
+    
+    
+
+function set_form_key(){
+
+	var ipt = document.getElementsByTagName("td");
+
+	for(i=0;i<9;i++){
+
+		if(ipt[i].className=="wltz"){
+
+			var bm=ipt[i].id;
+
+			var mc=area_hash.get(bm);
+
+			ipt[i].innerText=mc;
+
+		}
+
+	}
+
+}
+      var count=1;
+      var mailNum=$mailNum;
+      var tm=window.setInterval("isEnd()",1000);
+          function isEnd(){
+	
+	            var st = document.body.scrollTop || document.documentElement.scrollTop;//滚去的高度
+                var ch = document.documentElement.clientHeight;//窗口的高度
+                
+                var sh= document.documentElement.scrollHeight;
+                //var at = document.getElementById("a").offsetTop;//元素离页面顶部的高度
+                //var v = ch - (at - st);//元素离窗口底部的高度,为负的话表示元素还在窗口底部下面
+               
+               if(st+ch>sh-100){
+                 if(mailNum>=((count-1)*50)){
+                  
+                    $(".ss_mod_inner").show();
+                  
+                  tm=window.clearInterval(tm);
+                 
+                 MailServer.loadMoreMailInfo(count,mailNum,'$user.loginid',processData);
+                
+               // MailServer.loadMoreMailInfoByThread(count,mailNum,'$user.loginid',processDataByThread);
+               } 
+                   
+                
+	       }
+	
+	   }
+	   
+	   
+	function processDataByThread(data){
+  
+     if(mailNum<(count*50)){
+        $(".ss_mod_inner").hide();
+      }
+   
+     if(data!='0'&&data!='1') {
+  
+     $("#moredata").append(data);
+   
+     count++;
+ 
+     
+    }
+    tm=window.setInterval("isEnd()",1000);
+   
+  
+  }
+	   
+  function processData(data){
+  
+     
+   if(mailNum<(count*20)){
+        $(".ss_mod_inner").hide();
+        }
+  
+  $("#moredata").append(data);
+     
+   
+   count++;
+ 
+   tm=window.setInterval("isEnd()",1000);
+   
+  
+  }
+
+
+
+</script>
+</body></html>

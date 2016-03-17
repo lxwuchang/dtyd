@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="reportDao" class="com.yundastat.dao.ReportDao">
+	
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<!--独立的服务注入 -->
+	<bean id="reportService" class="com.yundastat.service.ReportService">
+	 <property name="reportDao" ref="reportDao"/>
+	
+	</bean>
+	
+	 
+	<!--action 中bean 的注入 -->
+
+	 
+	
+	<bean id="reportAction" class="com.yundastat.action.ReportAction">
+		<property name="mailService">
+			<ref bean="mailService" />
+		</property>
+		<property name="userServiceImpl">
+			<ref bean="userServiceImpl" />
+		</property>
+			<property name="reportService">
+			<ref bean="reportService" />
+		</property>
+	</bean>
+	  
+	  
+	  	<bean id="ReportServer" class="com.yundastat.service.ReportServer">
+	 
+			<property name="reportService">
+			<ref bean="reportService" />
+		</property>
+	</bean>
+	  
+	
+	
+</beans>

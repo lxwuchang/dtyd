@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://connect.opensns.qq.com/ -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta name="robots" content="all">
+<meta name="Keywords" content="腾讯,社区,开放平台">
+<meta name="Description" content="腾讯社区开放平台，不寂寞的平台！">
+<meta name="author" content="Tencent">
+<meta name="copyright" content="Tencent">
+<title>义乌韵达结算系统</title>
+<link href="../htdocs/images/yunda.ico" rel="SHORTCUT ICON" type="image/x-icon"  />
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+
+<script type="text/javascript"> 
+function reset(){
+
+   
+    document.getElementById("yonghu").value="";
+    document.getElementById("mima").value="";
+   
+    
+}
+
+function doSumbit(){
+   
+   var form=document.getElementById("hello");
+   var yonghu=document.getElementById("yonghu").value;
+   var mima=document.getElementById("mima").value;
+   
+   if(yonghu==""||mima==""){
+    alert("用户名或者密码不能为空");
+   return false;
+   
+   }else{
+   form.action="./user.jspa";
+   form.submit();
+   return true;
+   }
+    return false;
+}
+</script> 
+</head>
+
+<body  onload="document.getElementById('yonghu').focus()">
+<div class="lay_head_wrap" id="divHead"> 
+	<div class="lay_head"> 
+		<h1 class="logo"><strong class="none">义乌韵达结算系统<sup>beta</sup></strong></h1> 
+	
+	</div> 
+</div><!--lay_head_wrap--> 
+
+
+<div class="lay_main page_modSwap">
+	
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			<div class="mod_top">
+				<h2>义乌韵达分部快件费用结算系统</h2>
+			</div>
+			<form id="hello" method="post" > 
+			<div class="mod_inner">
+			
+			<div style="position:relative;white-space:nowrap;font-family: Pmingliuverdana,arial,sans-serif; font-size:13px"> 
+              <label for="user_email" id="login_email_label">用户名&nbsp;&nbsp;</label> 
+              <input class="text_input"  id="yonghu" name="user.loginid" size="20" type="text"  tabindex="1"/> 
+            </div> 
+            <div  style="position:relative;white-space:nowrap;font-family: Pmingliuverdana,arial,sans-serif; font-size:13px"> 
+              <label for="user_password" id="login_password_label">密 &nbsp;&nbsp; 码&nbsp;&nbsp;</label> 
+              <input class="text_input" id="mima" name="user.password"   size="20" type="password" tabindex="2" onkeypress= "javascript:if(event.keyCode==13){doSumbit();}"/> 
+            </div> 
+            
+				</div>
+				<div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站" onclick="doSumbit();" tabindex="3"><span>登陆</span></a>
+							 <a class="btn_com" target="_blank" href="#" title="Discuz!申请" onclick="reset();return false";><span>清空</span></a>							 
+						</div>
+					</div>
+						
+						
+				</div>
+				</form> 	
+			</div>
+	
+		</div>
+
+					</div>
+			
+	
+#include("/stat/footer.vm")
+
+</body></html>

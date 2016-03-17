@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<toolbox>
+	<tool>
+		<key>esc</key>
+		<scope>application</scope>
+		<class>com.yundastat.util.EncodeUtil</class>
+	</tool>
+	<tool>
+		<key>dateUtil</key>
+		<scope>application</scope>
+		<class>com.yundastat.util.DateUtil</class>
+	</tool>	
+	<tool>
+		<key>sortUtil</key>
+		<scope>application</scope>
+		<class>com.yundastat.util.SortUtil</class>
+	</tool>	
+	
+	<tool>
+		<key>stringUtil</key>
+		<scope>application</scope>
+		<class>com.yundastat.util.StringUtil</class>
+	</tool>	
+</toolbox>

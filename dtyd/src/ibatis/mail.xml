@@ -1,0 +1,2090 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="mail">
+
+	<typeAlias alias="MailInfo" type="com.yundastat.model.MailInfo"/>
+	<typeAlias alias="WeightRule" type="com.yundastat.model.WeightRule"/>
+	<typeAlias alias="WeightPriceRule" type="com.yundastat.model.WeightPriceRule"/>
+	<typeAlias alias="CityInfo" type="com.yundastat.model.CityInfo"/>
+	<typeAlias alias="TransformPriceRule" type="com.yundastat.model.TransformPriceRule"/>
+    <typeAlias alias="StatReport" type="com.yundastat.model.StatReport"/>
+     <typeAlias alias="PageParameter" type="com.yundastat.model.PageParameter"/>
+     <typeAlias alias="ManagerInfo" type="com.yundastat.model.ManagerInfo"/>
+     <typeAlias alias="AllStatReport" type="com.yundastat.model.AllStatReport"/>
+     <typeAlias alias="MailParameter" type="com.yundastat.model.MailParameter"/>
+  	<typeAlias alias="Report" type="com.yundastat.model.Report"/>
+     <typeAlias alias="ReportFlag" type="com.yundastat.model.ReportFlag"/>
+ 	<typeAlias alias="TransformMail" type="com.yundastat.model.TransformMail"/>
+  	<typeAlias alias="TransformCategory" type="com.yundastat.model.TransformCategory"/>
+  	<typeAlias alias="CompareReport" type="com.yundastat.model.CompareReport"/>
+  	<typeAlias alias="StatSMY" type="com.yundastat.model.StatSMY"/>
+   	<typeAlias alias="PriceDetail" type="com.yundastat.model.PriceDetail"/>
+    <typeAlias alias="PriceDetailSmy" type="com.yundastat.model.PriceDetailSmy"/>
+    <typeAlias alias="DailyBalance" type="com.yundastat.model.DailyBalance"/>
+    
+    
+    
+    <select id="queryForSubManager" resultClass="ManagerInfo" parameterClass="ManagerInfo">
+	<![CDATA[
+  SELECT
+	managername as managername
+FROM
+	managerinfo
+WHERE
+	salesid IN (
+		SELECT
+			managerid
+		FROM
+			`managerinfo`
+		WHERE
+			managername = #managername#
+	)
+		]]>
+		 
+	
+	</select>
+	<insert id="insertTransformCategory" parameterClass="TransformCategory">
+	
+	 <![CDATA[
+			insert into  transformcategory(		 
+			 
+	 		 transformcategoryname,
+	 		 
+	 		 status,
+	 		 
+	 		 isdeleted
+		      )values(
+		      #transformcategoryname#,
+		     
+		      #status#,
+		      
+		      #isdeleted#
+		      
+		      )
+			
+		]]>
+        <selectKey resultClass="int" keyProperty="transformcategoryid">
+			SELECT @@IDENTITY AS ID
+        </selectKey>
+	
+	</insert>
+	
+
+   <update id="updateTransformCategory" parameterClass="TransformCategory">
+	    <![CDATA[
+			update transformcategory
+            set   
+	        transformcategoryname =#transformcategoryname#,
+			isdeleted=#isdeleted#,
+			status=#status#
+                
+            where   transformcategoryid=#transformcategoryid# 
+	  
+		]]>
+	
+	</update>
+	
+	
+	<delete id="deleteTransformCategory"  parameterClass="map">
+	   <![CDATA[
+	    delete from transformcategory
+	   where  transformcategoryid=#transformcategoryid# and isdeleted="n"
+		]]>
+		 
+	</delete>
+	
+	<select id="getTransformCategory" resultClass="TransformCategory" parameterClass="Map">
+	<![CDATA[
+	    select 
+	         transformcategoryid as transformcategoryid,    
+	         transformcategoryname as transformcategoryname,
+	 		 status as status,
+	 		 isdeleted as isdeleted
+	 		  
+	    from transformcategory
+	   
+	    where  isdeleted="n" 
+		]]>
+		<dynamic>
+		
+		  <isNotEmpty  property="transformcategoryid" prepend="AND"> 
+		    
+		       transformcategoryid=#transformcategoryid#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="transformcategoryname" prepend="AND"> 
+		     
+		       transformcategoryname=#transformcategoryname#
+		  
+		  </isNotEmpty>
+		  
+		  
+		    <isNotEmpty  property="status" prepend="AND"> 
+		    
+		       status=#status#
+		  
+		  </isNotEmpty>
+	
+		</dynamic>
+		
+		order by transformcategoryid desc, status desc
+	
+	</select>
+	 <insert id="insertSourceMail" parameterClass="MailInfo">
+	    <![CDATA[
+			insert into mail(
+			linenum,
+			mailid,
+			sendtime,
+			sendgroup,
+			manager,
+			destinationgroup,
+			subcompany,
+			classification,
+			transformationtype,
+			weight,
+			lanjianfei,
+			paisongfei,
+			wholeprice,
+			createtime,
+			isdeleted
+			
+			) values(
+			#linenum#,
+			#mailid#,
+			#sendtime#,
+			#sendgroup#,
+			#manager#,
+			#destinationgroup#,
+			#subcompany#,
+			#classification#,
+			#transformationtype#,
+			#weight#,
+			#lanjianfei#,
+			#paisongfei#,
+			#wholeprice#,
+			#createtime#,
+			#isdeleted#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	
+	
+	 <insert id="insertTransformMail" parameterClass="TransformMail">
+	    <![CDATA[
+			insert into transformmail(
+			linenum,
+			mailid,
+		    inhousedate,
+		    scandate,
+			manager,
+			managercorp,
+			sendcorp,
+			type,
+			weight,
+			stransformprice,
+			sstransformprice,
+			errorsend,
+			bucha,
+			returnmail,
+			wholeprice,
+			createtime,
+			isdeleted
+			
+			) values(
+			#linenum#,
+			#mailid#,
+			#inhousedate#,
+			#scandate#,
+			#manager#,
+			#managercorp#,
+			#sendcorp#,
+			#type#,
+			#weight#,
+			#stransformprice#,
+			#sstransformprice#,
+			#errorsend#,
+			#bucha#,
+			#returnmail#,
+			#wholeprice#,
+			#createtime#,
+			#isdeleted#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	
+	 <insert id="insertCompareReport" parameterClass="CompareReport">
+	    <![CDATA[
+			insert into comparereport(
+
+			mailid,
+			lmanager,
+			tmanager,
+			ldestinationcity,
+			transformcorp,
+			lweight,
+			tweight,
+			ltransformprice,
+			stransformprice,
+			sstransformprice,
+			wholeprice,
+		    lscandate,
+		    inhousedate,
+			tscandate,
+			createtime,
+			state,
+			isdeleted
+			
+			) values(
+			#mailid#,
+			#lmanager#,
+			#tmanager#,
+			#ldestinationcity#,
+			#transformcorp#,
+			#lweight#,
+			#tweight#,
+			#ltransformprice#,
+			#stransformprice#,
+			#sstransformprice#,
+			#wholeprice#,
+		    #lscandate#,
+		    #inhousedate#,
+			#tscandate#,
+			#createtime#,
+			#state#,
+			#isdeleted#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	 <select id="getSourceMailByMailid" resultClass="MailInfo" parameterClass="String">
+	<![CDATA[
+			select
+			
+	       linenum as linenum,
+			mailid as mailid,
+			sendtime as sendtime,
+			sendgroup as sendgroup,
+			manager as manager,
+			destinationgroup as destinationgroup,
+			subcompany as subcompany,
+			classification as classification,
+			transformationtype as transformationtype,
+			weight as weight,
+			lanjianfei as lanjianfei,
+			paisongfei as paisongfei,
+			wholeprice as wholeprice,
+			createtime as createtime,
+			isdeleted as isdeleted
+	               
+	        from    mail
+	        where   mailid=#mailid# and isdeleted='n'
+		]]>
+	</select>
+		
+	 <select id="getSourceMailByMailInfo" resultClass="MailInfo" parameterClass="MailInfo">
+	<![CDATA[
+			select
+			
+	        linenum as linenum,
+			mailid as mailid,
+			sendtime as sendtime,
+			sendgroup as sendgroup,
+			manager as manager,
+			destinationgroup as destinationgroup,
+			subcompany as subcompany,
+			classification as classification,
+			transformationtype as transformationtype,
+			weight as weight,
+			lanjianfei as lanjianfei,
+			paisongfei as paisongfei,
+			wholeprice as wholeprice,
+			createtime as createtime,
+			isdeleted as isdeleted
+	               
+	        from    mail
+	        where   isdeleted='n'
+		]]>	<dynamic>
+		 
+		 <isNotEmpty  property="mailid"  prepend="AND" >
+		     
+		      mailid=#mailid#
+		  
+		  </isNotEmpty>
+		  
+		  <isNotEmpty  property="createtime"  prepend="AND" >
+		    
+		       createtime=#createtime#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+			
+		
+		
+	</select>
+	
+		
+	<delete id="deleteSourceMail"  parameterClass="PageParameter">
+	   <![CDATA[
+	    delete from mail
+	   
+		]]>
+		<dynamic prepend="where">
+		  <isNotEmpty  property="createtime"> 
+		    
+		       createtime=#createtime#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	</delete>
+	
+	<update id="updateMail" parameterClass="MailInfo">
+	    <![CDATA[
+			update mail
+            set manager=#manager#,
+                createtime=#createtime#,
+                subcompany=#subcompany#,
+                weight=#weight#
+                
+            where mailid=#mailid# and isdeleted='n'
+	  
+		]]>
+	
+	</update>
+	
+	
+	<select id="getReportFlagByPage" resultClass="StatSMY" parameterClass="PageParameter">
+	<![CDATA[
+	
+	
+			select
+	        reportdate as reportdate,
+	        bsndate as  bsndate,
+           wholenum as wholenum,
+           wholescanfei as wholescanfei,
+           wholechujianfei as wholechujianfei,
+           wholeweightprice as wholeweightprice,
+           wholebuzufei as  wholebuzufei,
+           wholetransformprice as wholetransformprice,
+           wholewholeprice as wholewholeprice,
+           wholeweight as wholeweight
+	               
+	        from    reportflag
+	     
+		]]>
+		<dynamic prepend="where">
+		
+		  <isNotEmpty  property="bsndate" prepend="AND">
+		    
+		       bsndate=#bsndate#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	  
+	   order by bsndate desc
+	   
+	   limit   #start#, #size#
+		
+	</select>
+	
+	 <insert id="insertWeightRule" parameterClass="WeightRule">
+	    <![CDATA[
+			insert into weightrule(
+			weightrulename,
+			weightrulecontent,
+			effdate,
+			isdeleted
+			
+			) values(
+			#weightrulename#,
+			#weightrulecontent#,
+			#effdate#,
+			#isdeleted#
+			 
+			)
+	  
+		]]>
+	
+	</insert>
+	 <insert id="insertReportFlag" parameterClass="StatSMY">
+	    <![CDATA[
+			insert into reportflag(
+			reportdate,
+	        bsndate,
+           wholenum,
+           wholescanfei,
+           wholechujianfei,
+           wholeweightprice,
+           wholebuzufei,
+           wholetransformprice,
+           wholewholeprice,
+           wholeweight
+			
+			) values(
+			#reportdate#,
+		    #bsndate#,
+           #wholenum#,
+           #wholescanfei#,
+           #wholechujianfei#,
+           #wholeweightprice#,
+           #wholebuzufei#,
+           #wholetransformprice#,
+           #wholewholeprice#,
+           #wholeweight#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	
+	
+	<update id="updateStatReport" parameterClass="Map">
+	    <![CDATA[
+			update statreport
+            set manager=#manager#,
+                destinationcity=#destinationcity#,
+                transformprice=#transformprice#,
+                weightprice=#weightprice#,
+                buzufei=#buzufei#,
+                scanfei=#scanfei#,
+                chujianfei=#chujianfei#,
+                wholeprice=#wholeprice#,
+                weight=#weight#
+            where mailid=#mailid#
+	  
+		]]>
+	
+	</update>
+	<!-- 选择性更新 -->
+	<update id="updateStatReportNew" parameterClass="StatReport">
+	    <![CDATA[
+			update statreport
+            set manager=#manager#,
+                destinationcity=#destinationcity#,
+                weight=#weight#,
+                transformprice=#transformprice#,
+                weightprice=#weightprice#,
+                 buzufei=#buzufei#,
+                   scanfei=#scanfei#,
+                chujianfei=#chujianfei#,
+                wholeprice=#wholeprice#
+             where mailid=#mailid#
+	
+		]]>
+	
+	</update>
+	
+	<update id="deleteStatReport" parameterClass="StatReport">
+	    <![CDATA[
+			update statreport
+            set isdeleted='y'
+            where mailid=#mailid# and state=#state#
+	  
+		]]>
+	
+	</update>
+	
+		
+	<select id="getWeightRule" resultClass="WeightRule">
+	<![CDATA[
+	    select
+			
+	        weightruleid as weightruleid,
+	        weightrulename as weightrulename,
+			weightrulecontent as weightrulecontent,
+			effdate as effdate
+		 
+	    from weightrule
+	 		
+	 
+		]]>
+	
+	</select>
+	
+	
+	<select id="getWeightRuleList" resultClass="WeightRule"   parameterClass="map">
+	<![CDATA[
+	    select
+			
+	        weightruleid as weightruleid,
+	        weightrulename as weightrulename,
+			weightrulecontent as weightrulecontent,
+			effdate as effdate,
+			isdeleted as isdeleted
+			 
+	    from weightrule
+		
+		
+		]]>
+		<dynamic  prepend="where" >
+		
+		  <isNotEmpty  property="weightruleid" prepend="AND">
+		    
+		       weightruleid=#weightruleid#
+		  
+		  </isNotEmpty>
+		   <isNotEmpty  property="weightrulename" prepend="AND">
+		    
+		       weightrulename=#weightrulename#
+		  
+		  </isNotEmpty>
+		 <isNotEmpty  property="isdeleted" prepend="AND">
+		    
+		       isdeleted=#isdeleted#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+		
+		order by weightruleid desc
+	
+	</select>
+	
+	 <insert id="insertWeightPriceRule" parameterClass="WeightPriceRule">
+	    <![CDATA[
+			insert into weightpricerule(
+		 
+			weightpricename,
+			price,
+			firstweight,
+			scanfei,
+			chujianfei,
+			effdate,
+			isdeleted,
+			isactive
+			 
+			
+			) values(
+		 
+			#weightpricename#,
+			#price#,
+			#firstweight#,
+			#scanfei#,
+			#chujianfei#,
+			#effdate#,
+			#isdeleted#,
+			#isactive#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	 
+	
+	<update id="updateWeightPriceRule" parameterClass="WeightPriceRule">
+	    <![CDATA[
+			update weightpricerule
+            set 
+                
+			
+			weightpricename =#weightpricename#,
+			price =#price#,
+			firstweight=#firstweight#,
+			scanfei=#scanfei#,
+			chujianfei=#chujianfei#,
+			effdate=#effdate#,
+			isdeleted=#isdeleted#,
+			isactive=#isactive#
+            where  weightpriceruleid=#weightpriceruleid#
+	  
+		]]>
+		 
+		 
+	
+	</update>
+		
+	 
+		
+	<delete id="deleteWeightPriceRule"  parameterClass="PageParameter">
+	   <![CDATA[
+	    delete from weightpricerule
+	    where isdeleted=#isdeleted# 
+		]]>
+		<dynamic>
+		  <isNotEmpty  property="weightpriceruleid" prepend="AND"> 
+		    
+		       weightpriceruleid=#weightpriceruleid#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	</delete>
+	<select id="getWeightPriceRule" resultClass="WeightPriceRule">
+	<![CDATA[
+	    select
+			
+	        weightpriceruleid as weightpriceruleid,
+			weightpricerulecontent as weightpricerulecontent,
+			weightpricename as weightpricename,
+			price as price,
+			effdate as effdate
+			 
+	    from weightpricerule
+	 
+	 
+		]]>
+	
+	</select>
+	
+	
+	<select id="getWeightPriceRuleList" resultClass="WeightPriceRule" parameterClass="map">
+	<![CDATA[
+	    select
+			
+	        weightpriceruleid as weightpriceruleid,
+			weightpricename as weightpricename,
+			price as price,
+			firstweight as firstweight,
+			scanfei as scanfei,
+			chujianfei as chujianfei,
+			effdate as effdate,
+			isdeleted as isdeleted,
+			isactive as isactive
+			 
+	    from weightpricerule
+		 
+	 
+		]]><dynamic  prepend="where" >
+		
+		  <isNotEmpty  property="weightpriceruleid" prepend="AND">
+		    
+		       weightpriceruleid=#weightpriceruleid#
+		  
+		  </isNotEmpty>
+		 
+		   <isNotEmpty  property="isdeleted" prepend="AND">
+		    
+		       isdeleted=#isdeleted#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="isactive" prepend="AND">
+		    
+		       isactive=#isactive#
+		  
+		  </isNotEmpty>
+		
+		
+		</dynamic>
+	
+	     order by weightpriceruleid desc
+	</select>
+	
+	
+	 <insert id="insertTransformPriceRule" parameterClass="TransformPriceRule">
+	    <![CDATA[
+			insert into transformpricerule(
+			code,
+		 
+			pricelist,
+			destination,
+		    destinationcity,
+		    effdate,
+		    transformcategoryid,
+		    isdeleted,
+		    mtype
+		   
+		 	
+			) values(
+			#code#,
+		 	#pricelist#,
+			#destination#,
+		    #destinationcity#,
+		    #effdate#,
+		    #transformcategoryid#,
+		    #isdeleted#,
+		    #mtype#
+		    
+			
+			)
+	  
+		]]>
+	
+	</insert>
+
+	<update id="updateTransformPriceRule" parameterClass="TransformPriceRule">
+	    <![CDATA[
+			update transformpricerule
+            set 
+		          pricelist=#pricelist#,
+		          destination=#destination#,
+		          destinationcity=#destinationcity#,
+		          mtype=#mtype#
+            where    
+		    
+		       transformpriceruleid=#transformpriceruleid#
+		   
+	  
+		]]> 
+	
+	</update>
+
+	
+	
+	<update id="updateReportFlag" parameterClass="StatSMY">
+	    <![CDATA[
+			update reportflag
+            set 
+		     wholenum=#wholenum#,
+           wholescanfei=#wholescanfei#,
+           wholechujianfei=#wholechujianfei#,
+           wholeweightprice=#wholeweightprice#,
+           wholebuzufei=#wholebuzufei#,
+           wholetransformprice=#wholetransformprice#,
+           wholewholeprice=#wholewholeprice#,
+           wholeweight=#wholeweight#
+		      
+            where  reportdate=#reportdate# 
+	  
+		]]>
+	
+	</update>
+	
+	<delete id="deleteTransformPrice"  parameterClass="map">
+	  <![CDATA[
+	   delete from transformpricerule
+	   
+		]]>
+		<dynamic prepend="where">
+		 
+		
+		  <isNotEmpty  property="code"  prepend="AND"> 
+		    
+		       code=#code#
+		  
+		  </isNotEmpty>
+		  
+		  <isNotEmpty  property="transformcategoryid" prepend="AND"> 
+		    
+		       transformcategoryid=#transformcategoryid#
+		  
+		  </isNotEmpty>
+		  
+	 
+		</dynamic>
+	</delete>
+	
+	<delete id="deleteTransformPriceById"  parameterClass="map">
+	  <![CDATA[
+	   delete from transformpricerule
+	   
+		]]>
+		<dynamic prepend="where">
+		  <isNotEmpty  property="transformpriceruleid" prepend="AND"> 
+		    
+		       transformpriceruleid=#transformpriceruleid#
+		  
+		  </isNotEmpty>
+	 
+		
+		</dynamic>
+	</delete>
+	<delete id="deleteReportFlag"  parameterClass="StatSMY">
+	  <![CDATA[
+	   delete from reportflag
+	   
+		]]>
+		<dynamic prepend="where" >
+		
+		  <isNotEmpty  property="reportdate" prepend="AND"> 
+		    
+		       reportdate=#reportdate#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	</delete>
+	
+	
+		<delete id="deleteManager"  parameterClass="ManagerInfo">
+	  <![CDATA[
+	     delete from managerinfo
+	   
+		]]>
+		<dynamic prepend="where" >
+		
+		  <isNotEmpty  property="managerid" prepend="AND"> 
+		    
+		       managerid=#managerid#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="roles" prepend="AND"> 
+		    
+		       roles=#roles#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	</delete>
+	
+	<update id="updateManager" parameterClass="ManagerInfo">
+	    <![CDATA[
+			update managerinfo
+            set  
+              managername=#managername#,
+		      cardid=#cardid#,
+		      mobilenumber=#mobilenumber#,
+		      telephone=#telephone#,
+		      address=#address#,
+		      isdeleted=#isdeleted#,
+		      salesid=#salesid#,
+		      salesnick=#salesnick#,
+		      solutionid=#solutionid#,
+		      solutionname=#solutionname#,
+		      weightpriceruleid=#weightpriceruleid#,
+		      outtime=#outtime#,
+		      cometime=#cometime#,
+		      basicsalary=#basicsalary#,
+		      state=#state#
+                
+            where   managerid=#managerid#
+	  
+		]]>
+	
+	</update>
+	 
+	
+	
+	<update id="updateWeightRule" parameterClass="WeightRule">
+	    <![CDATA[
+			update weightrule
+            set  
+		  
+	        weightrulename =#weightrulename#,
+			weightrulecontent=#weightrulecontent#,
+			effdate=#effdate#,
+			isdeleted=#isdeleted#
+                
+            where   weightruleid=#weightruleid# 
+	  
+		]]>
+	
+	</update>
+	
+	<!-- 2011-07-30 modified-->
+	<select id="getTransformPriceRule" resultClass="TransformPriceRule" parameterClass="Map">
+	<![CDATA[
+	    select
+	        
+			transformpriceruleid as transformpriceruleid,
+	        code as code,
+		    weightruleid as weightruleid,
+		    pricelist as pricelist,
+		    createtime as createtime,
+			isactive as isactive
+		
+	    from transformpricerule
+		where isactive='y'
+	
+		
+		]]>
+		<dynamic  prepend="AND" >
+		
+		  <isNotEmpty  property="code">
+		    
+		       code=#code#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+		
+	
+	</select> 
+	
+	<select id="getTransformPriceRuleNew" resultClass="TransformPriceRule" parameterClass="Map">
+	<![CDATA[
+	    select	        
+			t.transformpriceruleid as transformpriceruleid,
+	        t.code as code,
+		    t.weightruleid as weightruleid,
+		    t.pricelist as pricelist,
+		    t.destination as destination,
+		    t.destinationcity as destinationcity,
+		    t.effdate as effdate,
+		    t.enddate as enddate,
+		    w.weightrulecontent    as  weightrulecontent   
+		
+	    from transformpricerule t, weightrule w
+		where t.enddate= date_format('2999-12-31 23:59:59','%Y-%m-%d %H:%i:%s') and t.weightruleid=w.weightruleid
+		
+		]]>
+		<dynamic>
+		
+		  <isNotEmpty  property="code"  prepend="AND">
+		    
+		       code=#code#
+		  
+		  </isNotEmpty>
+		  <isNotEmpty  property="destination"  prepend="AND">
+		    
+		       destination=#destination#
+		  
+		  </isNotEmpty>
+		  <isNotEmpty  property="destinationcity"  prepend="AND">
+		    
+		       destinationcity=#destinationcity#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+		
+	
+	</select> 
+	
+	
+		<select id="getCompareReportPage" resultClass="CompareReport" parameterClass="PageParameter">
+	<![CDATA[
+	    select	        
+			
+			mailid,
+			lmanager,
+			tmanager,
+			ldestinationcity,
+			transformcorp,
+			lweight,
+			tweight,
+			ltransformprice,
+			stransformprice,
+			sstransformprice,
+			wholeprice,
+		    lscandate,
+		    inhousedate,
+			tscandate,
+			createtime,
+			state,
+			isdeleted  
+		
+	    from comparereport 
+		where isdeleted='n'
+		
+		]]>
+		<dynamic>
+		
+		<isNotEmpty  property="starttime"  prepend="AND"> 
+		   <![CDATA[ 
+		      createtime >= date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+		  </isNotEmpty>
+		  <isNotEmpty  property="endtime" prepend="AND"> 
+		     <![CDATA[ 
+		      createtime <= date_format(#endtime#,'%Y-%m-%d %H:%i:%s')
+		  	]]>
+		  </isNotEmpty>
+				  
+		   <isNotEmpty  property="state" prepend="AND"> 
+		    
+		       state=#state#
+		  
+		  </isNotEmpty>
+		
+		
+		</dynamic>
+ 
+		limit #start#,#size#
+		
+	
+	</select> 
+	
+	
+	
+	
+
+		<select id="getTransformPriceRuleNewList" resultClass="TransformPriceRule" parameterClass="Map">
+	<![CDATA[
+	    select	        
+			t.transformpriceruleid as transformpriceruleid,
+	        t.code as code,
+		     t.pricelist as pricelist,
+		    t.destination  as destination,
+		    t.destinationcity as destinationcity,
+		    t.effdate as effdate,
+	        t.isdeleted as isdeleted,
+		    t.transformcategoryid as transformcategoryid,
+		    t.mtype as mtype
+		
+	    from transformpricerule  t  
+		where     t.isdeleted ="n"  
+		]]>
+		<dynamic>
+		
+		 <isNotEmpty  property="transformpriceruleid"  prepend="AND">
+		    
+		       t.transformpriceruleid=#transformpriceruleid#
+		  
+		  </isNotEmpty>
+		   <isNotEmpty  property="transformcategoryid"  prepend="AND">
+		    
+		       t.transformcategoryid=#transformcategoryid#
+		  
+		  </isNotEmpty>
+		
+		  <isNotEmpty  property="code"   prepend="AND">
+		    
+		       t.code=#code#
+		  
+		  </isNotEmpty>
+		  
+		 	  <isNotEmpty  property="mtype"   prepend="AND">
+		    
+		       t.mtype=#mtype#
+		  
+		  </isNotEmpty>
+		  
+		  
+		   <isNotEmpty  property="destinationcity"  prepend="AND">
+		    
+		       t.destinationcity=#destinationcity#
+		  
+		  </isNotEmpty>
+		  
+		  
+		  
+		</dynamic>
+		
+	  order by code, mtype
+	</select> 
+
+	
+	
+	 <insert id="insertStatReport" parameterClass="StatReport">
+	    <![CDATA[
+			insert into statreport#mon#(		 
+			mailid,
+			transformprice,
+			operateprice,
+			weightprice,
+			wholeprice,
+			buzufei,
+			scanfei,
+			chujianfei,
+			createtime,
+			manager,
+			weight,
+			sendtime,
+			destinationcity,
+			state,
+			isdeleted
+			
+			
+			) values(
+			#mailid#,
+			#transformprice#,
+			#operateprice#,
+			#weightprice#,
+			#wholeprice#,
+			#buzufei#,
+			#scanfei#,
+			#chujianfei#,
+			#createtime#,
+			#manager#,
+			#weight#,
+			#sendtime#,
+			#destinationcity#,
+			#state#,
+			#isdeleted#
+			
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	<select id="getStatReportSmy" resultClass="ReportFlag" parameterClass="PageParameter">
+	
+	 <![CDATA[			 
+           select           
+           createtime as bsndate,
+           count(*) as wholenum,
+           round(sum(scanfei),2) as wholescanfei,
+           round(sum(chujianfei),2) as wholechujianfei,
+           round(sum(weightprice),2) as wholeweightprice,
+           round(sum(buzufei),2) as wholebuzufei,
+           round(sum(transformprice),2) as wholetransformprice,
+           round(sum(wholeprice),2) as wholeprice,
+           round(sum(weight),2) as wholeweight
+           
+           from  statreport#mon#
+           where createtime=#bsndate#          
+           group by createtime
+     		
+		]]>
+
+	
+	</select>
+	
+	
+	<select id="getStatReportCount" resultClass="Integer" parameterClass="PageParameter">
+	<![CDATA[
+	    select
+	       
+		count(statreportid)
+		
+	    from statreport#mon#		
+	   
+		]]>
+		<dynamic   prepend="where">
+		
+		<isEmpty  property="endtime"  prepend="AND"> 
+		 <isNotEmpty  property="starttime"> 
+		   <![CDATA[ 
+		      createtime = date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+		  </isNotEmpty>
+		  </isEmpty>
+		  
+		 <isNotEmpty  property="endtime"  prepend="AND"> 
+	 
+		   <![CDATA[ 
+		      createtime <= date_format(#endtime#,'%Y-%m-%d %H:%i:%s') 
+		       and createtime >= date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+	 
+		   </isNotEmpty>
+		  
+		  <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		
+		  
+		   <isNotEmpty  property="state" prepend="AND"> 
+		    
+		       state=#state#
+		  
+		  </isNotEmpty>
+		
+		
+		</dynamic>
+		
+	 
+	</select>
+	
+	<select id="getStatReportPage" resultClass="StatReport" parameterClass="PageParameter">
+	<![CDATA[
+	    select
+	       
+			mailid as  mailid,
+			transformprice as  transformprice,
+			operateprice as operateprice,
+			weightprice as weightprice,
+			wholeprice as wholeprice,
+			buzufei as buzufei,
+			  scanfei as scanfei,
+                chujianfei as chujianfei,
+			createtime as createtime,
+			manager as manager,
+			weight as weight,
+			destinationcity as destinationcity,
+			state as state,
+			sendtime as sendtime
+		
+	    from statreport#mon#		
+	   
+		]]>
+		<dynamic   prepend="where">
+		
+		<isEmpty  property="endtime"  prepend="AND"> 
+		 <isNotEmpty  property="starttime"> 
+		   <![CDATA[ 
+		      createtime = date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+		  </isNotEmpty>
+		  </isEmpty>
+		  
+		 <isNotEmpty  property="endtime"  prepend="AND"> 
+	 
+		   <![CDATA[ 
+		      createtime <= date_format(#endtime#,'%Y-%m-%d %H:%i:%s') 
+		       and createtime >= date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+	 
+		   </isNotEmpty>
+		  
+		  <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		
+		  
+		   <isNotEmpty  property="state" prepend="AND"> 
+		    
+		       state=#state#
+		  
+		  </isNotEmpty>
+		
+		
+		</dynamic>
+		
+		 order by createtime,manager
+		
+		limit #start#,#size#
+	
+	</select>
+	
+
+	
+	
+		<select id="getStatReportById" resultClass="StatReport" parameterClass="String">
+	   <![CDATA[
+	    select
+	        statreportid as  statreportid,
+			mailid as  mailid,
+			transformprice as  transformprice,
+			operateprice as operateprice,
+			weightprice as weightprice,
+			wholeprice as wholeprice,
+			buzufei as buzufei,
+			  scanfei as scanfei,
+                chujianfei as chujianfei,
+			createtime as createtime,
+			manager as manager,
+			weight as weight,
+			destinationcity as destinationcity,
+			state as state,
+			sendtime as sendtime
+		
+	    from statreport		
+	    
+	    where mailid=#mailid# and isdeleted='n'
+	   
+		]]>
+		  
+		
+	 
+	
+	</select>
+	
+	
+		<select id="getStatReportByMailId" resultClass="StatReport" parameterClass="Map">
+	   <![CDATA[
+	    select
+	        distinct
+			mailid as  mailid,
+			transformprice as  transformprice,
+			operateprice as operateprice,
+			weightprice as weightprice,
+			wholeprice as wholeprice,
+			buzufei as buzufei,
+			scanfei as scanfei,
+			chujianfei as chujianfei,
+			createtime as createtime,
+			manager as manager,
+			weight as weight,
+			destinationcity as destinationcity,
+			state as state,
+			sendtime as sendtime
+		
+	    from statreport#mon#	
+	    
+	    where mailid=#mailid# and isdeleted='n'
+	   
+		]]>
+			<dynamic>
+		
+		   <isNotEmpty  property="state" prepend="AND"> 
+		    
+		       state=#state#
+		  
+		  </isNotEmpty>
+		
+		 </dynamic>
+		
+	
+	</select>
+	
+	 
+ 
+	
+	<delete id="deleteExitedMail"  parameterClass="PageParameter">
+	  <![CDATA[
+	   delete from mail
+	   where createtime >=  #starttime# and createtime<= #endtime#
+		]]>
+		<dynamic>
+		
+		  <isNotEmpty  property="mailid" prepend="AND"> 
+		    
+		       mailid=#mailid#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	</delete>
+	
+	<delete id="deleteExitedStatReport"  parameterClass="PageParameter">
+	   <![CDATA[
+	    delete from statreport#mon#
+	   where createtime >= #starttime#  and createtime<=  #endtime# 
+		]]>
+		<dynamic>
+		  <isNotEmpty  property="mailid" prepend="AND"> 
+		    
+		       mailid=#mailid#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	</delete>
+	 
+	 <select id="getManagerInfo" resultClass="ManagerInfo" parameterClass="Map">
+	<![CDATA[
+	    select
+	        managerid as  managerid,
+			managername as  managername,
+		    mobilenumber  as mobilenumber,
+			telephone as  telephone,
+			address  as  address,
+			cardid   as  cardid,
+			m.isdeleted as isdeleted,
+		    solutionid as solutionid,
+			t.transformcategoryname as solutionname,
+			m.weightpriceruleid as weightpriceruleid,
+			w.weightpricename as weightpricename
+	    from managerinfo	m
+	    left join weightpricerule w on w.weightpriceruleid=m.weightpriceruleid
+	    left join transformcategory t on t.transformcategoryid=m.solutionid
+	    where m.isdeleted="n"
+  
+		]]>
+		<dynamic>
+		  
+		  <isNotEmpty  property="managername" prepend="AND"> 
+		    
+		       managername=#managername#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="managerid" prepend="AND"> 
+		    
+		       managerid=#managerid#
+		  
+		  </isNotEmpty>
+		
+		</dynamic>
+	
+	</select>
+	 
+	 
+	<select id="getManagerInfoNew" resultClass="ManagerInfo" parameterClass="Map">
+	<![CDATA[
+	     select
+	        m.managerid as  managerid,
+			m.managername as  managername,
+		    m.mobilenumber  as mobilenumber,
+			m.telephone as  telephone,
+			m.address  as  address,
+			m.cardid   as  cardid,
+			m.roles as roles,
+			m.salesid as salesid,
+			m2.managername as salesnick,
+		    m.isdeleted as isdeleted,
+		    m.solutionid as solutionid,
+			t.transformcategoryname as solutionname,
+			m.weightpriceruleid as weightpriceruleid,
+			w.weightpricename as weightpricename,
+			m.cometime as cometime,
+			m.outtime as outtime,
+			IFNULL(m.basicsalary,0) as basicsalary,
+			m.state as state
+	    from managerinfo	m
+	    left join weightpricerule w on w.weightpriceruleid=m.weightpriceruleid
+	    left join transformcategory t on t.transformcategoryid=m.solutionid
+	    left join managerinfo m2 on m2.managerid=m.salesid
+	     
+		]]>
+		<dynamic prepend="where">
+		   <isNotEmpty  property="isdeleted" prepend="AND"> 
+		    
+		       m.isdeleted=#isdeleted#
+		  
+		  </isNotEmpty>
+		
+	 
+		  <isNotEmpty  property="managername" prepend="AND"> 
+		    
+		       m.managername=#managername#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="managerid" prepend="AND"> 
+		    
+		       m.managerid=#managerid#
+		  
+		  </isNotEmpty>
+		  
+		    <isNotEmpty  property="roles" prepend="AND"> 
+		    
+		       m.roles=#roles#
+		  
+		  </isNotEmpty>
+		  
+		   <isNotEmpty  property="cardid" prepend="AND"> 
+		    
+		       m.cardid=#cardid#
+		  
+		  </isNotEmpty>
+		  
+		  	  
+		   <isNotEmpty  property="salesid" prepend="AND"> 
+		    
+		       m.salesid=#salesid#
+		  
+		  </isNotEmpty>
+		  
+		  
+		    <isNotEmpty  property="state" prepend="AND"> 
+		    
+		       m.state=#state#
+		  
+		  </isNotEmpty>
+		
+		
+		</dynamic>
+	
+	</select>
+	 
+	 	
+	<select id="getTodayMail" resultClass="MailInfo" parameterClass="MailParameter">
+	<![CDATA[
+	       SELECT
+	        t.mailid as mailid ,
+	        t.manager as manager,
+	        t.scandate as scandate,
+	        t.destinationgroup as destinationgroup,
+	        t.destinationcity as subcompany,
+	        m.sendtime as sendtime,
+	        m.weight as  weight, 
+	        t.weight as transformweight,
+	        t.createtime as createtime,
+	        t.isdeleted as isdeleted
+           FROM transformmail t, mail m
+           where t.mailid=m.mailid and m.sendtime  >= date_format(#datestrstart#,'%Y-%m-%d %H:%i:%s') and m.sendtime  <= date_format(#datestrend#,'%Y-%m-%d %H:%i:%s')
+		]]>
+	
+	
+	</select>
+	 
+	 <select id="getDelayMail" resultClass="MailInfo" parameterClass="MailParameter">
+	<![CDATA[
+	       SELECT
+	        t.mailid as mailid ,
+	        t.manager as manager,
+	        t.scandate as scandate,
+	        t.destinationgroup as destinationgroup,
+	        t.destinationcity as subcompany,
+	        m.sendtime as sendtime,
+	        m.weight as weight, 
+	        t.weight as transformweight,
+	        t.createtime as createtime,
+	        t.isdeleted as isdeleted
+           FROM transformmail t, mail m
+           where t.mailid=m.mailid and m.sendtime <= date_format(#datestrstart#,'%Y-%m-%d %H:%i:%s') 
+		]]>
+	
+	
+	</select>
+	
+	 
+	 <select id="getWaitingMail" resultClass="MailInfo" parameterClass="MailParameter">
+	<![CDATA[
+	       SELECT
+	        f.mailid as mailid ,
+	        f.manager as manager,
+	        now() as scandate,
+	        f.destinationgroup as destinationgroup,
+	        f.subcompany as subcompany,
+	        f.sendtime as sendtime,
+	        f.weight as  weight, 
+	        0  as transformweight,
+	        f.createtime as createtime,
+	        f.isdeleted as isdeleted
+           from  (select * from mail m where m.sendtime >= date_format(#datestrstart#,'%Y-%m-%d %H:%i:%s') and m.sendtime <= date_format(#datestrend#,'%Y-%m-%d %H:%i:%s')) f
+	       where  not exists(
+	          select 1
+	          from transformmail t 
+	          where t.mailid = f.mailid and  t.createtime >=date_format(#datestrstart#,'%Y-%m-%d %H:%i:%s') and t.createtime <= date_format(#datestrend#,'%Y-%m-%d %H:%i:%s') )
+		
+		]]>
+	
+	
+	</select>
+	
+
+	 <select id="getMissMail" resultClass="MailInfo" parameterClass="MailParameter">
+	<![CDATA[
+	       SELECT
+	        f.mailid as mailid ,
+	        f.manager as manager,
+	        f.scandate as scandate,
+	        f.destinationgroup as destinationgroup,
+	        f.destinationcity as subcompany,
+	        now() as sendtime,
+	        0 as  weight, 
+	        f.weight  as transformweight,
+	        f.createtime as createtime,
+	        f.isdeleted as isdeleted
+           from  (select * from transformmail t where  t.createtime >=date_format(#datestrstart#,'%Y-%m-%d %H:%i:%s') and t.createtime <= date_format(#datestrend#,'%Y-%m-%d %H:%i:%s')) f
+	       where  not exists(select 1 from  mail m where m.mailid = f.mailid ) and f.mailid like '1500022%'
+		]]>
+	
+	
+	</select>
+	
+		<!--  Now develop-->
+	 <select id="getErrorMail" resultClass="MailInfo" parameterClass="MailParameter">
+	<![CDATA[
+	       SELECT
+	        t.mailid as mailid ,
+	        t.manager as manager,
+	        t.scandate as scandate,
+	        t.destinationgroup as destinationgroup,
+	        t.destinationcity as subcompany,    
+	        now() as sendtime,
+	        0 as  weight, 
+	        t.weight  as transformweight,
+	        t.createtime as createtime,
+	        t.isdeleted as isdeleted
+            from transformmail t
+            where  t.mailid  not like '1500022%' and t.createtime >= date_format(#datestrstart#,'%Y-%m-%d %H:%i:%s') and t.createtime <= date_format(#datestrend#,'%Y-%m-%d %H:%i:%s')
+		]]>
+	
+	
+	</select>
+	
+	<insert id="insertReport" parameterClass="Report">
+	    <![CDATA[
+			insert into  report(		 
+			mailid,
+			state,
+			transformprice,
+			transformweight,
+			sourceweight,
+			sourceprice,
+			finalweight,
+			finalprice,
+			createtime,
+			manager,
+			sendtime,
+			scandate,
+			destinationcity,
+			destinationgroup,
+			isdeleted
+		
+			) values(
+			#mailid#,
+			#state#,
+			#transformprice#,
+			#transformweight#,
+			#sourceweight#,
+			#sourceprice#,
+			#finalweight#,
+			#finalprice#,
+			#createtime#,
+			#manager#,
+			#sendtime#,
+			#scandate#,
+			#destinationcity#,
+			#destinationgroup#,
+			#isdeleted#
+	
+			)
+	  
+		]]>
+	
+	</insert>
+	<insert id="insertManager" parameterClass="ManagerInfo">
+	
+	 <![CDATA[
+			insert into  managerinfo(		 
+			 managerid,
+		     managername,
+		     cardid,
+		     mobilenumber,
+		     telephone,
+		     address,
+		     salesid,
+		     salesnick,
+		     isdeleted,
+		     solutionid,
+		     solutionname,
+		     weightpriceruleid,
+		     roles,
+		     cometime,
+		     outtime,
+		     basicsalary,
+		     state
+		     
+		      )values(
+		      #managerid#,
+		      #managername#,
+		      #cardid#,
+		      #mobilenumber#,
+		      #telephone#,
+		      #address#,
+		     #salesid#,
+		     #salesnick#,
+		      'n' ,
+		      #solutionid#,
+		      #solutionname#,
+		      #weightpriceruleid#,
+		    #roles#,
+		     #cometime#,
+		     #outtime#,
+		     #basicsalary#,
+		     #state#
+		      
+		      )
+			
+		]]>
+
+	
+	</insert>
+	
+	
+ 
+	
+	
+	<insert id="createStatSMY" parameterClass="PageParameter">
+	
+	 <![CDATA[
+			insert into  statsmy(		 
+		   manager,
+           bsndate,
+           wholenum,
+           wholescanfei,
+           wholechujianfei,
+           wholeweightprice,
+           wholebuzufei,
+           wholetransformprice,
+           wholewholeprice,
+           wholeweight
+           
+		      )
+           select 
+           manager,
+           createtime,
+           count(*),
+           round(sum(scanfei),2),
+           round(sum(chujianfei),2),
+           round(sum(weightprice),2),
+           round(sum(buzufei),2),
+           round(sum(transformprice),2),
+           round(sum(wholeprice),2),
+           round(sum(weight),2)
+           
+           from  statreport#mon#
+           where createtime=#bsndate#
+           
+           group by manager
+     		
+		]]>
+
+	
+	</insert>
+	
+	<select id="getStatSMY" resultClass="StatSMY" parameterClass="PageParameter">
+	
+	 <![CDATA[
+		   select 		 
+		   manager,
+           bsndate,
+           wholenum,
+           wholescanfei,
+           wholechujianfei,
+           wholeweightprice,
+           wholebuzufei,
+           wholetransformprice,
+           wholewholeprice,
+           wholeweight
+           
+           from statsmy
+           where bsndate=#bsndate#
+		]]>
+		<dynamic>
+		
+		  <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+		 </dynamic>
+	</select>
+	
+	
+	
+	<delete id="deleteStatSMY"  parameterClass="PageParameter">
+	   <![CDATA[
+	    delete from statsmy
+	   where bsndate =  #bsndate# 
+		]]>
+		 
+	</delete>
+	
+		<select id="getPriceDetailSmy" resultClass="PriceDetailSmy"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+		 s.bsndate as bsndate,
+		 s.pricetype as pricetype,
+		 s.price as price,
+		 s.num as num,
+		 s.createtime as createtime,
+		 s.creator as creator
+	    
+	    from pricedetailsmy s 
+	    
+	   
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       s.bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       s.pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+		order by bsndate desc, createtime desc
+		limit #start#,#size#
+	</select>
+ 
+ 
+ 
+		<select id="getPriceDetailList" resultClass="PriceDetail"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+statdate as statdate,
+bsndate as  bsndate,    
+mailid  as   mailid    ,   
+manager as  manager ,  
+pricetype   as pricetype , 
+subpricetype  as subpricetype ,
+weight   as weight     , 
+price     as price     ,
+destination  as destination  ,
+destprovince  as destprovince ,
+destcity   as destcity   ,
+receivemanager as receivemanager,
+statunit as statunit,
+memo as memo,
+createtime as createtime,
+creator as creator
+	    
+	    from pricedetail#mon#
+	    
+	   
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		        bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			
+			<isEmpty  property="endtime"  prepend="AND"> 
+		 <isNotEmpty  property="starttime"> 
+		   <![CDATA[ 
+		      bsndate = date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+		  </isNotEmpty>
+		  </isEmpty>
+		  
+		 <isNotEmpty  property="endtime"  prepend="AND"> 
+	 
+		   <![CDATA[ 
+		      bsndate <= date_format(#endtime#,'%Y-%m-%d %H:%i:%s') 
+		       and bsndate >= date_format(#starttime#,'%Y-%m-%d %H:%i:%s') 
+		  	]]>
+	 
+		   </isNotEmpty>
+		  
+		  <isNotEmpty  property="manager" prepend="AND"> 
+		    
+		       manager=#manager#
+		  
+		  </isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		        pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+			
+			
+		</dynamic>
+
+		order by bsndate,manager desc 
+		limit #start#,#size#
+	</select>
+ 
+ 
+ 
+    <delete id="deletePriceDetail" parameterClass="PriceDetailSmy">
+	   <![CDATA[
+	    delete from pricedetail#mon# 	 
+		]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	</delete>
+	<delete id="deletePriceDetailSmy" parameterClass="PriceDetailSmy">
+	   <![CDATA[
+	    delete from pricedetailsmy 	 
+		]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	</delete>
+	
+	<select id="getPriceDetailManagerSmy" resultClass="PriceDetailSmy"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+		 s.bsndate as bsndate,
+		 s.manager as manager,
+		 s.pricetype as pricetype,
+		 s.price as price,
+		 s.num as num
+	    
+	    from pricedetailmanagersmy s 
+	    
+	   
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       s.bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty property="manager" prepend="AND">
+		    	<![CDATA[
+		       s.manager=#manager#
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       s.pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+		order by bsndate desc
+		limit #start#,#size#
+	</select>
+	
+	
+
+	<delete id="deletePriceDetailManagerSmy" parameterClass="PriceDetailSmy">
+	   <![CDATA[
+	    delete from pricedetailmanagersmy 
+	 
+		]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate=#bsndate#
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	</delete>
+	
+	
+	<insert id="insertPriceDetail" parameterClass="PriceDetail">
+       
+         <![CDATA[ 
+	       insert into pricedetail#year#(	
+ statdate,
+bsndate   ,    
+mailid     ,   
+manager     ,  
+pricetype    , 
+subpricetype  ,
+weight       , 
+price         ,
+destination   ,
+destprovince  ,
+destcity      ,
+receivemanager,
+statunit,
+memo,
+createtime,
+creator
+	      
+       
+	       )values(
+         #statdate#,
+#bsndate#   ,    
+#mailid#     ,   
+#manager#     ,  
+#pricetype#    , 
+#subpricetype#  ,
+#weight#       , 
+#price#         ,
+#destination#   ,
+#destprovince#  ,
+#destcity#      ,
+#receivemanager#,
+#statunit#,
+#memo#,
+#createtime#,
+#creator#
+            
+	       )
+	    
+	    	]]>
+
+	</insert>
+
+	<insert id="insertPriceDetailManagerSmy" parameterClass="PriceDetailSmy">
+       
+         <![CDATA[ 
+	       insert into pricedetailmanagersmy(	 
+				bsndate,   
+				manager,  
+				pricetype, 
+				num,
+				price       
+	       ) 
+	       select 
+	       bsndate,  
+	       manager,   
+          pricetype, 
+          count(*),
+          ROUND(sum(price),2)
+	      from pricedetail#mon#
+	    	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="bsndate" prepend="AND">
+		    	<![CDATA[
+		       bsndate =#bsndate#
+		    ]]>
+			</isNotEmpty>
+
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+		group by bsndate, manager, pricetype
+
+	</insert>
+	<select id="getPriceDetailSmyCount" resultClass="Integer"
+		parameterClass="PageParameter">
+	<![CDATA[
+	    select
+		  count(*)
+	    
+	    from pricedetailsmy s 
+	    
+	   
+	 	]]>
+		<dynamic prepend="where">
+			<isNotEmpty property="starttime" prepend="AND">
+		    	<![CDATA[
+		       s.bsndate >= date_format(#starttime#,'%Y-%m-%d %H:%i:%s')
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="endtime" prepend="AND">
+		    	<![CDATA[
+		       s.bsndate <= date_format(#endtime#,'%Y-%m-%d %H:%i:%s')
+		    ]]>
+			</isNotEmpty>
+
+			<isNotEmpty property="pricetype" prepend="AND">
+		    	<![CDATA[
+		       s.pricetype=#pricetype#
+		    ]]>
+			</isNotEmpty>
+		</dynamic>
+
+	</select>
+	
+	<insert id="insertPriceDetailSmy" parameterClass="PriceDetailSmy">
+       
+         <![CDATA[ 
+	       insert into pricedetailsmy(	 
+bsndate   ,     
+pricetype    , 
+num,
+price ,
+createtime,
+creator      
+	       )values(
+     
+#bsndate#,
+#pricetype#, 
+#num#,
+#price#  ,
+#createtime#,
+#creator#
+	       )
+	    
+	    	]]>
+
+	</insert>
+	
+
+	 
+</sqlMap>

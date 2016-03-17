@@ -1,0 +1,72 @@
+<div class="lay_aside">
+		<ul id="ulMenu" class="menu">
+			<li><a href="../stat/stat!showStatPage.jspa">首页</a></li>			 
+		  	#if($user.role=='admin')  <li id="unread01"><a href="../report/report!showMainReportPage.jspa">驾驶舱</a></li>#end
+				#if($user.role=='admin')
+			<li class="submenu">
+				<h4>报表查询</h4>
+				<ul>
+				   <li id="unread21"><a href="../report/report!showYearSmyPage.jspa" title="每日报表管理">年收支报表</a></li>
+				    <li id="unread22"><a href="../report/report!showMonthSmyPage.jspa" title="每日报表管理">月收支报表</a></li>
+				    <li id="unread23"><a href="../report/report!showDaySmyPage.jspa" title="每日报表管理">日收支报表</a></li>
+				   ## <li id="unread21"><a href="../stat/stat!showReportManagement.jspa" title="每日报表管理">每日报表管理</a></li>			  
+				  
+                    
+				</ul>
+			</li>
+			#end
+				
+			<li class="submenu">
+				#if($user.role=='admin')<h4>快件数据导入</h4>#end
+				<ul>
+				  ##<li id="unread11"><a href="../stat/stat!showImportDataPage.jspa" title="本地快件数据导入">揽件数据导入</a></li>
+				   ## <li id="unread12"><a href="../stat/stat!showImportPricePage.jspa" title="本地快件数据导入">其他费用导入</a></li>
+				    ##<li id="unread14"><a href="../report/report!showImportCompanyIncomePage.jspa" title="公司收入录入">公司收入录入</a></li>
+				   ## <li id="unread13"><a href="../report/report!showImportMailInfoPage.jspa" title="面单收入录入">面单收入录入</a></li>
+				 #if($user.role=='admin' )   <li id="unread11"><a href="../stat/stat!showImportDataPage.jspa" title="支出费用录入">收入录入</a></li>#end
+				#if($user.role=='admin')    <li id="unread16"><a href="../report/report!showImportZhipaoOutcomePage.jspa" title="支出费用录入">支出录入</a></li>#else <li id="unread16"><a href="../report/report!showImportPeikuanOutcomePage.jspa" title="客服赔款">客服赔款</a></li>#end
+				#if($user.role=='admin' )    <li id="unread15"><a href="../report/report!showImportIncomePage.jspa" title="收款录入">收款录入</a></li>#end
+				</ul>
+			</li>
+			 
+			#if($user.role=='admin') 
+			<li class="submenu">
+				<h4>快件数据查询</h4>
+				<ul>
+					<li id="unread41"><a href="../stat/stat!showSearchMail.jspa" title="快件查询">快件查询</a></li>
+					<li id="unread42"><a href="../stat/stat!showStatReport.jspa" title="结算报表查询">结算报表查询</a></li>
+              		 
+				</ul>
+			</li> 
+			#end  
+				#if($user.role=='admin')
+			<li class="submenu">
+				<h4>信息管理</h4>
+				<ul>
+				<li id="unread31"><a href="../stat/stat!showSetWeightPrice.jspa" title="计重规则管理">计重规则管理</a></li>
+				
+					
+					<li id="unread32"><a href="../stat/stat!showTransformCategory.jspa" title="中转费管理">中转费管理</a></li>
+					<li id="unread33"><a href="../stat/stat!showReceiverManagement.jspa" title="用户管理">用户管理</a></li>
+					 
+				</ul>
+			</li>
+	        #end
+	</ul>
+	
+</div>
+
+<script type="text/javascript">
+
+window.onload=function(){
+	var cl = document.getElementById("$!page");
+	cl.style.backgroundColor="#2F8AB5";
+	var childs=cl.childNodes;
+	
+	for(var i=0;i<childs.length;i++){
+	    childs[i].style.color="white";
+		childs[i].style.fontWeight="bold";
+	}
+
+};
+</script>

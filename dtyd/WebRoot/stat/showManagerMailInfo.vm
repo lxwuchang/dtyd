@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+ 
+
+
+</head>
+
+<body>
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>揽件人快件汇总</span></a>
+						</div>
+					</div>
+		    </div>
+				
+		 
+				
+			</div> 
+			
+			<div class="gg_mod_inner">
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box3">
+							  &nbsp; &nbsp; <a class="btn_com" href="./stat!showImportDataPage.jspa"><span>返回</span></a>
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>
+				
+			</div>
+			 <form id="weightform">
+		      <div class="gg_mod_inner">
+		       #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+				  #end
+		   
+		   </form>
+            
+			<!--应用列表--> 
+	         #if($!statSmyList.size()>0)
+	          <div class="imp_mod_inner">
+		<div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		   <th width="5%">序号</th>
+		   <th width="10%">揽件日期</th>
+		   <th width="10%">揽件人姓名</th>
+		   <th width="8%">总件数</th>
+		   <th width="8%">总重量</th>
+		   <th width="8%">总计件费</th>
+		    <th width="8%">总称重费</th>
+		   <th width="10%">总区域补贴</th>
+		   <th width="8%">总中转费</th>
+		   <th width="8%">总费用</th>
+		   <th width="12%">操作</th>
+		 
+		  </tr>
+		  #set($i=1)
+		  #foreach($statSMY in $!statSmyList)
+				<tr> <td class="row">$i</td> 
+				     <td class="row">$dateUtil.formatDateTime($!statSMY.bsndate,'yyyy-MM-dd')</td> 
+					 <td class="row"><a href="./stat!showManagerMailDetail.jspa?importdate=$dateUtil.formatDateTime($!statSMY.bsndate,'yyyy-MM-dd')&managerdd=$!statSMY.manager">$!statSMY.manager</a></td> 
+					 <td class="row">$!statSMY.wholenum</td> 
+					 <td class="row">$!statSMY.wholeweight</td> 
+					 <td class="row">$!statSMY.wholescanfei</td> 
+				 	 <td class="row">$!statSMY.wholeweightprice</td> 
+					 <td class="row">$!statSMY.wholebuzufei</td> 
+					 <td class="row">$!statSMY.wholetransformprice</td>
+					 <td class="row">$!statSMY.wholewholeprice</td>  
+				     <td class="row"> <a  id='$!report.reportdate' class="btn_com_edit_normal" href="#"  onclick="downFile('$dateUtil.formatDateTime($!statSMY.bsndate,'yyyy-MM-dd')','$!statSMY.manager')"><span>下载报表</span></a></td> 
+
+				</tr> 
+
+     
+         #set($i=$i+1)
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	 
+			#end 
+			
+		</div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+
+
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSumbit(){
+                                     
+   var managerid=document.getElementById("manager.managerid").value;
+   var managername=document.getElementById("manager.managername").value;
+   
+   if(managerid==null||managerid==""){
+     alert("揽件人编码不能为空");
+     return false;
+   }
+   
+    if(managername==null||managername==""){
+     alert("揽件人姓名不能为空");
+     return false;
+   }
+     
+    
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!createManager.jspa";
+   hellll.submit();
+   
+   }
+   
+ 
+function downFile(dates,managername){
+   
+
+   var  str=managername+"@"+dates; 
+ 
+    var hellll=document.getElementById("weightform");
+
+   hellll.method="POST";
+
+   hellll.action="./fileproc!downFile.jspa?filename="+str;
+
+   hellll.submit();
+ 
+
+   return true;
+
+ }
+</script>
+</body></html>

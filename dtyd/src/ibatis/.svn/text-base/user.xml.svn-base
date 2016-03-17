@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="user">
+
+	<typeAlias alias="User" type="com.micronews.model.User"/>
+	<typeAlias alias="UserInfo" type="com.micronews.model.UserInfo"/>
+	
+	 <select id="getUserByUserName" resultClass="User" parameterClass="string">
+	<![CDATA[
+			select
+			
+	             userid as userId,
+	             username as userName,
+	              password as password,
+	              hobby as hobby,
+	              keyword as keyword,
+	              ipadid as ipadid
+	         
+	               
+	        from    user
+	        where   username=#userName#
+		]]>
+	</select>
+	
+	 <select id="getUserByUserId" resultClass="User" parameterClass="Integer">
+	<![CDATA[
+			select
+	             userid as userId,
+	             username as userName,
+	              password as password,
+	              hobby as hobby,
+	              keyword as keyword
+	               
+	        from    user
+	        where   userid=#userId#
+		]]>
+	</select>
+	
+		 <select id="getUserByIpadId" resultClass="User" parameterClass="String">
+	<![CDATA[
+			select
+	             userid as userId,
+	             username as userName,
+	              password as password,
+	              hobby as hobby,
+	              keyword as keyword,
+	              ipadid as ipadid
+	               
+	        from    user
+	        where   ipadid=#ipadid#
+		]]>
+	</select>
+	
+	
+	
+	<update id="updateUser" parameterClass="UserInfo">
+	    <![CDATA[
+			update user 
+	             set hobby=#hobby#
+			 	
+	        where  userid=#userId#
+		]]>
+		
+	</update>
+	
+	
+	 
+</sqlMap>

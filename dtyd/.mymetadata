@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="dtyd"
+  id="myeclipse.1306818090296"
+  context-root="/dtyd"
+  j2ee-spec="5.0"
+  archive="dtyd.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

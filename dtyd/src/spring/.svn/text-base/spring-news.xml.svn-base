@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="newsDao" class="com.micronews.dao.NewsDao">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<!--独立的服务注入 -->
+	<bean id="newsService" class="com.micronews.service.NewsService">
+	 <property name="newsDao" ref="newsDao"/>
+	</bean>
+		
+	<!-- 合成的service -->
+	<bean id="newsServiceImpl" class="com.micronews.service.NewsServiceImpl">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		
+		<property name="newsService">
+			<ref bean="newsService" />
+		</property>
+	   <property name="newsEnv">
+			<ref bean="newsEnv" />
+		</property>
+		
+		</bean>
+		
+	<bean id="remoteServer" class="com.micronews.service.RemoteServer">
+		<property name="userServiceImpl">
+			<ref bean="userServiceImpl" />
+		</property>
+		<property name="newsServiceImpl">
+			<ref bean="newsServiceImpl" />
+		</property>
+	</bean>
+	<!--action 中bean 的注入 -->
+
+	<bean id="newsAction" class="com.micronews.action.NewsAction">
+		<property name="userServiceImpl">
+			<ref bean="userServiceImpl" />
+		</property>
+		<property name="newsServiceImpl">
+			<ref bean="newsServiceImpl" />
+		</property>
+		<property name="remoteServer">
+			<ref bean="remoteServer" />
+		</property>
+	
+	</bean>
+	
+	
+	
+</beans>

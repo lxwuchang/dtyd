@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+
+<body>
+#set($page = 'unread23')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+			<div class="para">
+					<div class="para_cont">
+						<div class="stat_link_sign_box">
+							 <a class="btn_com" href="#" title="非论坛类网站"><span>日收支汇总</span></a>
+						</div>
+					</div>
+		    </div>
+		 			
+			</div> 
+				<div class="cb_mod_inner">
+				<div class="cc_para cb_intro_para">
+					
+					<div class="link_sign_box6">
+				 
+  
+                 <a class="btn_com_edit_normal" href="#"  onclick="exportFile('$!yearSmy.bsndatestr');"><span>导出日汇总</span></a>
+					  
+					</div>
+					
+			  </div>
+				
+			</div>
+			
+	  
+	   <div class="clear">
+			</div>
+	
+		 
+	 
+	    <form id="weightform2">
+		 <div class="cd_mod_inner">
+		 <div class="cc_para cd_intro_para">
+					
+		<div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		 
+		  <th width="10%">结算时间</th>
+		  <th width="7%">揽件人</th>
+		  <th width="7%">票数(件)</th>
+		   <th width="7%">计件费</th>
+		   <th width="7%">称重费</th> 
+		   <th width="7%">区域补助费</th>  
+	 	  <th width="7%">中转费</th>
+		   <th width="7%">大笔罚款</th>
+		  <th width="7%">有偿派费</th>
+		  <th width="7%">转件费</th>
+		   <th width="7%">丢件费</th>	 
+          <th width="7%">总金额</th>
+        
+		  </tr>
+		 
+		  #foreach($dailybalance in $!dailybalanceList) 
+<tr> 
+<td class="row">$!dateUtil.formatYYYYMMDD($!dailybalance.bsndate)</td> 
+<td class="row">$!dailybalance.manager</td> 
+<td class="row">$!dailybalance.num</td>  
+<td class="row">$!dailybalance.jijianprice</td> 
+<td class="row">$!dailybalance.weightprice</td> 
+<td class="row">$!dailybalance.buzuprice</td> 
+<td class="row">$!dailybalance.transformprice</td> 
+<td class="row">$!dailybalance.fakuanprice</td> 
+<td class="row">$!dailybalance.paisongprice</td> 
+<td class="row">$!dailybalance.zhuanjianprice</td> 
+<td class="row">$!dailybalance.diujianprice</td> 
+<td class="row">$!dailybalance.wholeprice</td> 
+ 
+</tr> 
+ 
+        #end 
+
+         </table>
+			 </div>
+			  </div>
+	</div>
+	 </form>
+			  	
+			
+</div>
+#include("/stat/footer.vm")
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"> 
+function exportFile(date){
+
+
+  var hellll=document.getElementById("weightform2");
+   hellll.method="POST";
+   hellll.action="../report/report!exportDailyBalance.jspa?start="+date;
+   hellll.submit();
+ 
+} 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+ 
+</script>
+</body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+    <package name="{http://home-user}stat" extends="{http://yundastat}yundastat$framework" namespace="/stat">
+        
+       	<action name="stat" class="com.yundastat.action.StatAction">
+	  		
+	  		<result name="error" type="velocity">error.vm</result>
+			<result name="input" type="redirect">${env.get("appUrl")}</result>
+			<result name="mainpage" type="velocity">main.vm</result>
+			<result name="importpage" type="velocity">showImportPage.vm</result>
+			<result name="statreport" type="velocity">showStatReport.vm</result>
+			<result name="setprice" type="velocity">showSetPrice.vm</result>
+			<result name="setweight" type="velocity">showSetWeight.vm</result>
+			<result name="updateweight" type="velocity">showUpdateWeight.vm</result>
+			<result name="updateweightprice" type="velocity">showUpdateWeightPrice.vm</result>
+			<result name="setweightprice" type="velocity">showSetWeightPrice.vm</result>
+			<result name="comparedata" type="velocity">showCompareData.vm</result>
+			<result name="receivermanagement" type="velocity">showReceiverManagement.vm</result>
+			<result name="receivermailmoney" type="velocity">showReceiverMailMoney.vm</result>
+			<result name="createreceiver" type="velocity">showCreateReceiver.vm</result>
+			<result name="managerdetail" type="velocity">showManagerDetail.vm</result>
+			<result name="searchmail" type="velocity">showSearchMail.vm</result>
+			<result name="reportmanagement" type="velocity">showReportManagement.vm</result>
+			<result name="reportdetail" type="velocity">showReportDetail.vm</result>
+			<result name="createmail" type="velocity">showCreateMail.vm</result>
+			<result name="settransformprice" type="velocity">showSetTransformPrice.vm</result>
+			<result name="createtransformprice" type="velocity">showCreateTransformPrice.vm</result>
+			<result name="transformprice" type="velocity">showTransformPrice.vm</result>
+			<result name="updatetransformprice" type="velocity">showUpdateTransformPrice.vm</result>
+			<result name="onlinemailinfo" type="velocity">showOnlineMailInfo.vm</result>
+			<result name="searchonlinemanagerinfo" type="velocity">showOnlineManagerInfo.vm</result>
+			<result name="searchonlinemailinfo" type="velocity">showOnlineMailInfoList.vm</result>
+			<result name="showsearchonlinemailinfo" type="velocity">showSearchOnlineMailInfo.vm</result>
+			<result name="showsearchonlinemanagerinfo" type="velocity">showSearchOnlineManagerInfo.vm</result>
+			<result name="maildetail" type="velocity">showMailDetail.vm</result>
+			<result name="updatepassword" type="velocity">showUpdatePassword.vm</result>
+			<result name="finimport" type="velocity">showImportPage.vm</result>
+			  <result name="transformimport" type="velocity">showImportTransformPage.vm</result>
+			 <result name="managermailinfo" type="velocity">showManagerMailInfo.vm</result> 
+			 <result name="managermaildetail" type="velocity">showManagerMailDetail.vm</result>  
+		    <result name="transformcategory" type="velocity">showTransformCategory.vm</result>  
+			<result name="showupdatetransformcategory" type="velocity">showUpdateTransformCategory.vm</result> 
+	      <result name="showimportpricepage" type="velocity">showImportPricePage.vm</result>
+	      	<result name="showemployeepage" type="velocity">showEmployeePage.vm</result>
+	      	<result name="showupdateemployeepage" type="velocity">showUpdateEmployeePage.vm</result>
+	      
+			<interceptor-ref name="userAuthenticationStack"/>
+	    </action>
+         
+         <action name="fileproc" class="com.yundastat.action.FileProcAction">
+	  	
+	  	  <result name="error" type="velocity">${env.get("homeUrl")}</result>
+	  	  <result name="finimport" type="velocity">showImportPage.vm</result>
+	  	  <result name="transformimport" type="velocity">showImportTransformPage.vm</result>
+	      <result name="showimportpricepage" type="velocity">showImportPricePage.vm</result>
+	  	   
+	  	 	 <interceptor-ref name="userAuthenticationStack"/>
+			
+         </action>
+           
+           
+           
+           
+	</package>
+</xwork>

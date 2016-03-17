@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+<meta http-equiv="Content-Language" content="zh-cn">
+ 
+<title>低田韵达结算系统—导入数据</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+
+</head>
+
+<body>
+#set($page = 'unread11')
+#parse("/stat/head.vm")
+
+<div class="lay_main page_modSwap">
+	#parse("/stat/side.vm")
+<div style="display: none;" class="NewsPop" id="zz_show_div">
+  
+</div>
+
+	<div class="lay_cont">
+
+		<div class="mod_block">
+			 	 
+		     <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+			  <a href="../stat/stat!showImportDataPage.jspa"class="tabcssselect" ><span>揽件数据导入</span></a>
+			 <a href="../stat/stat!showImportPricePage.jspa"class="tabcssleft" ><span>其他费用导入</span></a>
+			  <a href="../report/report!showImportCompanyIncomePage.jspa"class="tabcssleft" ><span>公司收入录入</span></a>
+			  <a href="../report/report!showImportMailInfoPage.jspa"class="tabcssleft" ><span>面单收入录入</span></a>
+			 
+        </div>
+        <div class="clear">
+		</div>
+			<div class="gg_mod_inner">
+				<div class="para intro_para">					
+					<div class="link_sign_box2" >
+					  <form name="dd" id="weightform" method="POST" enctype="multipart/form-data"> 
+					  <input type="hidden" name="user.username" value="$!user.username">
+					  <input type="hidden" name="user.loginid" value="$!user.loginid">      
+                     	导入日期：  &nbsp;&nbsp; <input class="Wdate d_text_input" type="text" id="d15" onFocus="WdatePicker({lang:'zh-cn'})"/>
+                      &nbsp;&nbsp;上传文件：&nbsp;&nbsp;<input id="upexcel" class="text_input" type="file" name="upexcel" height="30px" style= "WIDTH: 224px">   <a  class="btn_com_edit_normal" href="#" id="search1" style="padding:5px 5px 5px 5px" onclick="submitCheck()"><span>上&nbsp;&nbsp;传</span>	</a>  
+                      
+						</form> 	 
+						
+					</div>
+				</div>            
+			</div>
+					  <div id="showMessage">
+					  </div>
+						#if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+					  #else
+					      #if($!numList.size()!=0)
+							   
+							   #set($d=$!numList.size())
+							  
+							<font size="3" color=red>     成功上传了,保存为${importDate}.xls文件，导入数据$d条</font>
+						#end
+				     #end
+			
+		
+	     #if($!reportFlagList.size()>0)
+	         
+	  <div class="imp_mod_inner">
+		<div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		    
+		  <table id="mytable">
+		  <thead>
+		  <tr>
+		  <th width="10%">报表日期</th>
+		  <th width="8%">总件数</th>
+		  <th width="8%">总重量</th>
+		  <th width="8%">总计件费</th>
+		  ##<th width="8%">总出件费</th>
+		   <th width="8%">总称重费</th>
+		   <th width="12%">总区域补助费</th>
+		  <th width="8%">总中转费</th>
+		  <th width="10%">总金额(元)</th>
+		  <th width="18%">下载</th>
+		 #if($!user.role=='admin' ||$!user.role=='operate')  <th width="10%">操作</th>#end
+		 
+		 
+		  </tr>
+		  </thead>
+		  <tbody>
+		   <form name="weightform" id="weightform">
+		 
+		  #foreach($report in $!reportFlagList)
+	 	
+				<tr> 
+						<td class="row"><a href='./stat!showManagerMailInfo.jspa?importdate=$!report.reportdate'>$!report.reportdate</a></td> 
+						<td class="row">$!report.wholenum</td> 
+							<td class="row">$!report.wholeweight</td> 
+						<td class="row">$!report.wholescanfei</td> 
+						##<td class="row">$!report.wholechujianfei</td> 
+						<td class="row">$!report.wholeweightprice</td> 
+						<td class="row">$!report.wholebuzufei</td> 
+						<td class="row">$!report.wholetransformprice</td> 
+						<td class="row">$!report.wholewholeprice</td> 
+						<td class="row"><a  id='$!report.reportdate' class="btn_com_edit_normal" href="#" onclick="downFile(1,'$!report.reportdate');"><span>明细下载</span></a>      <a  id='$!report.reportdate' class="btn_com_edit_normal" href="#" onclick="downFile(2,'$!report.reportdate');""><span>汇总下载</span></a></td>
+                        #if($!user.role=='admin' ||$!user.role=='operate') <td class="row"><a  id='$!report.reportdate' class="btn_com_edit_shan" href="#"  onclick="deleteReport('$!report.reportdate')"><span>删除</span></a></td>#end 
+				</tr> 
+
+		#end
+		</form>
+		</tbody>
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	
+	     				 <form id="searchForm">
+	  <input type="hidden" name="importdate"  id="importdate"  value="$dateUtil.formatDateTime($!statSmy.bsndate,'yyyy-MM-dd')"/>
+	  <input type="hidden" name="managerdd" id="managerdd"  value="$!statSmy.manager"/>
+ <div class="pages-wrap">
+   <div class="Pages">
+#if($pageBean)
+	#set($pageNo = $pageBean.currentPage)
+	
+	#set($tPage = $pageBean.totalPages)
+ 
+	#set($prePage = $pageNo - 1)
+	 
+	#set($nextPage = $pageNo + 1)
+ 
+	#if ($pageNo > 1)
+		<a href="#" class="PrevPage" onclick="doSearchPage('$prePage')" title="上一页">上一页</a>
+	#end
+	#set($leftStart = 1)
+    #set($leftEnd = 2)
+    #set($mStart = $pageNo - 5)
+    #set($mEnd = $pageNo + 5)
+    #set($rStart = $tPage - 1)
+    #set($rEnd = $tPage)
+    #if ($mStart <= $leftEnd)
+    	#set($leftStart = 0)
+    	#set($leftEnd = 0)
+    	#set($mStart = 1)
+    #end
+    #if ($mEnd >= $rStart)
+    	#set($rStart = 0)
+    	#set($rEnd = 0)
+    	#set($mEnd = $tPage)
+    #end
+    #if ($leftEnd > $leftStart)
+    	#foreach($p in [${leftStart}..${leftEnd}])
+			#if($p != 0)
+					<a href=#"  class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+			#end
+    	#end
+    	#if($mStart > ($leftEnd +1))
+			<span class="PageMore">...</span>
+		#end
+    #end
+    #foreach($p in [${mStart}..${mEnd}])
+        #if($p == $pageNo)
+			<span class="PageSel">$p</span>
+        #else
+    		#if($p != 0)
+				<a href="#" class="PageLink"   onclick="doSearchPage('$p')" title="$p">$p</a>
+    		#end
+    	#end
+    #end
+       
+    #if ($rEnd > $rStart )
+		#if($rStart > ($mEnd+1))
+			<span class="PageMore">...</span>
+    	#end
+    	#foreach($p in [${rStart}..${rEnd}])
+			<a href="#" class="PageLink"  onclick="doSearchPage('$p')" title="$p">$p</a>
+ 
+    	#end
+	#end
+	#if ($pageNo < $tPage)
+		<a href="#" class="NextPage"  onclick="doSearchPage('$nextPage')" title="下一页">下一页</a>	
+	#end
+ 
+  #end
+  
+  </div>
+  </div>
+			
+
+	</div>
+
+</div>
+</form>
+	
+	
+	         #else
+				<div class="inner_box"> 
+				
+				<div style="line-height:100px;height:100px;">目前您还没有添加报表生成。</div> 
+				
+				</div> 
+	 
+			#end 
+			
+			
+		</div>
+	</div>
+	</div>
+</div>
+
+#include("/stat/footer.vm")
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript"> 
+var rows=0;
+function exit(){
+  
+  var a=document.getElementById("hello");
+ 
+  //a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+ 
+function deleteAllMail(d){
+
+       var bb= window.confirm("你是否要删除新插入的"+d+"的所有快件。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+		 
+       document.getElementById("deleteid").href="./fileproc!deleteAllMail.jspa?importDate="+d;
+      
+       return true;
+       }
+
+
+}
+
+function submitCheck(){
+   
+  var c=document.getElementById("d15").value;
+  var d=document.getElementById("upexcel").value;
+ 
+    if(c==null||c==""){
+    alert("日期不能为空");
+    return false;
+    
+    }else  if(d==null||d==""){
+      alert("请选择Excel文件！");
+       return false;
+
+       }else {
+   
+     var dss=d.split('\\');
+     var aa= window.confirm("你是否上传"+c+"的快件，并且文件为:"+dss[dss.length-1]+"。单击“确定”继续；单击“取消”停止。");
+	if (aa) {
+	
+	   var bb= window.confirm("请再次确定：你是否上传"+c+"的快件，并且文件为:"+dss[dss.length-1]+"。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+		 
+       document.getElementById("showMessage").innerHTML="	<font size='4' color=red>正在上传，请稍等......</font>";
+       
+        var dd= document.getElementById("weightform");
+         if(dss[dss.length-1].indexOf("xlsx")!=-1)
+         dd.action="./fileproc!uploadMoreCategoryFileNew.jspa?importDate="+c+"&ftype=xlsx";
+         else  dd.action="./fileproc!uploadMoreCategoryFileNew.jspa?importDate="+c+"&ftype=xls";
+         
+         dd.submit();
+        return false;
+       }
+	}
+     
+    }
+
+
+ return false;
+}
+
+
+ 
+ function doSearchPage(pageno){
+
+   var dd=document.getElementById("searchForm");
+    
+   dd.method="POST";
+   dd.action="./stat!showImportDataPage.jspa?pageNo="+pageno;
+                                                                                       
+   dd.submit();
+
+
+}
+ 
+
+ 
+function downFile(num,d){
+ var managername="";
+  if(num==1)
+    managername='全部';
+  if(num==2)
+    managername='汇总';
+    
+   var date=d;
+
+   var  str=managername+"@"+date; 
+ 
+  
+    var hellll=document.getElementById("weightform");
+
+   hellll.method="POST";
+
+   hellll.action="./fileproc!downFile.jspa?filename="+str;
+
+   hellll.submit();
+ 
+
+   return true;
+
+ }
+
+function deleteReport(d){
+ var bb= window.confirm("你是否要删除"+d+"的报表。单击“确定”继续；单击“取消”停止。");
+
+	   if (bb) {
+		 
+		 
+    var hellll=document.getElementById("weightform");
+
+   hellll.method="POST";
+
+   hellll.action="./stat!deleteMailAndStatReport.jspa?importDate="+d;
+
+   hellll.submit()
+       return true;
+       }
+
+}
+
+ 
+</script>
+</body></html>

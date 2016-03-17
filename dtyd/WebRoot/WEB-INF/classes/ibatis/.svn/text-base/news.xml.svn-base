@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="news">
+
+	<typeAlias alias="News" type="com.micronews.model.News"/>
+	 <typeAlias alias="NewsInfo" type="com.micronews.model.NewsInfo"/>
+	 
+	  <insert id="insertHappeningNews" parameterClass="News">
+	    <![CDATA[
+			insert into happeningnews(
+			link,
+			istop,
+			title,
+			pubdate,
+			createtime,
+			description,
+			category,
+			createtimes,
+			hhmm
+			
+			) values(
+			#link#,
+			#istop#,
+			#title#,
+			#pubdate#,
+			#createtime#,
+			#description#,
+			#category#,
+			#createtimes#,
+			#hhmm#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	<insert id="insertWholeHappeningNews" parameterClass="News">
+	    <![CDATA[
+			insert into wholehappeningnews(
+			link,
+			istop,
+			title,
+			pubdate,
+			createtime,
+			description,
+			category,
+			createtimes,
+			hhmm
+			
+			) values(
+			#link#,
+			#istop#,
+			#title#,
+			#pubdate#,
+			#createtime#,
+			#description#,
+			#category#,
+			#createtimes#,
+			#hhmm#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+
+	
+	<insert id="insertNews" parameterClass="News">
+	    <![CDATA[
+			insert into latestnews(
+			link,
+			istop,
+			title,
+			source,
+			author,
+			pubdate,
+			createtime,
+			description,
+			comments,
+			category,
+			createtimes
+			
+			) values(
+			#link#,
+			#istop#,
+			#title#,
+			#source#,
+			#author#,
+			#pubdate#,
+			#createtime#,
+			#description#,
+			#comments#,
+			#category#,
+			#createtimes#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	<insert id="insertToNews" parameterClass="News">
+	    <![CDATA[
+			insert into news(
+			
+			link,
+			istop,
+			title,
+			source,
+			author,
+			pubdate,
+			createtime,
+			description,
+			comments,
+			category,
+			createtimes
+			
+			) values(
+			#link#,
+			#istop#,
+			#title#,
+			#source#,
+			#author#,
+			#pubdate#,
+			#createtime#,
+			#description#,
+			#comments#,
+			#category#,
+			#createtimes#
+			
+			)
+	  
+		]]>
+	
+	</insert>
+	
+	<select id="getTopNews" resultClass="News" parameterClass="NewsInfo">
+	<![CDATA[      
+			select
+	             newsid as newsid,
+	             title as title,
+	             source as source,
+	             comments as comments,
+	             description as description,
+	             link as link,
+	             createtime as createtime,
+	             pubdate as pubdate,
+	             istop as istop,
+	             author as author,
+	             category as category,
+	             createtimes as createtimes
+	             
+	        from   latestnews
+	        where  istop='y' and  createtimes=#createtimes# and category=#category#
+		]]>  
+		          
+		
+		
+	</select>
+	
+	<select id="getMyNews" resultClass="News" parameterClass="NewsInfo">
+	<![CDATA[      
+			select
+	             newsid as newsid,
+	             title as title,
+	             source as source,
+	             comments as comments,
+	             description as description,
+	             link as link,
+	             createtime as createtime,
+	             pubdate as pubdate,
+	             istop as istop,
+	             author as author,
+	             category as category,
+	             createtimes as createtimes
+	             
+	        from   latestnews
+	        where  istop='y' and  createtimes=#createtimes# and category=#category#
+	        order by createtime desc
+		]]>  
+		          
+		
+		
+	</select>
+	
+	<select id="getHapppeningNews" resultClass="News">
+	<![CDATA[      
+			select
+	             happeningnewsid as newsid,
+	             title as title,
+	             description as description,
+	             link as link,
+	             createtime as createtime,
+	             category as category,
+	             pubdate as pubdate,
+	             istop as istop,
+	             hhmm as hhmm,
+	             createtimes as createtimes
+	             
+	        from   happeningnews
+	        
+	        order by pubdate  desc
+	       
+		]]>  
+		          
+		
+		
+	</select>
+	
+	<select id="getWholeHapppeningNews" resultClass="News" parameterClass="NewsInfo">
+	<![CDATA[      
+			select
+	             wholehappeningnewsid as newsid,
+	             title as title,
+	             description as description,
+	             link as link,
+	             createtime as createtime,
+	             category as category,
+	             pubdate as pubdate,
+	             istop as istop,
+	             hhmm as hhmm,
+	             createtimes as createtimes
+	             
+	         from   wholehappeningnews
+	         where  istop='y' and  createtimes=#createtimes# and category=#category#
+	         order by pubdate desc
+	         limit #start#,#num#
+	       
+		]]>  
+		          
+		
+		
+	</select>
+	
+	
+	
+	<delete id="deleteLatestNews">
+        <![CDATA[    
+          delete from latestnews
+          ]]>  
+        
+
+   </delete>
+   
+   
+	<delete id="deleteHappeningNews">
+        <![CDATA[    
+          delete from happeningnews
+          ]]>  
+        
+
+   </delete>
+   
+   
+	
+	 
+</sqlMap>

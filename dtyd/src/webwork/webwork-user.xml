@@ -1,0 +1,24 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+
+<xwork>
+    <package name="{http://home-user}login" extends="{http://yundastat}yundastat$framework" namespace="/user">
+        
+       	<action name="user" class="com.yundastat.action.UserAction" >
+	  		
+	  		<result name="error" type="redirect">${env.get("homeUrl")}</result>
+			<result name="input" type="velocity">index.vm</result>
+		    <result name="reghome" type="velocity">reghome.vm</result>
+		      <result name="createreg" type="velocity">showCreateregistercode.vm</result>
+	   	    <result  name="stathome" type="redirect-action">
+				<param name="namespace">/stat</param>
+				<param name="actionName">stat</param>
+				<param name="method">showStatPage</param>
+		   </result>
+		 
+         </action>
+           
+           
+           
+           
+	</package>
+</xwork>

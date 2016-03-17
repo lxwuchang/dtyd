@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 
+<title>低田韵达结算系统</title>
+<link href="../htdocs/css/qzfl.css" rel="stylesheet" type="text/css" media="screen">
+
+<script language="JavaScript" type="text/javascript" src="../htdocs/js/My97DatePicker/WdatePicker.js"></script>
+
+</head>
+
+<body>
+#set($page = 'unread33')
+#parse("/stat/head.vm")
+<div class="lay_main page_modSwap">
+		#parse("/stat/side.vm")
+	<div class="lay_cont">
+        
+	  <div class="mod_block">
+				 	 
+		     <div class="clear">
+			</div>
+			 <div class="nav-not-fixedz">
+    		 
+			  <a href="../stat/stat!showReceiverManagement.jspa"class="tabcssleft" ><span>结算用户管理</span></a>
+			 <a href="../stat/stat!showEmployeePage.jspa"class="tabcssselect" ><span>员工管理</span></a>
+			 
+			 
+        </div>
+        <div class="clear">
+		</div>
+			 <form id="weightform">
+		      <div class="gg_mod_inner" style="background:#FFFFFF; ">
+		      <div class="cc_para cc_intro_para" style="border-top: 1px solid #CCC7BE;">
+		       #if($!errorMessage.hello)
+					
+					 <font size="3" color=red> $!errorMessage.hello</font>
+					  
+				  #end
+				  
+				 </div>
+				<div class="cc_para cc_intro_para">
+					
+					<label for="user_email" id="login_email_label" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员工姓名&nbsp;&nbsp;</label> 
+                    <input class="text_input"  id="manager.managerid" name="manager.managerid" type="text" style= "WIDTH: 134px"/> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;基本工资
+                  <input class="text_input"  id="salary" name="manager.basicsalary" type="text" style= "WIDTH: 134px"/> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+				    </div>
+				   
+				  <div class="cc_para cc_intro_para">
+				   	<label for="user_email" id="login_email_label" >&nbsp;&nbsp;入职时间&nbsp;&nbsp;</label> 
+                    <input class="Wdate d_text_input" type="text" name="manager.cometime" id="d15" onFocus="WdatePicker({lang:'zh-cn'})" value='$!importDate'/>&nbsp;&nbsp;
+                     <label for="user_email" id="login_email_label" >&nbsp;&nbsp;&nbsp;&nbsp;离职时间&nbsp;&nbsp;</label> 
+                    <input class="Wdate d_text_input" type="text" name="manager.outtime"  id="d16" onFocus="WdatePicker({lang:'zh-cn'})" value='2999-12-31'/>
+				    </div>
+				      <div class="cc_para cc_intro_para">
+					 <label for="user_email" id="login_email_label" >员工状态:&nbsp;</label> 
+                    <select id="state" name="manager.state" class="text_input">
+                     
+                      <option value ="在职">在职</option>
+                      <option value ="离职">离职</option>
+                    
+                    </select>
+				    </div>
+				   
+				 <div class="para">
+					<div class="para_cont">
+						<div class="link_sign_box">
+							 <a class="btn_com_edit_normal" href="#"  onclick="doSumbit()"><span>保存</span></a> </a>
+							 	 
+						</div>
+						
+					</div>
+				
+			</div>
+			
+		    
+		   </form>
+            
+			<!--应用列表--> 
+	  #if($!managerInfoList.size()>0)
+	   <div class="imp_mod_inner">
+		<div class="cc_para imp_intro_para">
+		  <div class="cc_link_sign_box2">
+		  <table id="mytable">
+		  <tr>
+		  <th width="10%">序号</th>
+		  <th width="15%">员工姓名</th>
+		  <th width="15%">基本工资</th>
+		   <th width="20%">入职日期</th>
+		  <th width="20%">当前状态</th>
+		   <th width="20%">操作</th>
+		 
+		  </tr>
+		  #set($i=1)
+		  #foreach($manager in $!managerInfoList)
+				<tr> 
+				       <td class="row">$i</td> 
+						<td class="row">$!manager.managerid</td> 
+						<td class="row">$!manager.basicsalary</td> 
+					    <td class="row">$dateUtil.formatYYYYMMDD($!manager.cometime)</td>
+				        <td class="row">$!manager.state</td>
+				        <td class="row">  <a class="btn_com_edit_normal" href="./stat!showUpdateEmployeePage.jspa?managerid=$!manager.managerid"><span>修改</span></a>   <a class="btn_com_edit_shan" id='$manager.managerid' href="#" onclick="doDelete('$!manager.managerid','$!manager.managername')"><span>删除</span></a></td> 
+
+				</tr> 
+
+     
+         #set($i=$i+1)
+		#end
+ 		</table>
+      
+		    </div>
+	      </div>
+	    </div>
+	
+	         #else
+	         
+	          
+				<div class="inner_box"> 
+				
+				<div style="line-height:100px;height:100px;">目前您还没有添加任何揽件人。</div> 
+				
+				</div> 
+	 
+			#end 
+			
+		</div>
+	</div>
+</div>
+#include("/stat/footer.vm")
+<script type="text/javascript"> 
+
+function exit(){
+  
+  var a=document.getElementById("hello");
+  a.href="../user/user!userLogout.jspa?user.userid=$user.userid";
+
+}
+
+function doSumbit(){
+                                     
+   var managerid=document.getElementById("manager.managerid").value;
+   var salary=document.getElementById("salary").value;
+   
+ 
+   if(managerid==null||managerid==""){
+     alert("员工姓名不能为空");
+     return false;
+   }
+   
+   if(salary==null||salary==""){
+     alert("基本工资不能为空");
+     return false;
+   }
+    
+    
+   var hellll=document.getElementById("weightform");
+   hellll.method="POST";
+   hellll.action="./stat!createEmployee.jspa";
+   hellll.submit();
+   
+   }
+   
+   function doDelete(managerid,managername){
+  
+   var bb= window.confirm("你是否要删除"+managername+"。单击“确定”继续；单击“取消”停止。");
+	   if (bb) {
+	  	 
+       document.getElementById(managerid).href="./stat!deleteEmployee.jspa?managerid="+managerid;
+       return true;
+       }
+   }
+</script>
+</body></html>

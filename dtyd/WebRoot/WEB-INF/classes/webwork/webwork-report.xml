@@ -1,0 +1,68 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+    <package name="{http://home-user}report" extends="{http://yundastat}yundastat$framework" namespace="/report">
+        
+       	<action name="report" class="com.yundastat.action.ReportAction">
+	  		
+	  		<result name="error" type="velocity">error.vm</result>
+			<result name="input" type="redirect">${env.get("appUrl")}</result>
+			<result name="mainpage" type="velocity">main.vm</result>
+			<result name="importpage" type="velocity">showImportPage.vm</result>
+		    <result name="showyearsmypage" type="velocity">showYearSmyPage.vm</result> 
+		     <result name="showdaysmypage" type="velocity">showDaySmyPage.vm</result> 
+	         <result name="showmonthsmypage" type="velocity">showMonthSmyPage.vm</result> 
+	         <result name="showmonthsmybydaypage" type="velocity">showMonthSmyByDayPage.vm</result> 
+			 <result name="showmonthdailybalancebymanagerpage" type="velocity">showMonthDailyBalanceByManagerPage.vm</result>
+			 <result name="showdailybalancepage" type="velocity">showDailyBalancePage.vm</result>
+			<result name="showyearsmybymonthpage" type="velocity">showYearSmyByMonthPage.vm</result>
+			<result name="showimportmailinfopage" type="velocity">showImportMailInfoPage.vm</result>
+			<result name="showimportcompanyincomepage" type="velocity">showImportCompanyIncomePage.vm</result>
+			<result name="showmailpricedaysmypage" type="velocity">showMailPriceDaySmyPage.vm</result>
+			<result name="showmailpricemonthsmypage" type="velocity">showMailPriceMonthSmyPage.vm</result>
+			<result name="showmailpricemonthsmybydaypage" type="velocity">showMailPriceMonthSmyByDayPage.vm</result>
+			 <result name="showmailpriceyearsmypage" type="velocity">showMailPriceYearSmyPage.vm</result>
+			<result name="showmailpriceyearsmybymonthpage" type="velocity">showMailPriceYearSmyByMonthPage.vm</result>
+			<result name="showcompanyincomedaysmypage" type="velocity">showCompanyIncomeDaySmyPage.vm</result>
+			<result name="showcompanyincomemonthsmypage" type="velocity">showCompanyIncomeMonthSmyPage.vm</result>
+			<result name="showcompanyincomemonthsmybydaypage" type="velocity">showCompanyIncomeMonthSmyByDayPage.vm</result>
+			<result name="showcompanyincomeyearsmybymonthpage" type="velocity">showCompanyIncomeYearSmyByMonthPage.vm</result>
+			<result name="showcompanyincomeyearsmypage" type="velocity">showCompanyIncomeYearSmyPage.vm</result>
+			 <result name="showyeardailybalancebymanagerpage" type="velocity">showYearDailyBalanceByManagerPage.vm</result>
+			 <result name="showimportincomepage" type="velocity">showImportIncomePage.vm</result>
+			  <result name="showincomedaysmypage" type="velocity">showIncomeDaySmyPage.vm</result>
+			 <result name="showincomemonthsmypage" type="velocity">showIncomeMonthSmyPage.vm</result>
+			  <result name="showincomemonthsmybydaypage" type="velocity">showIncomeMonthSmyByDayPage.vm</result>
+			  <result name="showincomeyearsmypage" type="velocity">showIncomeYearSmyPage.vm</result> 
+			 <result name="showincomeyearsmybymonthpage" type="velocity">showIncomeYearSmyByMonthPage.vm</result>   
+			 
+			  <result name="showupdateincomepage" type="velocity">showUpdateIncomePage.vm</result>
+			   <result name="showupdatezhichuoutcomepage" type="velocity">showUpdateZhichuOutcomePage.vm</result>
+			 <result name="showupdatemailinfopage" type="velocity">showUpdateMailInfoPage.vm</result>
+			  <result name="showimportzhichuoutcomepage" type="velocity">showImportZhichuOutcomePage.vm</result>
+			  <result name="showimportgongzioutcomepage" type="velocity">showImportGongziOutcomePage.vm</result>
+			  <result name="showimportzhipaooutcomepage" type="velocity">showImportZhipaoOutcomePage.vm</result>
+			  <result name="showimportfankuanoutcomepage" type="velocity">showImportFankuanOutcomePage.vm</result>
+			  <result name="showimportpeikuanoutcomepage" type="velocity">showImportPeikuanOutcomePage.vm</result>
+			   <result name="showupdatepeikuanoutcomepage" type="velocity">showUpdatePeikuanOutcomePage.vm</result>
+			   
+			  <result name="showfankuanmonthsmypage" type="velocity">showFankuanMonthSmyPage.vm</result>
+			  <result name="showgongzimonthsmypage" type="velocity">showGongziMonthSmyPage.vm</result>
+			  <result name="showpeikuanmonthsmypage" type="velocity">showPeikuanMonthSmyPage.vm</result>
+			   <result name="showzhichumonthsmypage" type="velocity">showZhichuMonthSmyPage.vm</result>
+			   <result name="showzhipaomonthsmypage" type="velocity">showZhipaoMonthSmyPage.vm</result>
+			   <result name="showyufukuanmonthsmypage" type="velocity">showYufukuanMonthSmyPage.vm</result>
+			   
+			      <result name="showzhipaoyearsmypage" type="velocity">showZhipaoYearSmyPage.vm</result>
+			       <result name="showfankuanyearsmypage" type="velocity">showFankuanYearSmyPage.vm</result>
+			  <result name="showgongziyearsmypage" type="velocity">showGongziYearSmyPage.vm</result>
+			  <result name="showpeikuanyearsmypage" type="velocity">showPeikuanYearSmyPage.vm</result>
+			   <result name="showzhichuyearsmypage" type="velocity">showZhichuYearSmyPage.vm</result>
+			   <result name="showyufukuanyearsmypage" type="velocity">showYufukuanYearSmyPage.vm</result>
+			   
+			    <result name="showmainreportpage" type="velocity">showMainReportPage.vm</result>
+			<interceptor-ref name="userAuthenticationStack"/>
+	    </action>
+        
+           
+	</package>
+</xwork>
